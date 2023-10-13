@@ -1,19 +1,23 @@
 <template>
-  <div class="dashboard">
-    <div class="half image-side">
-      <img src="path_to_your_image.jpg" alt="Image Description">
+  <div class="landing-page">
+    <div class="landing-page-header">
+      <div class="landing-page-header-left">
+            <img src="../assets/vidhyasoft_logo.jpg" alt="Logo"/>
+      </div>
+      <div class="landing-page-header-right">
+            <button class="landing-page-header-right-login">Login</button>
+            <button class="landing-page-header-right-signup">Sign up</button>
+      </div>
     </div>
-    <div class="half content-side">
-      <img src="path_to_vidhyasoft_logo.png" alt="VidhyaSoft Logo" class="company-logo">
-      <h1>VidhyaSoft</h1>
-      <button @click="login">Login</button>
-      <button @click="signup">Signup</button>
+
+    <div class="landing-page-image">
+      <img src="../assets/background_vidyasoft.jpg" alt="Vidhya Soft">
     </div>
   </div>
 </template>
 
 <script src='../components/js/landingPage.js'></script>
 
-<style scoped>
+<style lang="scss" scoped>
       @import '../styles/landing-page.scss';
 </style>
