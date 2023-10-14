@@ -1,8 +1,17 @@
+import LoginForm from '../../components/LoginForm.vue'
+
 export default {
+  data () {
+    return {
+      isShowLoginForm: false
+    }
+  },
+  components: {
+    'login-form': LoginForm
+  },
   methods: {
-    login () {
-      // Handle the login logic here
-      console.log('Login button clicked')
+    showLoginForm () {
+      this.isShowLoginForm = true
     },
     signup () {
       // Handle the signup logic here
