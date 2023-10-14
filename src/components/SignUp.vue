@@ -25,12 +25,45 @@
       <input type="text" class="signup-form-fieldset-input" v-model="instituteWebsite">
     </fieldset>
 
-     <fieldset class="signup-form-fieldset">
-      <legend class="signup-form-fieldset-legend">Address*</legend>
-      <textarea class="signup-form-fieldset-input" v-model="instituteAddress" />
-    </fieldset>
+    <div class="address">
+      <fieldset class="signup-form-fieldset">
+          <legend class="signup-form-fieldset-legend">Street*</legend>
+          <input type="text" class="signup-form-fieldset-input" name="street" v-model="instituteStreet">
+      </fieldset>
 
-    <div class="signup-form-image">
+      <fieldset class="signup-form-fieldset">
+          <legend class="signup-form-fieldset-legend">House Number*</legend>
+          <input type="text" class="signup-form-fieldset-input" name="house_number"  v-model="instituteHouseNumber">
+      </fieldset>
+
+      <fieldset class="signup-form-fieldset">
+          <legend class="signup-form-fieldset-legend">Landmark*</legend>
+          <input type="text" class="signup-form-fieldset-input" name="landmark" v-model="instituteLandmark">
+      </fieldset>
+
+      <fieldset class="signup-form-fieldset">
+          <legend class="signup-form-fieldset-legend">Pincode*</legend>
+          <input type="number" class="signup-form-fieldset-input" name="pincode" v-model="institutePinCode">
+      </fieldset>
+
+      <fieldset class="signup-form-fieldset">
+          <legend class="signup-form-fieldset-legend">State*</legend>
+          <input type="text" class="signup-form-fieldset-input" name="state" v-model="instituteState">
+      </fieldset>
+
+      <fieldset class="signup-form-fieldset">
+          <legend class="signup-form-fieldset-legend">City*</legend>
+          <input type="text" class="signup-form-fieldset-input" name="city" v-model="instituteCity">
+      </fieldset>
+
+      <fieldset class="signup-form-fieldset">
+          <legend class="signup-form-fieldset-legend">Country*</legend>
+          <input type="text" class="signup-form-fieldset-input" name="country" v-model="instituteCountry">
+      </fieldset>
+      <div class="signup-form-button" @click="signUp()">Sign Up</div>
+    </div>
+
+    <!-- <div class="signup-form-image">
       <fieldset class="signup-form-image-fieldset">
         <legend class="signup-form-image-fieldset-legend">Logo*</legend>
           <label class="signup-form-image-fieldset-legend-label" @click="triggerFileInput">
@@ -38,7 +71,7 @@
           </label>
       </fieldset>
       <img v-if="imageSrc" :src="imageSrc" alt="Uploaded Image" class="signup-form-image-uploaded"/>
-    </div>
+    </div> -->
 
     <!-- <div class="image-upload-container">
       <label class="input-box" @click="triggerFileInput">
@@ -47,11 +80,11 @@
       </label>
       <img v-if="imageSrc" :src="imageSrc" alt="Uploaded Image" class="uploaded-image"/>
     </div> -->
-    <div class="signup-form-button">Sign Up</div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -61,10 +94,38 @@ export default {
       institutePassword: '',
       instituteWebsite: '',
       instituteAddress: '',
+      instituteStreet: '',
+      instituteHouseNumber: '',
+      instituteLandmark: '',
+      institutePinCode: '',
+      instituteState: '',
+      instituteCity: '',
+      instituteCountry: '',
       imageSrc: null
     }
   },
   methods: {
+    signUp () {
+      axios.post('http://localhost:3000/institute', {
+        name: this.instituteName,
+        website_url: this.instituteWebsite,
+        logo: '',
+        address: {
+          street: this.instituteStreet,
+          house_number: this.instituteHouseNumber,
+          landmark: this.instituteLandmark,
+          pincode: +this.institutePinCode,
+          state: this.instituteState,
+          city: this.instituteCity,
+          country: this.instituteCountry
+        },
+        active: true,
+        phone_number: +this.institutePhoneNumber,
+        primary_user_email: this.instituteEmail
+      }).then(res => {
+        console.log('signup successful')
+      })
+    },
     triggerFileInput () {
       this.$refs.imageUploader.click()
     },
@@ -83,17 +144,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .address {
+    grid-template-columns: 50% 50%;
+    display: grid;
+  }
   .signup-form {
-    width: 350px;
+    width: 600px;
     margin: auto;
     &-button {
       background-color: #000;
       color: #fff;
-      padding: 5px 10px;
+      padding: 8px 10px;
       cursor: pointer;
       font-size: 16px;
       font-weight: 600;
-      margin: 15px auto;
+      margin: 25px auto;
       border-radius: 4px;
       width: 150px;
     }
