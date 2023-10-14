@@ -1,21 +1,26 @@
 import LoginForm from '../../components/LoginForm.vue'
+import SignUp from '../../components/SignUp.vue'
 
 export default {
   data () {
     return {
-      isShowLoginForm: false
+      isShowLoginForm: false,
+      isShowSignUpForm: false
     }
   },
   components: {
-    'login-form': LoginForm
+    'login-form': LoginForm,
+    'signup-form': SignUp
   },
   methods: {
     showLoginForm () {
       this.isShowLoginForm = true
+      this.isShowSignUpForm = false
     },
     signup () {
       // Handle the signup logic here
-      console.log('Signup button clicked')
+      this.isShowSignUpForm = true
+      this.isShowLoginForm = false
     }
   }
 }
