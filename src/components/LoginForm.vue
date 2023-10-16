@@ -16,11 +16,24 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data () {
     return {
       instituteID: '',
       institutePassword: ''
+    }
+  },
+  methods: {
+    login () {
+        axios.post('http://localhost:3000/login', {
+          institute_id: this.instituteID,
+          password: this.institutePassword
+        }).then((res => {
+          console.log('login...')
+        })). catch((error) => {
+          console.log("catch..")
+      })
     }
   }
 }
