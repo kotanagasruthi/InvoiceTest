@@ -7,11 +7,11 @@
                   </div>
                   <div class="landing-page-left-header-right">
                         <button class="landing-page-left-header-right-login" @click="showLoginForm()">Login</button>
-                        <button class="landing-page-left-header-right-signup" @click="signup()">Sign up</button>
+                        <button class="landing-page-left-header-right-signup" @click="signUp()">Sign up</button>
                   </div>
             </div>
-            <login-form v-if="isShowLoginForm" />
-            <signup-form v-if="isShowSignUpForm"/>
+            <login-form v-if="$route.params.action === 'login'" />
+            <signup-form v-if="$route.params.action === 'signUp'"/>
       </div>
 
     <div class="landing-page-image">

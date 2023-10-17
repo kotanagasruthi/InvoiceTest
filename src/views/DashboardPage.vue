@@ -1,0 +1,258 @@
+<template>
+      <div class="container">
+      <header>
+            <div class="brand-logo">
+                <img src="path_to_logo_image.png" alt="Brand Logo">
+                <span>MY ACCOUNT</span>
+            </div>
+            <nav class="header-nav">
+                <div class="nav-item"><font-awesome-icon icon="search" /> Search</div>
+                <div class="nav-item"><i class="offers-icon"></i> Offers <span class="new-label">NEW</span></div>
+                <div class="nav-item"><i class="help-icon"></i> Help</div>
+                <div class="nav-item"><i class="profile-icon"></i> Hithesh</div>
+                <div class="nav-item"><i class="cart-icon"></i> Cart</div>
+            </nav>
+        </header>
+        <header>
+            <img src="logo.png" alt="Logo">
+            <div class="account-details">
+                <h1>{{currentLoggedInUser.name}}</h1>
+                <p></p>
+            </div>
+            <div class="header-nav">
+                <!-- Add icons and links as needed -->
+            </div>
+        </header>
+            <div class="left-pane">
+            <div class="menu-item" @click="loadComponent('ExamsComponent')">
+                <i class="icon-orders"></i> Exams
+            </div>
+            <div class="menu-item" @click="loadComponent('TopicsComponent')">
+                <i class="icon-swiggy-one"></i> Topics
+            </div>
+            <div class="menu-item" @click="loadComponent('InviteesComponent')">
+                <i class="icon-swiggy-one"></i> Invitees
+            </div>
+            <div class="menu-item" @click="loadComponent('SettingsComponent')">
+                <i class="icon-swiggy-one"></i> Settings
+            </div>
+            <div class="menu-item" @click="loadComponent('UsersComponent')">
+                <i class="icon-swiggy-one"></i> Users
+            </div>
+            <!-- Add similar menu items for other sections -->
+            </div>
+
+            <main>
+            <component :is="currentComponent"></component>
+            </main>
+        </div>
+
+</template>
+
+<script>
+import ExamsComponent from '../components/Exams.vue'
+import TopicsComponent from '../components/topics.vue'
+import InviteesComponent from '../components/Invitees.vue'
+import SettingsComponent from '../components/Settings.vue'
+import UsersComponent from '../components/Users.vue'
+import { mapGetters } from 'vuex'
+export default {
+  components: {
+    ExamsComponent,
+    TopicsComponent,
+    InviteesComponent,
+    SettingsComponent,
+    UsersComponent
+  },
+  computed: {
+    ...mapGetters('landing', [
+      'currentLoggedInUser'
+    ])
+  },
+
+  data () {
+    return {
+      currentComponent: '' // Initially, set it to the default component to be displayed.
+    }
+  },
+  methods: {
+    loadComponent (componentName) {
+      this.currentComponent = componentName
+    }
+  }
+}
+
+</script>
+
+<style scoped>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: 30px;
+    padding: 40px;
+    background-color: #fff;
+    max-width: 1200px;
+    margin: 40px auto;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+}
+
+header {
+    grid-column: 1 / span 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e6e6e6;
+}
+
+header img {
+    width: 60px;
+    cursor: pointer;
+}
+
+.account-details {
+    text-align: right;
+}
+
+.account-details h1 {
+    margin: 0;
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.account-details p {
+    margin: 0;
+    color: #666;
+}
+
+.header-nav {
+    display: flex;
+    gap: 30px;
+    /* You can add icon styling here */
+}
+
+.nav-item {
+    padding: 15px 0;
+    color: #666;
+    border-bottom: 1px solid #e6e6e6;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    color: #ff6000;
+}
+
+main {
+    border: 1px solid #e6e6e6;
+    padding: 30px;
+    border-radius: 8px;
+    background-color: #f7f7f7;
+}
+
+main h2 {
+    margin-top: 0;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #e6e6e6;
+    padding-bottom: 20px;
+}
+
+.address-block {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    border: 1px solid #e6e6e6;
+}
+
+/* ... previous CSS ... */
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand-logo img {
+    width: 40px; /* Adjust based on actual image size */
+}
+
+.brand-logo span {
+    font-size: 24px;
+    color: #ff6000;
+    font-weight: bold;
+}
+
+.header-nav {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+}
+
+.nav-item i {
+    font-size: 20px; /* Adjust size of icons */
+    /* Add color styling for icons if necessary */
+}
+
+.new-label {
+    background-color: #ff6000;
+    color: #fff;
+    padding: 2px 5px
+}
+
+.left-pane {
+    width: 250px;
+    background-color: #F7F7F7;
+    padding: 20px 0;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 20px;
+    color: #7F7F7F;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+    background-color: #EFEFEF;
+}
+
+.menu-item i {
+    margin-right: 15px;
+    font-size: 24px;
+    width: 30px; /* Adjust this for alignment of text */
+}
+
+.menu-item.selected {
+    background-color: #E1E1E1;
+    color: #000;
+    font-weight: 600;
+}
+
+.menu-item.selected i {
+    color: #000; /* Adjust the color of the icon for the selected item if needed */
+}
+</style>

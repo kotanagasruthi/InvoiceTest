@@ -63,6 +63,12 @@
       <div class="signup-form-button" @click="signUp()">Sign Up</div>
     </div>
 
+    <toast
+      v-if="showToast"
+      :status="toastStatus"
+      :message="toastMessage"
+    />
+
     <!-- <div class="signup-form-image">
       <fieldset class="signup-form-image-fieldset">
         <legend class="signup-form-image-fieldset-legend">Logo*</legend>
@@ -84,8 +90,12 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions } from 'vuex'
+import Toast from '../components/reusable/Toast.vue'
 export default {
+  components: {
+    toast: Toast
+  },
   data () {
     return {
       instituteName: '',
@@ -101,15 +111,22 @@ export default {
       instituteState: '',
       instituteCity: '',
       instituteCountry: '',
-      imageSrc: null
+      imageSrc: null,
+      showToast: false,
+      toastStatus: '',
+      toastMessage: ''
     }
   },
   methods: {
+    ...mapActions('landing', [ // specify the 'dashboard' namespace
+      'signUpUser'
+    ]),
     signUp () {
-      axios.post('http://localhost:3000/institute', {
+      this.signUpUser({
         name: this.instituteName,
         website_url: this.instituteWebsite,
         logo: '',
+        password: this.institutePassword,
         address: {
           street: this.instituteStreet,
           house_number: this.instituteHouseNumber,
@@ -124,7 +141,25 @@ export default {
         primary_user_email: this.instituteEmail
       }).then(res => {
         console.log('signup successful')
+        this.triggerToast('success', 'SignUp successful!')
+        // redirect to login
+        this.$router.push({
+          name: 'Landing',
+          params: {
+            action: 'login'
+          }
+        })
       })
+    },
+    triggerToast (status, message) {
+      this.toastStatus = status
+      this.toastMessage = message
+      this.showToast = true
+
+      // Optionally, hide after some duration
+      setTimeout(() => {
+        this.showToast = false
+      }, 3000)
     },
     triggerFileInput () {
       this.$refs.imageUploader.click()
