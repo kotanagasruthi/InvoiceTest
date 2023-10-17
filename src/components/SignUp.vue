@@ -110,6 +110,7 @@ export default {
         name: this.instituteName,
         website_url: this.instituteWebsite,
         logo: '',
+        password: this.institutePassword,
         address: {
           street: this.instituteStreet,
           house_number: this.instituteHouseNumber,

@@ -11,16 +11,30 @@
       <input type="text" class="login-form-fieldset-input"  v-model="institutePassword">
     </fieldset>
 
-    <div class="login-form-button">Login</div>
+    <div class="login-form-button" @click="Login()">Login</div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data () {
     return {
       instituteID: '',
       institutePassword: ''
+    }
+  },
+  methods: {
+    Login () {
+      console.log('coming to login..')
+      axios.post('http://localhost:3000/login', {
+        institute_id: this.instituteID,
+        password: this.institutePassword
+      }).then(res => {
+        console.log('login successful', res)
+      }).catch(res => {
+        console.log('not authorised..')
+      })
     }
   }
 }
