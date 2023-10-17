@@ -12,29 +12,54 @@
     </fieldset>
 
     <div class="login-form-button" @click="Login()">Login</div>
+
+    <toast
+      v-if="showToast"
+      :status="toastStatus"
+      :message="toastMessage"
+    />
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions } from 'vuex'
+import Toast from '../components/reusable/Toast.vue'
 export default {
+  components: {
+    toast: Toast
+  },
   data () {
     return {
       instituteID: '',
-      institutePassword: ''
+      institutePassword: '',
+      showToast: false,
+      toastStatus: '',
+      toastMessage: ''
     }
   },
   methods: {
+    ...mapActions('landing', [ // specify the 'dashboard' namespace
+      'validateUserLogin'
+    ]),
     Login () {
       console.log('coming to login..')
-      axios.post('http://localhost:3000/login', {
+      this.validateUserLogin({
         institute_id: this.instituteID,
         password: this.institutePassword
       }).then(res => {
-        console.log('login successful', res)
-      }).catch(res => {
-        console.log('not authorised..')
+        this.triggerToast('success', 'Login successful!')
+        this.$router.push({ name: 'Dashboard' })
       })
+    },
+    triggerToast (status, message) {
+      this.toastStatus = status
+      this.toastMessage = message
+      this.showToast = true
+
+      // Optionally, hide after some duration
+      setTimeout(() => {
+        this.showToast = false
+      }, 3000)
     }
   }
 }

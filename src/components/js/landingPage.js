@@ -14,13 +14,25 @@ export default {
   },
   methods: {
     showLoginForm () {
-      this.isShowLoginForm = true
-      this.isShowSignUpForm = false
+      this.$router.push({
+        name: 'Landing',
+        params: {
+          action: 'login'
+        }
+      })
+      // this.isShowLoginForm = true
+      // this.isShowSignUpForm = false
     },
-    signup () {
+    signUp () {
       // Handle the signup logic here
-      this.isShowSignUpForm = true
-      this.isShowLoginForm = false
+      this.$router.push({
+        name: 'Landing',
+        params: {
+          action: 'signUp'
+        }
+      })
+      // this.isShowSignUpForm = true
+      // this.isShowLoginForm = false
     }
   }
 }
