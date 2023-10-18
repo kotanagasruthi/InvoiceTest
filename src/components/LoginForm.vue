@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapActions } from 'vuex'
 import Toast from '../components/reusable/Toast.vue'
 export default {

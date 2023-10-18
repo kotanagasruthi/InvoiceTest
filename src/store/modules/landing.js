@@ -11,13 +11,13 @@ const mutations = {
 
 const actions = {
   signUpUser ({ commit }, payload) {
-    return axios.post('http://localhost:3000/institute', payload).then(res => {
+    return axios.post('http://localhost:3000/institutes/setInstitute', payload).then(res => {
       console.log('signup successful')
       return res
     })
   },
   validateUserLogin ({ commit }, payload) {
-    return axios.post('http://localhost:3000/login', payload).then(res => {
+    return axios.post('http://localhost:3000/users/login', payload).then(res => {
       console.log('logged in user res', res.data)
       commit('SET_LOGGED_IN_USER_DETAILS', res.data.user)
       return res
