@@ -2,7 +2,7 @@
       <div class="container">
       <header>
             <div class="brand-logo">
-                <img src="path_to_logo_image.png" alt="Brand Logo">
+                <img src="../assets/vidhyasoft_logo.jpg" alt="Brand Logo">
                 <span>MY ACCOUNT</span>
             </div>
             <nav class="header-nav">
@@ -14,7 +14,7 @@
             </nav>
         </header>
         <header>
-            <img src="logo.png" alt="Logo">
+            <img src="../../src/assets/logo.png" alt="Logo">
             <div class="account-details">
                 <h1>{{currentLoggedInUser.name}}</h1>
                 <p></p>
@@ -185,7 +185,7 @@ main h2 {
 }
 
 .brand-logo img {
-    width: 40px; /* Adjust based on actual image size */
+    width: 90px; /* Adjust based on actual image size */
 }
 
 .brand-logo span {
