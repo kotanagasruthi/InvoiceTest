@@ -1,23 +1,36 @@
+import axios from 'axios'
 const state = () => ({
-  dashboardData: null
+  examData: [],
+  topicsData: []
 })
 
 const mutations = {
-  SET_DASHBOARD_DATA (state, data) {
-    state.dashboardData = data
+  SET_EXAM_DATA (state, data) {
+    state.examData = data
+  },
+  SET_TOPICS_DATA (state, data) {
+    state.topicsData = data
   }
 }
 
 const actions = {
-  fetchDashboardData ({ commit }, payload) {
-    // Fetch data or perform some action
-    // Example:
-    commit('SET_DASHBOARD_DATA', payload)
+  fetchExams ({ commit }) {
+    return axios.get('http://localhost:3000/exams/getExams').then(res => {
+      commit('SET_EXAM_DATA', res.data)
+      return res
+    })
+  },
+  fetchTopics ({ commit }) {
+    return axios.get('http://localhost:3000/topics/getTopics').then(res => {
+      commit('SET_TOPICS_DATA', res.data)
+      return res
+    })
   }
 }
 
 const getters = {
-  dashboardData: (state) => state.dashboardData
+  getExamData: (state) => state.examData,
+  getTopicsData: (state) => state.topicsData
 }
 
 export default {

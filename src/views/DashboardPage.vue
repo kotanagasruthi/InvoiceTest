@@ -1,52 +1,38 @@
 <template>
-      <div class="container">
-      <header>
+<div>
+    <header>
             <div class="brand-logo">
-                <img src="../assets/vidhyasoft_logo.jpg" alt="Brand Logo">
-                <span>MY ACCOUNT</span>
+                <span>{{currentLoggedInUser.name}}</span>
             </div>
-            <nav class="header-nav">
-                <div class="nav-item"><font-awesome-icon icon="search" /> Search</div>
-                <div class="nav-item"><i class="offers-icon"></i> Offers <span class="new-label">NEW</span></div>
-                <div class="nav-item"><i class="help-icon"></i> Help</div>
-                <div class="nav-item"><i class="profile-icon"></i> Hithesh</div>
-                <div class="nav-item"><i class="cart-icon"></i> Cart</div>
-            </nav>
-        </header>
-        <header>
-            <img src="../../src/assets/logo.png" alt="Logo">
-            <div class="account-details">
-                <h1>{{currentLoggedInUser.name}}</h1>
-                <p></p>
+            <div>
+                <font-awesome-icon class="icon"  icon="sign-out" />
             </div>
-            <div class="header-nav">
-                <!-- Add icons and links as needed -->
-            </div>
-        </header>
+    </header>
+      <div class="container">
             <div class="left-pane">
-            <div class="menu-item" @click="loadComponent('ExamsComponent')">
-                <i class="icon-orders"></i> Exams
-            </div>
-            <div class="menu-item" @click="loadComponent('TopicsComponent')">
-                <i class="icon-swiggy-one"></i> Topics
-            </div>
-            <div class="menu-item" @click="loadComponent('InviteesComponent')">
-                <i class="icon-swiggy-one"></i> Invitees
-            </div>
-            <div class="menu-item" @click="loadComponent('SettingsComponent')">
-                <i class="icon-swiggy-one"></i> Settings
-            </div>
-            <div class="menu-item" @click="loadComponent('UsersComponent')">
-                <i class="icon-swiggy-one"></i> Users
-            </div>
+                <div class="menu-item" @click="loadComponent('ExamsComponent')">
+                    <font-awesome-icon class="icon"  icon="file-lines" /> Exams
+                </div>
+                <div class="menu-item" @click="loadComponent('TopicsComponent')">
+                    <font-awesome-icon class="icon" icon="clipboard-question" /> Topics
+                </div>
+                <div class="menu-item" @click="loadComponent('InviteesComponent')">
+                    <font-awesome-icon class="icon"  icon="user-plus" /> Invitees
+                </div>
+                <div class="menu-item" @click="loadComponent('SettingsComponent')">
+                    <font-awesome-icon class="icon"  icon="cog" /> Settings
+                </div>
+                <div class="menu-item" @click="loadComponent('UsersComponent')">
+                    <font-awesome-icon class="icon"  icon="users" /> Users
+                </div>
             <!-- Add similar menu items for other sections -->
             </div>
 
             <main>
-            <component :is="currentComponent"></component>
+                <component :is="currentComponent"></component>
             </main>
         </div>
-
+</div>
 </template>
 
 <script>
@@ -151,12 +137,12 @@ header img {
     color: #ff6000;
 }
 
-main {
+/* main {
     border: 1px solid #e6e6e6;
     padding: 30px;
     border-radius: 8px;
     background-color: #f7f7f7;
-}
+} */
 
 main h2 {
     margin-top: 0;
@@ -234,6 +220,9 @@ main h2 {
     color: #7F7F7F;
     cursor: pointer;
     transition: background-color 0.2s;
+    .icon {
+        margin-right: 10px;
+    }
 }
 
 .menu-item:hover {
