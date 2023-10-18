@@ -47,7 +47,7 @@ export default {
   created () {
     this.isLoading = true
     console.log('loggged in user', this.currentLoggedInUser)
-    this.fetchTopics().then(res => {
+    this.fetchTopics(this.currentLoggedInUser.institute_id).then(res => {
       this.isLoading = false
     })
   },

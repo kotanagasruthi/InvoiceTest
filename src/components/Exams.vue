@@ -48,13 +48,17 @@ export default {
   },
   created () {
     this.isLoading = true
-    this.fetchExams().then(res => {
+    console.log('current logged in user info', this.currentLoggedInUser)
+    this.fetchExams(this.currentLoggedInUser.institute_id).then(res => {
       this.isLoading = false
     })
   },
   computed: {
     ...mapGetters('dashboard', [
       'getExamData'
+    ]),
+    ...mapGetters('landing', [
+      'currentLoggedInUser'
     ])
   },
   methods: {
