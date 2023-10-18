@@ -46,7 +46,7 @@ export default {
   },
   created () {
     this.isLoading = true
-    console.log('loggged in user', this.currentLoggedInUser)
+    console.log('logged in user', this.currentLoggedInUser)
     this.fetchTopics().then(res => {
       this.isLoading = false
     })
@@ -65,7 +65,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang = "scss" scoped>
 .grid-container {
   display: flex;
   flex-wrap: wrap;
@@ -75,9 +75,9 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  >h3 {
-    margin: 0
-  }
+  h3{
+    margin: 0;
+    }
 }
 .card {
   border: 1px solid #e0e0e0;

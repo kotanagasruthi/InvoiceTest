@@ -70,7 +70,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang = "scss" scoped>
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -220,6 +220,7 @@ main h2 {
     color: #7F7F7F;
     cursor: pointer;
     transition: background-color 0.2s;
+
     .icon {
         margin-right: 10px;
     }
