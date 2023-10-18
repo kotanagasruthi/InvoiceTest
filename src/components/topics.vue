@@ -6,6 +6,9 @@
         </header>
         <div>
             <loader v-if="isLoading" :loading="isLoading"></loader>
+            <div v-else-if="!getTopicsData">
+              No topics found
+            </div>
             <div class="grid-container" v-else>
                 <div class="card" v-for="(topic, index) in getTopicsData" :key="index">
                     <h2>{{topic.topic_name}}</h2>
@@ -44,23 +47,23 @@ export default {
     loader: Loader,
     'create-topic-form': CreateTopicForm
   },
-  created () {
-    this.isLoading = true
-    console.log('loggged in user', this.currentLoggedInUser)
-    this.fetchTopics(this.currentLoggedInUser.institute_id).then(res => {
-      this.isLoading = false
-    })
-  },
+  // created () {
+  //   this.isLoading = true
+  //   console.log('loggged in user', this.currentLoggedInUser)
+  //   this.fetchTopics(this.currentLoggedInUser.institute_id).then(res => {
+  //     this.isLoading = false
+  //   })
+  // },
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
       'fetchTopics'
-    ])
-  },
-  openCreateTopicForm () {
-    this.showTopicForm = true
-  },
-  closeForm () {
-    this.showTopicForm = false
+    ]),
+    openCreateTopicForm () {
+      this.showTopicForm = true
+    },
+    closeForm () {
+      this.showTopicForm = false
+    }
   }
 }
 </script>
