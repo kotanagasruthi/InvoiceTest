@@ -14,14 +14,22 @@ const mutations = {
 }
 
 const actions = {
-  fetchExams ({ commit }) {
-    return axios.get('http://localhost:3000/exams/getExams').then(res => {
+  fetchExams ({ commit }, instituteId) {
+    return axios.get('http://localhost:3000/exams/getExams', {
+      params: {
+        institute_id: instituteId
+      }
+    }).then(res => {
       commit('SET_EXAM_DATA', res.data)
       return res
     })
   },
-  fetchTopics ({ commit }) {
-    return axios.get('http://localhost:3000/topics/getTopics').then(res => {
+  fetchTopics ({ commit }, instituteId) {
+    return axios.get('http://localhost:3000/topics/getTopics', {
+      params: {
+        institute_id: instituteId
+      }
+    }).then(res => {
       commit('SET_TOPICS_DATA', res.data)
       return res
     })
