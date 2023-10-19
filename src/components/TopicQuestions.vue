@@ -1,0 +1,200 @@
+<template>
+<div>
+      <header class="header-container">
+            <div>
+                  Managa Topic Questions
+            </div>
+            <div @click="backToTopics()">Back</div>
+        </header>
+      <header class="header-container">
+            <div>
+                  <h3>{{topic.topic_name}}</h3>
+                  <h5>{{topic.description}}</h5>
+            </div>
+            <button @click="openAddQuestionForm()">Add Question</button>
+        </header>
+      <div class="order-box">
+      <loader v-if="isLoading" :loading="isLoading"></loader>
+      <div v-else>
+            <div class="exam-card" v-for="(question, index) in getQuestionsData" :key="index">
+                  <h4>{{ question.question_text }}</h4>
+
+                  <ul class="collaborators">
+                        <li v-for="(option, index) in question.options" :key="index">
+                              {{index}}.<div>{{ option }}</div>
+                        </li>
+                  </ul>
+                 <h4>Difficulty Level: {{question.correct_answer}}</h4>
+
+                  <div class="exam-card-footer">
+                  <div>
+                        <button @click="editExam">Edit</button>
+                  </div>
+                  <div>
+                        Difficulty Level: {{question.difficulty_level}}
+                  </div>
+                  </div>
+            </div>
+      </div>
+      </div>
+      <add-question-form v-if="showQuestionForm" :topic-id="topic.topic_id" @close="closeForm" @fetch-questions="refreshQuestions()" />
+</div>
+</template>
+
+<script>
+import AddQuestionForm from './AddQuestionForm.vue'
+import { mapActions, mapGetters } from 'vuex'
+import Loader from './reusable/Loader.vue'
+export default {
+  props: {
+    topic: Object
+  },
+  data () {
+    return {
+      isLoading: false,
+      showQuestionForm: false
+    }
+  },
+  computed: {
+    ...mapGetters('dashboard', [
+      'getQuestionsData'
+    ])
+  },
+  components: {
+    loader: Loader,
+    'add-question-form': AddQuestionForm
+  },
+  created () {
+    this.isLoading = true
+    this.fetchQuestions(this.topic.topic_id).then(res => {
+      this.isLoading = false
+    })
+  },
+  methods: {
+    ...mapActions('dashboard', [ // specify the 'dashboard' namespace
+      'fetchQuestions'
+    ]),
+    openAddQuestionForm () {
+      this.showQuestionForm = true
+    },
+    closeForm () {
+      this.showQuestionForm = false
+    },
+    refreshQuestions () {
+      this.showQuestionForm = false
+      this.isLoading = true
+      this.fetchQuestions(this.topic.topic_id).then(res => {
+        this.isLoading = false
+        console.log('questions res', res)
+      })
+    },
+    backToTopics () {
+      this.$emit('back')
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+}
+.exam-card {
+  border: 1px solid #ddd;
+  padding: 0 20px 10px 20px;
+  text-align: left;
+  border-radius: 10px;
+  position: relative;
+  margin-top: 15px;
+  &-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.collaborators {
+    width: 25%;
+    display: flex;
+    font-weight: 300;
+    margin-bottom: 10px;
+    >li {
+        display: flex;
+        align-items: center;
+        .separator {
+            border-radius: 50%;
+            background-color: grey;
+            width: 5px;
+            height: 5px
+        }
+    }
+}
+
+h5 {
+  margin: 0;
+  font-weight: 500;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.active-check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+}
+
+button {
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-right: 5px;
+  height: 35px;
+}
+
+.custom-checkbox {
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  width: 24px;
+  background-color: #eee;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.checkmark::after {
+  content: "\2713";
+  position: absolute;
+  display: none;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  color: white;
+}
+
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: #4CAF50;
+}
+
+.custom-checkbox input:checked ~ .checkmark::after {
+  display: block;
+}
+
+</style>

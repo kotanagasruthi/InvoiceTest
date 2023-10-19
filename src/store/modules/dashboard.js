@@ -1,7 +1,8 @@
 import axios from 'axios'
 const state = () => ({
   examData: [],
-  topicsData: []
+  topicsData: [],
+  questionsData: []
 })
 
 const mutations = {
@@ -10,6 +11,9 @@ const mutations = {
   },
   SET_TOPICS_DATA (state, data) {
     state.topicsData = data
+  },
+  SET_QUESTIONS_DATA (state, data) {
+    state.questionsData = data
   }
 }
 
@@ -33,12 +37,33 @@ const actions = {
       commit('SET_TOPICS_DATA', res.data)
       return res
     })
+  },
+  fetchQuestions ({ commit }, topicId) {
+    return axios.get('http://localhost:3000/questions/getQuestions', {
+      params: {
+        topic_id: topicId
+      }
+    }).then(res => {
+      commit('SET_QUESTIONS_DATA', res.data)
+      return res
+    })
+  },
+  setTopic ({ commit }, payload) {
+    return axios.post('http://localhost:3000/topics/setTopic', payload).then(res => {
+      return res
+    })
+  },
+  setQuestion ({ commit }, payload) {
+    return axios.post('http://localhost:3000/questions/addQuestion', payload).then(res => {
+      return res
+    })
   }
 }
 
 const getters = {
   getExamData: (state) => state.examData,
-  getTopicsData: (state) => state.topicsData
+  getTopicsData: (state) => state.topicsData,
+  getQuestionsData: (state) => state.questionsData
 }
 
 export default {

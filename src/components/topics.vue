@@ -1,5 +1,6 @@
 <template>
-    <div>
+<div>
+    <div v-if="!isOpenTopicQuestions">
         <header class="header-container">
             <h3>Manage Topics</h3>
             <button @click="openCreateTopicForm()">Create Topic</button>
@@ -10,7 +11,7 @@
               No topics found
             </div>
             <div class="grid-container" v-else>
-                <div class="card" v-for="(topic, index) in getTopicsData" :key="index">
+                <div class="card" v-for="(topic, index) in getTopicsData" :key="index" @click="OpenTopicQuestions(topic)">
                     <h2>{{topic.topic_name}}</h2>
                     <p>{{ topic.description }}</p>
                     <div class="buttons">
@@ -20,19 +21,24 @@
                 </div>
             </div>
         </div>
-        <create-topic-form v-if="showTopicForm" @close="closeForm" />
+        <create-topic-form v-if="showTopicForm" @close="closeForm" @fetchTopics="refreshTopics()" />
     </div>
+    <topic-questions :topic="currentTopic" @back="displayTopics()" v-else />
+</div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import CreateTopicForm from './CreateTopicForm.vue'
+import TopicQuestions from './TopicQuestions.vue'
 import Loader from './reusable/Loader.vue'
 export default {
   data () {
     return {
       isLoading: false,
-      showTopicForm: false
+      showTopicForm: false,
+      isOpenTopicQuestions: false,
+      currentTopic: {}
     }
   },
   computed: {
@@ -45,15 +51,16 @@ export default {
   },
   components: {
     loader: Loader,
-    'create-topic-form': CreateTopicForm
+    'create-topic-form': CreateTopicForm,
+    'topic-questions': TopicQuestions
   },
-  // created () {
-  //   this.isLoading = true
-  //   console.log('loggged in user', this.currentLoggedInUser)
-  //   this.fetchTopics(this.currentLoggedInUser.institute_id).then(res => {
-  //     this.isLoading = false
-  //   })
-  // },
+  created () {
+    this.isLoading = true
+    console.log('loggged in user', this.currentLoggedInUser)
+    this.fetchTopics(this.currentLoggedInUser.institute_id).then(res => {
+      this.isLoading = false
+    })
+  },
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
       'fetchTopics'
@@ -63,12 +70,28 @@ export default {
     },
     closeForm () {
       this.showTopicForm = false
+    },
+    OpenTopicQuestions (topic) {
+      this.currentTopic = JSON.parse(JSON.stringify(topic))
+      this.isOpenTopicQuestions = true
+    },
+    refreshTopics () {
+      this.showTopicForm = false
+      this.isLoading = true
+      console.log('loggged in user', this.currentLoggedInUser)
+      this.fetchTopics(this.currentLoggedInUser.institute_id).then(res => {
+        this.isLoading = false
+        console.log('topics res', res)
+      })
+    },
+    displayTopics () {
+      this.isOpenTopicQuestions = false
     }
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .grid-container {
   display: flex;
   flex-wrap: wrap;
@@ -80,6 +103,17 @@ export default {
   align-items: center;
   >h3 {
     margin: 0
+  }
+  button {
+      background-color: #000;
+      color: #fff;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      margin: 15px auto;
+      border-radius: 4px;
+      width: 150px;
   }
 }
 .card {

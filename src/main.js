@@ -6,9 +6,9 @@ import store from './store'
 import axios from 'axios'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faSearch, faFileLines, faClipboardQuestion, faUserPlus, faCog, faUsers, faSignOut } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faSearch, faFileLines, faClipboardQuestion, faUserPlus, faCog, faUsers, faSignOut, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add(faUser, faSearch, faFileLines, faClipboardQuestion, faUserPlus, faCog, faUsers, faSignOut)
+library.add(faUser, faSearch, faFileLines, faClipboardQuestion, faUserPlus, faCog, faUsers, faSignOut, faXmark)
 
 const app = createApp(App).use(store).use(router)
 app.component('font-awesome-icon', FontAwesomeIcon)
