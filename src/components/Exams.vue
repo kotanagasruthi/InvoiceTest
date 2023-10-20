@@ -1,50 +1,61 @@
 <template>
   <div class="order-box">
-    <loader v-if="isLoading" :loading="isLoading"></loader>
-    <div v-else>
-        <div class="exam-card" v-for="(exam, index) in getExamData" :key="index">
-            <h4>{{ exam.exam_name }}</h4>
-            <h5>{{ exam.owner }}</h5>
+    <header class="header-container">
+        <div class="header-container-text">Manage Exams</div>
+        <button v-if="!isCreateExam" @click="openCreatExam()">Create Exam</button>
+        <button v-else @click="closeCreatExam()">Back</button>
+    </header>
+    <div v-if="!isCreateExam">
+      <loader v-if="isLoading" :loading="isLoading"></loader>
+      <div v-else>
+          <div class="exam-card" v-for="(exam, index) in getExamData" :key="index">
+              <h4>{{ exam.exam_name }}</h4>
+              <h5>{{ exam.owner }}</h5>
 
-            <ul class="collaborators">
-                <li v-for="(collaborator, index) in exam.collaborators" :key="index">
-                    <div>{{ collaborator }}</div>
-                    <div v-if="index !== (exam.collaborators.length - 1)" class="separator">.</div>
-                </li>
-            </ul>
+              <ul class="collaborators">
+                  <li v-for="(collaborator, index) in exam.collaborators" :key="index">
+                      <div>{{ collaborator }}</div>
+                      <div v-if="index !== (exam.collaborators.length - 1)" class="separator">.</div>
+                  </li>
+              </ul>
 
-            <div v-if="exam.is_active" class="active-check">
-                <label class="custom-checkbox">
-                    <input type="checkbox" checked />
-                    <span class="checkmark"></span>
-                </label>
-            </div>
+              <div v-if="exam.is_active" class="active-check">
+                  <label class="custom-checkbox">
+                      <input type="checkbox" checked />
+                      <span class="checkmark"></span>
+                  </label>
+              </div>
 
-            <div class="exam-card-footer">
-                <div>
-                    <button @click="editExam">Edit</button>
-                    <button @click="publishExam">Publish</button>
-                </div>
-                <div>
-                    Exam Type: {{exam.exam_type}}
-                </div>
-            </div>
-        </div>
+              <div class="exam-card-footer">
+                  <div>
+                      <button @click="editExam">Edit</button>
+                      <button @click="publishExam">Publish</button>
+                  </div>
+                  <div>
+                      Exam Type: {{exam.exam_type}}
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
+    <create-exam v-else />
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Loader from './reusable/Loader.vue'
+import CreateExam from './CreateExam.vue'
 export default {
   data () {
     return {
-      isLoading: false
+      isLoading: false,
+      isCreateExam: false
     }
   },
   components: {
-    loader: Loader
+    loader: Loader,
+    'create-exam': CreateExam
   },
   created () {
     this.isLoading = true
@@ -64,12 +75,25 @@ export default {
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
       'fetchExams'
-    ])
+    ]),
+    openCreatExam () {
+      this.isCreateExam = true
+    },
+    closeCreatExam () {
+      this.isCreateExam = false
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  &-text {
+    font-weight: 600;
+  }
+}
 .exam-card {
   border: 1px solid #ddd;
   padding: 0 20px 10px 20px;

@@ -25,6 +25,9 @@
                 <div class="menu-item" @click="loadComponent('UsersComponent')">
                     <font-awesome-icon class="icon"  icon="users" /> Users
                 </div>
+                <div class="menu-item" @click="loadComponent('ExamFormatsComponent')">
+                    <font-awesome-icon class="icon"  icon="users" /> Exam Formats
+                </div>
             <!-- Add similar menu items for other sections -->
             </div>
 
@@ -41,6 +44,7 @@ import TopicsComponent from '../components/Topics.vue'
 import InviteesComponent from '../components/Invitees.vue'
 import SettingsComponent from '../components/Settings.vue'
 import UsersComponent from '../components/Users.vue'
+import ExamFormatsComponent from '../components/ExamFormats.vue'
 import { mapGetters } from 'vuex'
 export default {
   components: {
@@ -48,7 +52,8 @@ export default {
     TopicsComponent,
     InviteesComponent,
     SettingsComponent,
-    UsersComponent
+    UsersComponent,
+    ExamFormatsComponent
   },
   computed: {
     ...mapGetters('landing', [

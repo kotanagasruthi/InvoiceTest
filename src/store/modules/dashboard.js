@@ -2,7 +2,8 @@ import axios from 'axios'
 const state = () => ({
   examData: [],
   topicsData: [],
-  questionsData: []
+  questionsData: [],
+  examFormatData: []
 })
 
 const mutations = {
@@ -14,6 +15,9 @@ const mutations = {
   },
   SET_QUESTIONS_DATA (state, data) {
     state.questionsData = data
+  },
+  SET_EXAM_FORMATS_DATA (state, data) {
+    state.examFormatData = data
   }
 }
 
@@ -57,13 +61,26 @@ const actions = {
     return axios.post('http://localhost:3000/questions/addQuestion', payload).then(res => {
       return res
     })
+  },
+  setExamFormat ({ commit }, payload) {
+    return axios.post('http://localhost:3000/exam-format/addExamFormat', payload).then(res => {
+      return res
+    })
+  },
+  fetchExamFormats ({ commit }) {
+    return axios.get('http://localhost:3000/exam-format/getAllExamFormats').then(res => {
+      commit('SET_EXAM_FORMATS_DATA', res.data)
+      return res
+    })
   }
+
 }
 
 const getters = {
   getExamData: (state) => state.examData,
   getTopicsData: (state) => state.topicsData,
-  getQuestionsData: (state) => state.questionsData
+  getQuestionsData: (state) => state.questionsData,
+  getExamFormatsData: (state) => state.examFormatData
 }
 
 export default {
