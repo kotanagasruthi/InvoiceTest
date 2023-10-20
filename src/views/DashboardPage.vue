@@ -40,7 +40,7 @@
 
 <script>
 import ExamsComponent from '../components/Exams.vue'
-import TopicsComponent from '../components/topics.vue'
+import TopicsComponent from '../components/Topics.vue'
 import InviteesComponent from '../components/Invitees.vue'
 import SettingsComponent from '../components/Settings.vue'
 import UsersComponent from '../components/Users.vue'
