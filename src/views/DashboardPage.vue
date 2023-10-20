@@ -90,6 +90,7 @@ body {
     padding: 40px;
     background-color: #fff;
     max-width: 1200px;
+    height: 500px;
     margin: 40px auto;
     box-shadow: 0 3px 15px rgba(0,0,0,0.1);
 }
@@ -228,6 +229,7 @@ main h2 {
 
     .icon {
         margin-right: 10px;
+        margin-top:20px;
     }
 }
 
