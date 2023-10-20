@@ -40,7 +40,7 @@
 
 <script>
 import ExamsComponent from '../components/Exams.vue'
-import TopicsComponent from '../components/Topics.vue'
+import TopicsComponent from '../components/topics.vue'
 import InviteesComponent from '../components/Invitees.vue'
 import SettingsComponent from '../components/Settings.vue'
 import UsersComponent from '../components/Users.vue'
@@ -75,7 +75,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang = "scss" scoped>
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -176,7 +176,7 @@ main h2 {
 }
 
 .brand-logo img {
-    width: 40px; /* Adjust based on actual image size */
+    width: 90px; /* Adjust based on actual image size */
 }
 
 .brand-logo span {
@@ -225,6 +225,7 @@ main h2 {
     color: #7F7F7F;
     cursor: pointer;
     transition: background-color 0.2s;
+
     .icon {
         margin-right: 10px;
     }

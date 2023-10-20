@@ -3,7 +3,8 @@ const state = () => ({
   examData: [],
   topicsData: [],
   questionsData: [],
-  examFormatData: []
+  examFormatData: [],
+  inviteesData: []
 })
 
 const mutations = {
@@ -12,6 +13,10 @@ const mutations = {
   },
   SET_TOPICS_DATA (state, data) {
     state.topicsData = data
+  },
+  SET_INVITEES_DATA (state, data) {
+    console.log(data)
+    state.inviteesData = data
   },
   SET_QUESTIONS_DATA (state, data) {
     state.questionsData = data
@@ -42,6 +47,21 @@ const actions = {
       return res
     })
   },
+
+  addInvitee ({}, payload) {
+    return axios.post('http://localhost:3000/invitees/add', payload).then(res => {
+      return res
+    }).catch(res => {
+      console.log('could not add invitee..', res)
+    })
+  },
+
+  fetchInvitee ({ commit }, payload) {
+    return axios.get('http://localhost:3000/invitees/users').then(res => {
+      commit('SET_INVITEES_DATA', res.data)
+    })
+  },
+
   fetchQuestions ({ commit }, topicId) {
     return axios.get('http://localhost:3000/questions/getQuestions', {
       params: {
@@ -52,11 +72,13 @@ const actions = {
       return res
     })
   },
+
   setTopic ({ commit }, payload) {
     return axios.post('http://localhost:3000/topics/setTopic', payload).then(res => {
       return res
     })
   },
+
   setQuestion ({ commit }, payload) {
     return axios.post('http://localhost:3000/questions/addQuestion', payload).then(res => {
       return res
@@ -80,7 +102,8 @@ const getters = {
   getExamData: (state) => state.examData,
   getTopicsData: (state) => state.topicsData,
   getQuestionsData: (state) => state.questionsData,
-  getExamFormatsData: (state) => state.examFormatData
+  getExamFormatsData: (state) => state.examFormatData,
+  getInviteesData: (state) => state.inviteesData
 }
 
 export default {
