@@ -135,7 +135,7 @@ export default {
 }
 
 .table-container {
-  max-height: 300px; /* Set a maximum height for the container */
+  max-height: 80%; /* Set a maximum height for the container */
   overflow-y: auto; /* Enable vertical scrolling */
 }
 

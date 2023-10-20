@@ -44,7 +44,7 @@ const actions = {
     })
   },
 
-  addInvitee ({}, payload) {
+  addInvitee (payload) {
     return axios.post('http://localhost:3000/invitees/add', payload).then(res => {
       return res
     }).catch(res => {
