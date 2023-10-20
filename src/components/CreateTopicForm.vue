@@ -2,24 +2,31 @@
   <div class="modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h2>Create Topic</h2>
-        <button @click="closeModal" class="close-btn">×</button>
+        <div class="modal-header-text">Create Topic</div>
+        <div @click="closeModal()" class="modal-header-close">
+          <font-awesome-icon icon="xmark" />
+        </div>
       </div>
       <div class="modal-body">
-        <label for="topic-name">Topic Name:</label>
-        <input type="text" id="topic-name" v-model="topicName">
+        <fieldset class="modal-body-fieldset">
+          <legend class="modal-body-fieldset-legend">Topic Name*</legend>
+          <input type="text" class="modal-body-fieldset-input" v-model="topicName">
+        </fieldset>
 
-        <label for="topic-description">Topic Description:</label>
-        <textarea id="topic-description" v-model="topicDescription"></textarea>
+        <fieldset class="modal-body-fieldset">
+          <legend class="modal-body-fieldset-legend">Topic Description*</legend>
+          <textarea class="modal-body-fieldset-input" v-model="topicDescription"></textarea>
+        </fieldset>
       </div>
       <div class="modal-footer">
-        <button @click="addTopic">Add</button>
+        <button @click="addTopic()">Add</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
@@ -27,19 +34,33 @@ export default {
       topicDescription: ''
     }
   },
+  computed: {
+    ...mapGetters('landing', [ // specify the 'dashboard' namespace
+      'currentLoggedInUser'
+    ])
+  },
   methods: {
+    ...mapActions('dashboard', [ // specify the 'dashboard' namespace
+      'setTopic'
+    ]),
     closeModal () {
       this.$emit('close')
     },
     addTopic () {
+      this.setTopic({
+        topic_name: this.topicName,
+        description: this.topicDescription,
+        institute_id: this.currentLoggedInUser.institute_id
+      }).then(res => {
+        this.$emit('fetch-topics')
+      })
       console.log('Topic added:', this.topicName, this.topicDescription)
-      this.$emit('close')
     }
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .modal {
   position: fixed;
   top: 0;
@@ -58,23 +79,43 @@ export default {
   width: 400px;
   position: relative;
 }
-.modal-header, .modal-footer {
-  background-color: #f5f5f5;
-  padding: 10px;
-}
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
+  &-text {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  &-close {
+  font-size: 18px;
   cursor: pointer;
+  color: black
+  }
 }
 .modal-body {
-  padding: 20px;
+  margin-top: 30px;
+  &-fieldset {
+      border: 1px solid #e0e0e0;
+      padding: 5px 10px;
+      border-radius: 5px;
+      position: relative;
+      margin-top: 15px;
+      &-legend {
+        background-color: #fff;
+        padding: 0 5px;
+        position: absolute;
+        top: -10px;
+        left: 10px;
+      }
+
+      &-input {
+        border: none;
+        width: 100%;
+        outline: none;
+        padding: 8px 0;
+      }
+    }
 }
 label {
   display: block;
@@ -88,11 +129,14 @@ input, textarea {
   border-radius: 4px;
 }
 button {
-  padding: 8px 16px;
-  background-color: #4CAF50;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
+  background-color: #000;
+      color: #fff;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      margin: 15px auto;
+      border-radius: 4px;
+      width: 150px;
 }
 </style>
