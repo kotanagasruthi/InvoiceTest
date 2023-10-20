@@ -1,40 +1,74 @@
 <template>
-  <div class="popup-container" v-if="showPopup">
-    <div class="popup">
-      <h3>Select Questions</h3>
-      <ul>
-        <li v-for="question in questions" :key="question.id">
-          <input type="checkbox" :id="question.id" v-model="selectedQuestions" :value="question.id">
-          <label :for="question.id">{{ question.text }}</label>
-        </li>
-      </ul>
-      <button @click="confirmSelection">Confirm</button>
-      <button @click="showPopup = false">Close</button>
-    </div>
+  <div class="popup-container">
+      <div class="popup">
+            <loader v-if="isLoading" :loading="isLoading"></loader>
+            <div v-else>
+                  <h3>Select Questions</h3>
+                  <ul>
+                        <li v-for="question in getQuestionsData" :key="question.id">
+                              <input type="checkbox" :id="question.question_id" v-model="selectedQuestions" :value="question.question_id" @change="questionSelected(question)">
+                              <label :for="question.question_id">{{ question.question_text }}</label>
+                              <div style="display: flex" v-for="(option, index) in question.options" :key="index">
+                                    {{index + 1}}. {{option}}
+                              </div>
+                        </li>
+                  </ul>
+                  <button @click="confirmSelection()">Confirm</button>
+                  <button @click="closeQuestionsPopup()">Close</button>
+            </div>
+      </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+import Loader from './reusable/Loader.vue'
 export default {
+  props: {
+    topicId: String
+  },
   data () {
     return {
-      showPopup: false, // controls the visibility of the popup
-      questions: [ // sample questions, you'd likely fetch these from an API
-        { id: 1, text: 'What is the capital of France?' },
-        { id: 2, text: 'Which planet is closest to the sun?' }
-        // ... other questions
-      ],
-      selectedQuestions: [] // stores the IDs of selected questions
+      isLoading: false,
+      selectedQuestions: [],
+      selectedQuestionsForExams: []
     }
   },
+  components: {
+    loader: Loader
+  },
+  created () {
+    this.isLoading = true
+    this.fetchQuestions(this.topicId).then(res => {
+      this.isLoading = false
+      console.log('questions res', res)
+    })
+  },
+  computed: {
+    ...mapGetters('dashboard', [
+      'getQuestionsData'
+    ])
+  },
   methods: {
+    ...mapActions('dashboard', [
+      'fetchQuestions'
+    ]),
+    questionSelected (currentQuestion) {
+      console.log('selectedQuestions', this.selectedQuestions)
+      if (this.selectedQuestions.includes(currentQuestion.question_id)) {
+        this.selectedQuestionsForExams.push(currentQuestion)
+      } else {
+        this.selectedQuestionsForExams = this.selectedQuestionsForExams.filter(question => question.question_id !== currentQuestion.question_id)
+      }
+      console.log('question', currentQuestion)
+      console.log('selectedQuestionsForExams', this.selectedQuestionsForExams)
+    },
     confirmSelection () {
-      // Handle what happens after confirming the selection
-      // For now, we'll just print the selected questions to the console
-      console.log('Selected Questions:', this.selectedQuestions)
-
-      // You might want to close the popup after confirming
-      this.showPopup = false
+      console.log('topicId', this.topicId)
+      this.$emit('selectedQuestions', this.topicId, this.selectedQuestionsForExams)
+    },
+    closeQuestionsPopup () {
+      this.$emit('close')
     }
   }
 }

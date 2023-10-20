@@ -56,7 +56,7 @@ const actions = {
     })
   },
 
-  fetchInvitee ({ commit }, payload) {
+  fetchInvitees ({ commit }) {
     return axios.get('http://localhost:3000/invitees/users').then(res => {
       commit('SET_INVITEES_DATA', res.data)
     })
@@ -75,6 +75,12 @@ const actions = {
 
   setTopic ({ commit }, payload) {
     return axios.post('http://localhost:3000/topics/setTopic', payload).then(res => {
+      return res
+    })
+  },
+
+  setExam ({ commit }, payload) {
+    return axios.post('http://localhost:3000/exams/setExam', payload).then(res => {
       return res
     })
   },

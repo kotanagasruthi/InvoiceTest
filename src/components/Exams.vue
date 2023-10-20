@@ -38,7 +38,7 @@
           </div>
       </div>
     </div>
-    <create-exam v-else />
+    <create-exam v-else @close="closeCreatExam()" />
   </div>
 </template>
 
@@ -81,6 +81,11 @@ export default {
     },
     closeCreatExam () {
       this.isCreateExam = false
+      this.isLoading = true
+      console.log('current logged in user info', this.currentLoggedInUser)
+      this.fetchExams(this.currentLoggedInUser.institute_id).then(res => {
+        this.isLoading = false
+      })
     }
   }
 }

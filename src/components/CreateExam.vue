@@ -9,9 +9,15 @@
                         </select>
                   </label>
                   <div>
-                        <div v-for="topic in topics" :key="topic.name" class="topic-container">
-                              <h4>{{ topic.name }}</h4>
-                              <button @click="openQuestionPopup(topic)">Add Questions</button>
+                        <label>
+                              Exam Name:
+                              <input type="text" v-model="examName" />
+                        </label>
+                        <div class="add-topic" v-if="topics.length">
+                              <div v-for="(topic, index) in topics" :key="index" class="topic-container">
+                                    <h4>{{ topic.topic_name }}</h4>
+                                    <button @click="openQuestionPopup(topic)">Add Questions</button>
+                              </div>
                         </div>
 
                         <label>
@@ -21,15 +27,15 @@
                         <label>
                               End Date: <input type="date" v-model="endDate">
                         </label>
-
-                        <button @click="openInviteesPopup">Add Invitees</button>
-
-                        <!-- This is a placeholder for the popups -->
-
-                        <button>Submit</button>
+                        <div>
+                              <button @click="openInviteesPopup">Add Invitees</button>
+                        </div>
+                        <div>
+                              <button @click="createExam()">Submit</button>
+                        </div>
                   </div>
-                  <question-popup v-if="showQuestionPopup" :topic="currentTopic" @close="showQuestionPopup = false"></question-popup>
-                  <invitees-popup v-if="showInviteesPopup" @close="showInviteesPopup = false"></invitees-popup>
+                  <QuestionPopup v-if="showQuestionPopup" :topic-id="currentTopic.topic_id" @selectedQuestions="setQuestionsForTopic" @close="showQuestionPopup = false"></QuestionPopup>
+                  <InviteesPopup v-if="showInviteesPopup" @selectedInvitees="setInviteesForExam" @close="showInviteesPopup = false"></InviteesPopup>
             </div>
       </div>
 </template>
@@ -48,20 +54,25 @@ export default {
   },
   data () {
     return {
-      examTypes: ['JEE', 'Eamcet'], // This can be fetched from an API or other data sources
+      examName: '',
       selectedExamType: '',
       topics: [], // Dynamic topics loaded based on the selected exam type
       startDate: '',
       endDate: '',
       showQuestionPopup: false,
       showInviteesPopup: false,
-      currentTopic: null,
-      isLoading: false
+      currentTopic: {},
+      isLoading: false,
+      currentExamFormat: [],
+      invitees: []
     }
   },
   computed: {
     ...mapGetters('dashboard', [
       'getExamFormatsData'
+    ]),
+    ...mapGetters('landing', [
+      'currentLoggedInUser'
     ])
   },
   created () {
@@ -72,23 +83,86 @@ export default {
   },
   methods: {
     ...mapActions('dashboard', [
-      'fetchExamFormats'
+      'fetchExamFormats',
+      'setExam'
     ]),
     loadExamFormat () {
-      console.log('select exam type', this.selectedExamType)
+      console.log('exam formats data', this.getExamFormatsData)
+      console.log('selected exam type', this.selectedExamType)
+      this.currentExamFormat = this.getExamFormatsData.filter(data => data.examType === this.selectedExamType)
+      this.topics = this.currentExamFormat[0].topics
+      console.log('topics', this.topics)
     },
     openQuestionPopup (topic) {
+      console.log('topic', topic)
       this.currentTopic = topic
+      console.log('current topic', this.currentTopic)
       this.showQuestionPopup = true
+    },
+    setQuestionsForTopic (id, questions) {
+      console.log('topics before', this.topics)
+      console.log('topics id', this.id)
+      console.log('questions..', questions)
+      this.topics = this.topics.map(topic => {
+        if (topic.topic_id === id) {
+          console.log('id matching..')
+          return {
+            ...topic,
+            questions: questions
+          }
+        } else {
+          return topic
+        }
+      })
+      this.showQuestionPopup = false
+      console.log('topics after', this.topics)
     },
     openInviteesPopup () {
       this.showInviteesPopup = true
+    },
+    setInviteesForExam (invitees) {
+      console.log('invitees', invitees)
+      this.invitees = JSON.parse(JSON.stringify(invitees))
+      this.showInviteesPopup = false
+    },
+    createExam () {
+      const payload = {
+        institute_id: this.currentLoggedInUser.institute_id,
+        exam_name: this.examName,
+        owner: this.currentLoggedInUser.name,
+        collaborators: [],
+        exam_type: this.selectedExamType,
+        is_active: false,
+        topics: this.topics,
+        negativeMarking: this.currentExamFormat[0].negativeMarking,
+        negativeMarksValue: this.currentExamFormat[0].negativeMarksValue,
+        duration: this.currentExamFormat[0].duration,
+        activePeriod: {
+          startDate: new Date(this.startDate),
+          endDate: new Date(this.endDate)
+        },
+        invitees: this.invitees
+      }
+      console.log('payload', payload)
+      this.setExam(payload).then(res => {
+        console.log('exam set successfully')
+      })
+      this.$emit('close')
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.add-topic {
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px 2px  rgba(0, 0, 0, 0.1);
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+}
 .exam-form {
   display: flex;
   flex-direction: column;
@@ -116,6 +190,9 @@ export default {
 
   .topic-container {
     margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     h4 {
       margin: 0;
       font-size: 1.2rem;

@@ -1,40 +1,67 @@
 <template>
-  <div class="popup-container" v-if="showPopup">
-    <div class="popup">
-      <h3>Select Questions</h3>
-      <ul>
-        <li v-for="question in questions" :key="question.id">
-          <input type="checkbox" :id="question.id" v-model="selectedQuestions" :value="question.id">
-          <label :for="question.id">{{ question.text }}</label>
-        </li>
-      </ul>
-      <button @click="confirmSelection">Confirm</button>
-      <button @click="showPopup = false">Close</button>
-    </div>
+  <div class="popup-container">
+      <div class="popup">
+            <loader v-if="isLoading" :loading="isLoading"></loader>
+            <div v-else>
+                  <h3>Select Invitees</h3>
+                  <ul>
+                        <li v-for="(invitee, index) in getInviteesData" :key="index">
+                              <input type="checkbox" :id="invitee.email" v-model="selectedInvitees" :value="invitee.email" @change="InviteeSelected(invitee)">
+                              <label :for="invitee.email">{{ invitee.firstName }} {{ invitee.lastName }} - {{invitee. email}}</label>
+                        </li>
+                  </ul>
+                  <button @click="confirmSelection()">Confirm</button>
+                  <button @click="closeInviteesPopup()">Close</button>
+            </div>
+      </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+import Loader from './reusable/Loader.vue'
 export default {
   data () {
     return {
-      showPopup: false, // controls the visibility of the popup
-      questions: [ // sample questions, you'd likely fetch these from an API
-        { id: 1, text: 'What is the capital of France?' },
-        { id: 2, text: 'Which planet is closest to the sun?' }
-        // ... other questions
-      ],
-      selectedQuestions: [] // stores the IDs of selected questions
+      isLoading: false,
+      selectedInvitees: [],
+      selectedInviteesForExams: []
     }
   },
+  components: {
+    loader: Loader
+  },
+  created () {
+    this.isLoading = true
+    this.fetchInvitees().then(res => {
+      this.isLoading = false
+      console.log('invitees res', res)
+    })
+  },
+  computed: {
+    ...mapGetters('dashboard', [
+      'getInviteesData'
+    ])
+  },
   methods: {
+    ...mapActions('dashboard', [
+      'fetchInvitees'
+    ]),
+    InviteeSelected (currentInvitee) {
+      console.log('selected invitees', this.selectedInvitees)
+      if (this.selectedInvitees.includes(currentInvitee.email)) {
+        this.selectedInviteesForExams.push(currentInvitee)
+      } else {
+        this.selectedInviteesForExams = this.selectedInviteesForExams.filter(invitee => invitee.email !== currentInvitee.email)
+      }
+      console.log('invitee', currentInvitee)
+      console.log('selected invitees for exams', this.selectedInviteesForExams)
+    },
     confirmSelection () {
-      // Handle what happens after confirming the selection
-      // For now, we'll just print the selected questions to the console
-      console.log('Selected Questions:', this.selectedQuestions)
-
-      // You might want to close the popup after confirming
-      this.showPopup = false
+      this.$emit('selectedInvitees', this.selectedInviteesForExams)
+    },
+    closeInviteesPopup () {
+      this.$emit('close')
     }
   }
 }
