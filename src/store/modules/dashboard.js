@@ -3,7 +3,8 @@ const state = () => ({
   examData: [],
   topicsData: [],
   inviteesData: [],
-  questionsData: []
+  questionsData: [],
+  usersData: []
 })
 
 const mutations = {
@@ -19,6 +20,9 @@ const mutations = {
   },
   SET_QUESTIONS_DATA (state, data) {
     state.questionsData = data
+  },
+  SET_USERS_DATA (state, data) {
+    state.usersData = data
   }
 }
 
@@ -79,6 +83,18 @@ const actions = {
     return axios.post('http://localhost:3000/questions/addQuestion', payload).then(res => {
       return res
     })
+  },
+
+  getUsers ({ commit }) {
+    return axios.get('http://localhost:3000/users/getUsers').then(res => {
+      commit('SET_USERS_DATA', res.data)
+    })
+  },
+
+  addUsers ({ commit }, payload) {
+    return axios.post('http://localhost:3000/users/addUser', payload).then(res => {
+      return res
+    })
   }
 }
 
@@ -86,7 +102,8 @@ const getters = {
   getExamData: (state) => state.examData,
   getTopicsData: (state) => state.topicsData,
   getInviteesData: (state) => state.inviteesData,
-  getQuestionsData: (state) => state.questionsData
+  getQuestionsData: (state) => state.questionsData,
+  getUsersData: (state) => state.usersData
 }
 
 export default {
