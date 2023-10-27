@@ -1,41 +1,38 @@
 <template>
   <div>
-    <button @click="showAddUserPopup">Add User</button>
-    <table class="user-table">
-      <thead>
-        <tr>
-          <th class="highlighted">Name</th>
-          <th class="highlighted">Website</th>
-          <th class="highlighted">Institute ID</th>
-          <th class="highlighted">Email</th>
-          <th class="highlighted">Phone Number</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(user, index) in getUsersData" :key="index">
-          <td>{{ user.name }}</td>
-          <td>{{ user.website_url }}</td>
-          <td>{{ user.institute_id }}</td>
-          <td>{{ user.primary_user_email }}</td>
-          <td>{{ user.phone_number }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div v-if="isAddUserPopupVisible" class="user-popup">
+    <div v-if="isAddUserPopupVisible" class="user-popup">
       <div class="input-container">
         <h2>Add User</h2>
         <input v-model="newUser.name" placeholder="Name" class="rounded-input" />
-        <input v-model="newUser.websiteUrl" placeholder="Website URL" class="rounded-input" />
-        <input v-model="newUser.instituteId" placeholder="Institute Id" class="rounded-input" />
-        <input v-model="newUser.email" placeholder="Email" class="rounded-input" />
-        <input v-model="newUser.number" placeholder="Number" class="rounded-input" />
+        <input v-model="newUser.user_id" placeholder="User Id" class="rounded-input" />
+        <input v-model="newUser.password" placeholder="Password" class="rounded-input" />
+        <input v-model="newUser.role" placeholder="Role" class="rounded-input" />
         <div class="popupbuttons">
         <button @click="addUserLocally">Save</button>
         <button @click="closeAddUserPopup">Cancel</button>
         </div>
       </div>
     </div>
+    <button @click="showAddUserPopup">Add User</button>
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th class="highlighted">Name</th>
+          <th class="highlighted">User Id</th>
+          <th class="highlighted">Institute ID</th>
+          <th class="highlighted">Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(user, index) in getUsersData" :key="index">
+          <td>{{ user.name }}</td>
+          <td>{{ user.user_id }}</td>
+          <td>{{ user.instituteId }}</td>
+          <td>{{ user.role }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
@@ -46,10 +43,10 @@ export default {
       isAddUserPopupVisible: false,
       newUser: {
         name: '',
-        websiteUrl: '',
+        user_id: '',
         instituteId: '',
-        email: '',
-        number: ''
+        password: '',
+        role: ''
       }
     }
   },
@@ -57,12 +54,16 @@ export default {
   computed: {
     ...mapGetters('dashboard', [
       'getUsersData'
+    ]),
+    ...mapGetters('landing', [
+      'currentLoggedInUser'
     ])
   },
   methods: {
     ...mapActions('dashboard', ['getUsers', 'addUsers']),
     addUserLocally () {
       this.addUsers(this.newUser).then(res => {
+        this.isAddUserPopupVisible = false
         this.getUsers()
       })
     },
@@ -77,7 +78,7 @@ export default {
   created () {
     this.isLoading = true
     this.getUsers().then(res => {
-      this.isLoading = false
+      this.newUser.instituteId = this.currentLoggedInUser.institute_id
     })
   }
 
@@ -106,6 +107,7 @@ export default {
 }
 
 .input-container {
+  position: absolute;
   background-color: green;
   width: 500px;
   height: 300px;

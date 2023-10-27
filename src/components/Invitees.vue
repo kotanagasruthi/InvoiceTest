@@ -59,12 +59,12 @@ export default {
 
   created () {
     this.isLoading = true
-    this.fetchInvitee().then(res => {
+    this.fetchInvitees().then(res => {
       this.isLoading = false
     })
   },
   methods: {
-    ...mapActions('dashboard', ['addInvitee', 'fetchInvitee']),
+    ...mapActions('dashboard', ['addInvitee', 'fetchInvitees']),
     showAddInviteeDialog () {
       this.showDialog = true
     },
@@ -72,7 +72,7 @@ export default {
       // This method is called when the user submits the form
       // You can call the addInvitee action with the newInvitee object as the payload
       this.addInvitee(newInvitee).then(res => {
-        this.fetchInvitee()
+        this.fetchInvitees()
       })
       this.showDialog = false
 

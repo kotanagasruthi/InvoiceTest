@@ -4,7 +4,8 @@ const state = () => ({
   topicsData: [],
   inviteesData: [],
   questionsData: [],
-  usersData: []
+  usersData: [],
+  examFormatData: []
 })
 
 const mutations = {
@@ -23,6 +24,9 @@ const mutations = {
   },
   SET_USERS_DATA (state, data) {
     state.usersData = data
+  },
+  SET_EXAM_FORMATS_DATA (state, data) {
+    state.examFormatData = data
   }
 }
 
@@ -48,7 +52,7 @@ const actions = {
     })
   },
 
-  addInvitee (payload) {
+  addInvitee ({ commit }, payload) {
     return axios.post('http://localhost:3000/invitees/add', payload).then(res => {
       return res
     }).catch(res => {
@@ -56,7 +60,7 @@ const actions = {
     })
   },
 
-  fetchInvitee ({ commit }, payload) {
+  fetchInvitees ({ commit }) {
     return axios.get('http://localhost:3000/invitees/users').then(res => {
       commit('SET_INVITEES_DATA', res.data)
     })
@@ -79,6 +83,12 @@ const actions = {
     })
   },
 
+  setExam ({ commit }, payload) {
+    return axios.post('http://localhost:3000/exams/setExam', payload).then(res => {
+      return res
+    })
+  },
+
   setQuestion ({ commit }, payload) {
     return axios.post('http://localhost:3000/questions/addQuestion', payload).then(res => {
       return res
@@ -92,18 +102,31 @@ const actions = {
   },
 
   addUsers ({ commit }, payload) {
+    console.log(payload)
     return axios.post('http://localhost:3000/users/addUser', payload).then(res => {
       return res
     })
+  },
+  setExamFormat ({ commit }, payload) {
+    return axios.post('http://localhost:3000/exam-format/addExamFormat', payload).then(res => {
+      return res
+    })
+  },
+  fetchExamFormats ({ commit }) {
+    return axios.get('http://localhost:3000/exam-format/getAllExamFormats').then(res => {
+      commit('SET_EXAM_FORMATS_DATA', res.data)
+    })
   }
+
 }
 
 const getters = {
   getExamData: (state) => state.examData,
   getTopicsData: (state) => state.topicsData,
   getInviteesData: (state) => state.inviteesData,
+  getUsersData: (state) => state.usersData,
   getQuestionsData: (state) => state.questionsData,
-  getUsersData: (state) => state.usersData
+  getExamFormatsData: (state) => state.examFormatData
 }
 
 export default {
