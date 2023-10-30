@@ -19,10 +19,11 @@ const actions = {
   validateUserLogin ({ commit }, payload) {
     return axios.post('http://localhost:3000/users/login', payload).then(res => {
       console.log('logged in user res', res.data)
-      commit('SET_LOGGED_IN_USER_DETAILS', res.data)
+      commit('SET_LOGGED_IN_USER_DETAILS', res.data?.user)
       return res
     }).catch(res => {
       console.log('not authorised..', res)
+      return res
     })
   }
 }

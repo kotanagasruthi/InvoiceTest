@@ -11,6 +11,8 @@
       <input type="text" class="login-form-fieldset-input"  v-model="institutePassword">
     </fieldset>
 
+    <div v-if="loginErrorMessage">{{loginErrorMessage}}</div>
+
     <div class="login-form-button" @click="Login()">Login</div>
 
     <toast
@@ -34,7 +36,8 @@ export default {
       institutePassword: '',
       showToast: false,
       toastStatus: '',
-      toastMessage: ''
+      toastMessage: '',
+      loginErrorMessage: ''
     }
   },
   methods: {
@@ -47,8 +50,12 @@ export default {
         institute_id: this.instituteID,
         password: this.institutePassword
       }).then(res => {
-        this.triggerToast('success', 'Login successful!')
-        this.$router.push({ name: 'Dashboard' })
+        if (res?.response && res.response.status === 401) {
+          this.loginErrorMessage = res.response.data.message
+        } else {
+          this.triggerToast('success', 'Login successful!')
+          this.$router.push({ name: 'Dashboard' })
+        }
       })
     },
     triggerToast (status, message) {
