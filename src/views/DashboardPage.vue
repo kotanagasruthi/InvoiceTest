@@ -2,9 +2,11 @@
 <div>
     <header>
             <div class="brand-logo">
-                <span>{{currentLoggedInUser.name}}</span>
+                <img src="../assets/logo.png" alt="Logo"/>
+                <span>Vue Js</span>
             </div>
             <div>
+                {{currentLoggedInUser.name}}
                 <font-awesome-icon class="icon"  icon="sign-out" />
             </div>
     </header>
@@ -70,7 +72,7 @@ export default {
   data () {
     return {
       currentComponent: '',
-      selectedComponent: 'ExamsComponent' // Initially, set it to the default component to be displayed.
+      selectedComponent: 'ExamsComponent'// Initially, set it to the default component to be displayed.
     }
   },
   methods: {
@@ -82,12 +84,16 @@ export default {
 
   created () {
     this.currentComponent = ExamsComponent
+    console.log(this.currentLoggedInUser)
   }
 }
 
 </script>
 
 <style lang = "scss" scoped>
+
+ @import '../styles/landing-page.scss';
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -189,7 +195,7 @@ main h2 {
 }
 
 .brand-logo img {
-    width: 90px; /* Adjust based on actual image size */
+    width: 60px; /* Adjust based on actual image size */
 }
 
 .brand-logo span {
