@@ -10,22 +10,28 @@
     </header>
       <div class="container">
             <div class="left-pane">
-                <div class="menu-item" @click="loadComponent('ExamsComponent')">
+                <div class="menu-item" @click="loadComponent('ExamsComponent')"
+                :class="{ selected: selectedComponent === 'ExamsComponent' }">
                     <font-awesome-icon class="icon"  icon="file-lines" /> Exams
                 </div>
-                <div class="menu-item" @click="loadComponent('TopicsComponent')">
+                <div class="menu-item" @click="loadComponent('TopicsComponent')"
+                :class="{ selected: selectedComponent === 'TopicsComponent' }">
                     <font-awesome-icon class="icon" icon="clipboard-question" /> Topics
                 </div>
-                <div class="menu-item" @click="loadComponent('InviteesComponent')">
+                <div class="menu-item" @click="loadComponent('InviteesComponent')"
+                :class="{ selected: selectedComponent === 'InviteesComponent' }">
                     <font-awesome-icon class="icon"  icon="user-plus" /> Invitees
                 </div>
-                <div class="menu-item" @click="loadComponent('SettingsComponent')">
+                <div class="menu-item" @click="loadComponent('SettingsComponent')"
+                :class="{ selected: selectedComponent === 'SettingsComponent' }">
                     <font-awesome-icon class="icon"  icon="cog" /> Settings
                 </div>
-                <div class="menu-item" @click="loadComponent('UsersComponent')">
+                <div class="menu-item" @click="loadComponent('UsersComponent')"
+                :class="{ selected: selectedComponent === 'UsersComponent' }">
                     <font-awesome-icon class="icon"  icon="users" /> Users
                 </div>
-                <div class="menu-item" @click="loadComponent('ExamFormatsComponent')">
+                <div class="menu-item" @click="loadComponent('ExamFormatsComponent')"
+                :class="{ selected: selectedComponent === 'ExamFormatsComponent' }">
                     <font-awesome-icon class="icon"  icon="users" /> Exam Formats
                 </div>
             <!-- Add similar menu items for other sections -->
@@ -63,12 +69,14 @@ export default {
 
   data () {
     return {
-      currentComponent: '' // Initially, set it to the default component to be displayed.
+      currentComponent: '',
+      selectedComponent: '' // Initially, set it to the default component to be displayed.
     }
   },
   methods: {
     loadComponent (componentName) {
       this.currentComponent = componentName
+      this.selectedComponent = componentName
     }
   }
 }
