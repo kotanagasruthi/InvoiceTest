@@ -1,27 +1,57 @@
 <template>
   <div class="popup">
-    <div class="popup-content">
-      <div class="popup-header">Add Question</div>
-      <div class="popup-body">
-        <input type="text" placeholder="Question" v-model="question" />
-        <input type="text" placeholder="Option A" v-model="optionA" />
-        <input type="text" placeholder="Option B" v-model="optionB" />
-        <input type="text" placeholder="Option C" v-model="optionC" />
-        <input type="text" placeholder="Option D" v-model="optionD" />
-        <input type="text" placeholder="Correct Answer" v-model="correctAnswer" />
-        <select v-model="difficulty">
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-      </div>
-      <div class="popup-footer">
-        <button @click="addQuestion">Add</button>
-      </div>
-    </div>
+    <modal close_button_name="Cancel" ok_button_name="Add" @ok="addQuestion()" @close="closeModal()">
+      <template #header>
+            <div class="header">Add Question</div>
+            <div @click="closeModal()" class="close-icon">
+                <font-awesome-icon icon="xmark" />
+            </div>
+      </template>
+      <template #body>
+            <fieldset class="fieldset">
+                <legend class="fieldset-legend">Question*</legend>
+                <input type="text" class="fieldset-input" v-model="question">
+            </fieldset>
+
+            <fieldset class="fieldset">
+                <legend class="fieldset-legend">Option A*</legend>
+                <input type="text" class="fieldset-input" v-model="optionA">
+            </fieldset>
+
+            <fieldset class="fieldset">
+                <legend class="fieldset-legend">Option B*</legend>
+                <input type="text" class="fieldset-input" v-model="optionB">
+            </fieldset>
+
+            <fieldset class="fieldset">
+                <legend class="fieldset-legend">Option C*</legend>
+                <input type="text" class="fieldset-input" v-model="optionD">
+            </fieldset>
+
+            <fieldset class="fieldset">
+                <legend class="fieldset-legend">Option D*</legend>
+                <input type="text" class="fieldset-input" v-model="question">
+            </fieldset>
+
+            <fieldset class="fieldset">
+                <legend class="fieldset-legend">Correct Answer*</legend>
+                <input type="text" class="fieldset-input" v-model="correctAnswer">
+            </fieldset>
+
+            <div class="select-container">
+                <label for="select-container-legend">Difficulty Level*</label>
+                <select id="mySelect" v-model="difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+      </template>
+    </modal>
   </div>
 </template>
 <script>
+import Modal from '../components/reusable/Modal.vue'
 import { mapActions } from 'vuex'
 export default {
   props: {
@@ -37,6 +67,9 @@ export default {
       correctAnswer: '',
       difficulty: 'easy'
     }
+  },
+  components: {
+    modal: Modal
   },
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
@@ -60,57 +93,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .popup-content {
-    width: 80%;
-    max-width: 500px;
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-
-    .popup-header,
-    .popup-footer {
-      background-color: #f5f5f5;
-      padding: 15px;
-      text-align: center;
-    }
-
-    .popup-body {
-      padding: 15px;
-
-      input[type="text"], select {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #e0e0e0;
-        border-radius: 5px;
-      }
-
-      button {
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        &:hover {
-          background-color: #0056b3;
-        }
-      }
-    }
-  }
-}
-</style>

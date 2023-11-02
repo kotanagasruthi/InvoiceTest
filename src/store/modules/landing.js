@@ -25,6 +25,13 @@ const actions = {
       console.log('not authorised..', res)
       return res
     })
+  },
+  logout ({ commit }) {
+    return axios.post('http://localhost:3000/users/logout').then(res => {
+      return res
+    }).catch(res => {
+      return res
+    })
   }
 }
 

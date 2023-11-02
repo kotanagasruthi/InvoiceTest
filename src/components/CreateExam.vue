@@ -1,43 +1,66 @@
 <template>
-      <div>
-            <loader v-if="isLoading" :loading="isLoading"></loader>
-            <div v-else class="exam-form">
-                  <label>
-                        Exam Type:
-                        <select v-model="selectedExamType" @change="loadExamFormat()">
-                              <option v-for="(examFormat, index) in getExamFormatsData" :key="index" :value="examFormat.examType">{{ examFormat.examType }}</option>
-                        </select>
-                  </label>
-                  <div>
-                        <label>
-                              Exam Name:
-                              <input type="text" v-model="examName" />
-                        </label>
-                        <div class="add-topic" v-if="topics.length">
-                              <div v-for="(topic, index) in topics" :key="index" class="topic-container">
-                                    <h4>{{ topic.topic_name }}</h4>
-                                    <button @click="openQuestionPopup(topic)">Add Questions</button>
-                              </div>
-                        </div>
-
-                        <label>
-                              Start Date: <input type="date" v-model="startDate">
-                        </label>
-
-                        <label>
-                              End Date: <input type="date" v-model="endDate">
-                        </label>
-                        <div>
-                              <button @click="openInviteesPopup">Add Invitees</button>
-                        </div>
-                        <div>
-                              <button @click="createExam()">Submit</button>
-                        </div>
-                  </div>
-                  <QuestionPopup v-if="showQuestionPopup" :topic-id="currentTopic.topic_id" @selectedQuestions="setQuestionsForTopic" @close="showQuestionPopup = false"></QuestionPopup>
-                  <InviteesPopup v-if="showInviteesPopup" @selectedInvitees="setInviteesForExam" @close="showInviteesPopup = false"></InviteesPopup>
+    <div>
+        <loader v-if="isLoading" :loading="isLoading"></loader>
+        <div v-else class="exam-form">
+            <div class="select-container">
+                <label for="select-container-legend">Select Option*</label>
+                <select id="mySelect" v-model="selectedExamType" @change="loadExamFormat()">
+                    <option v-for="(examFormat, index) in getExamFormatsData" :key="index" :value="examFormat.examType">{{ examFormat.examType }}</option>
+                </select>
             </div>
-      </div>
+            <div>
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Exam Name*</legend>
+                    <input type="text" class="fieldset-input" v-model="examName">
+                </fieldset>
+
+                <div class="add-topic" v-if="topics.length">
+                        <div v-for="(topic, index) in topics" :key="index" class="topic-container">
+                            <div class="topic-container-header">
+                                <h4>{{ topic.topic_name }}</h4>
+                                <button class="normal-button" @click="openQuestionPopup(topic)">Add Questions</button>
+                            </div>
+                            <div class="topic-container-questions" v-if="topic?.questions.length">
+                                <div class="topic-container-questions-question" v-for="question in topic.questions" :key="question.question_id">
+                                    <div>
+                                        {{question.question_text}}
+                                    </div>
+                                    <div v-for="(option, index) in question.options" :key="index">
+                                        {{index+1}}. {{option}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+                <div class="fieldset-date button-margin">
+                    <label class="fieldset-date-label" for="myDate">Start Date*</label>
+                    <input class="fieldset-date-input" type="date" v-model="startDate">
+                </div>
+
+                <div class="fieldset-date button-margin">
+                    <label class="fieldset-date-label" for="myDate">End Date*</label>
+                    <input class="fieldset-date-input" type="date" v-model="endDate">
+                </div>
+
+                <div>
+                    <button class="normal-button large-button button-margin" @click="openInviteesPopup">Add Invitees</button>
+                </div>
+                <div class="topic-container-questions" v-if="invitees.length">
+                    <div class="topic-container-questions-question" v-for="invitee in invitees" :key="invitee.email">
+                        <div>
+                            {{ invitee.firstName }} {{ invitee.lastName }} - {{invitee.email}}
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button class="normal-button button-margin" @click="createExam()">Submit</button>
+                </div>
+            </div>
+            <QuestionPopup v-if="showQuestionPopup" :topic-id="currentTopic.topic_id" @selectedQuestions="setQuestionsForTopic" @close="showQuestionPopup = false"></QuestionPopup>
+            <InviteesPopup v-if="showInviteesPopup" @selectedInvitees="setInviteesForExam" @close="showInviteesPopup = false"></InviteesPopup>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -154,55 +177,46 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .add-topic {
     margin: 20px 0;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 2px 2px 4px 2px  rgba(0, 0, 0, 0.1);
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
 }
 .exam-form {
   display: flex;
   flex-direction: column;
-  width: 90%;
   margin: 20px auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
-  label {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-
-    select,
-    input {
-      width: 60%;
-      padding: 5px 10px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-    }
-  }
+  height: 450px;
+  overflow-y: scroll;
 
   .topic-container {
     margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    h4 {
-      margin: 0;
-      font-size: 1.2rem;
+    &-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        h4 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+    }
+    &-questions {
+        border-radius: 8px;
+        box-shadow: 2px 2px 4px 2px  rgba(0, 0, 0, 0.1);
+        margin-top: 10px;
+        &-question {
+            padding: 20px;
+            &:not(:last-child) {
+                border-bottom: 1px solid #ccc;
+            }
+        }
     }
   }
-  button {
-      padding: 10px 15px;
-      border-radius: 5px;
-      margin-right: 5px;
-      margin-top: 10px;
-    }
 }
 </style>

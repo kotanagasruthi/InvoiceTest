@@ -1,43 +1,45 @@
 <template>
-<div>
-      <header class="header-container">
-            <div>
-                  Managa Topic Questions
+    <div>
+        <header class="header-container">
+            <div class="header">
+                Manage Topic Questions
             </div>
-            <div @click="backToTopics()">Back</div>
+            <div class="back" @click="backToTopics()">Back</div>
         </header>
-      <header class="header-container">
-            <div>
-                  <h3>{{topic.topic_name}}</h3>
-                  <h5>{{topic.description}}</h5>
-            </div>
-            <button @click="openAddQuestionForm()">Add Question</button>
-        </header>
-      <div class="order-box">
-      <loader v-if="isLoading" :loading="isLoading"></loader>
-      <div v-else>
-            <div class="exam-card" v-for="(question, index) in getQuestionsData" :key="index">
-                  <h4>{{ question.question_text }}</h4>
+        <div class="topic-questions">
+            <header class="header-container">
+                <div class="header-container-left">
+                    <div class="header">{{topic.topic_name}}</div>
+                    <div>{{topic.description}}</div>
+                </div>
+                <button class="normal-button" @click="openAddQuestionForm()">Add Questions</button>
+            </header>
+            <div class="order-box">
+                <loader v-if="isLoading" :loading="isLoading"></loader>
+                <div v-else>
+                        <div class="exam-card" v-for="(question, index) in getQuestionsData" :key="index">
+                            <h4>{{ question.question_text }}</h4>
 
-                  <ul class="collaborators">
-                        <li v-for="(option, index) in question.options" :key="index">
-                              {{index}}.<div>{{ option }}</div>
-                        </li>
-                  </ul>
-                 <h4>Difficulty Level: {{question.correct_answer}}</h4>
+                            <ul class="collaborators">
+                                    <li v-for="(option, index) in question.options" :key="index">
+                                        {{index}}.<div>{{ option }}</div>
+                                    </li>
+                            </ul>
+                            <h4>Difficulty Level: {{question.correct_answer}}</h4>
 
-                  <div class="exam-card-footer">
-                  <div>
-                        <button @click="editExam">Edit</button>
-                  </div>
-                  <div>
-                        Difficulty Level: {{question.difficulty_level}}
-                  </div>
-                  </div>
+                            <div class="exam-card-footer">
+                            <div>
+                                    <button @click="editExam">Edit</button>
+                            </div>
+                            <div>
+                                    Difficulty Level: {{question.difficulty_level}}
+                            </div>
+                            </div>
+                        </div>
+                </div>
             </div>
-      </div>
-      </div>
-      <add-question-form v-if="showQuestionForm" :topic-id="topic.topic_id" @close="closeForm" @fetch-questions="refreshQuestions()" />
+        </div>
+        <add-question-form v-if="showQuestionForm" :topic-id="topic.topic_id" @close="closeForm" @fetch-questions="refreshQuestions()" />
 </div>
 </template>
 
@@ -96,10 +98,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.back {
+    cursor: pointer;
+}
+.topic-questions {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &-left {
+        text-align: left;
+    }
 }
 .exam-card {
   border: 1px solid #ddd;
@@ -147,13 +162,6 @@ ul {
   top: 10px;
   right: 10px;
   font-size: 24px;
-}
-
-button {
-  padding: 10px 15px;
-  border-radius: 5px;
-  margin-right: 5px;
-  height: 35px;
 }
 
 .custom-checkbox {
