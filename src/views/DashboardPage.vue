@@ -70,7 +70,7 @@ export default {
   data () {
     return {
       currentComponent: '',
-      selectedComponent: '' // Initially, set it to the default component to be displayed.
+      selectedComponent: 'ExamsComponent' // Initially, set it to the default component to be displayed.
     }
   },
   methods: {
@@ -78,6 +78,10 @@ export default {
       this.currentComponent = componentName
       this.selectedComponent = componentName
     }
+  },
+
+  created () {
+    this.currentComponent = ExamsComponent
   }
 }
 
