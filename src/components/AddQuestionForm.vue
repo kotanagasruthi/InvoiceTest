@@ -25,12 +25,12 @@
 
             <fieldset class="fieldset">
                 <legend class="fieldset-legend">Option C*</legend>
-                <input type="text" class="fieldset-input" v-model="optionD">
+                <input type="text" class="fieldset-input" v-model="optionC">
             </fieldset>
 
             <fieldset class="fieldset">
                 <legend class="fieldset-legend">Option D*</legend>
-                <input type="text" class="fieldset-input" v-model="question">
+                <input type="text" class="fieldset-input" v-model="optionD">
             </fieldset>
 
             <fieldset class="fieldset">
