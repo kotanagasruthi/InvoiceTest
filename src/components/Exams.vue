@@ -115,7 +115,7 @@ export default {
 }
 .exam-card {
   border: 1px solid #ddd;
-  padding: 0 20px 10px 20px;
+  padding: 10px 20px 10px 20px;
   text-align: left;
   border-radius: 10px;
   position: relative;

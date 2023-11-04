@@ -29,7 +29,7 @@
 
                             <div class="exam-card-footer">
                             <div>
-                                    <button @click="editExam">Edit</button>
+                                    <button class="normal-button" @click="editExam">Edit</button>
                             </div>
                             <div>
                                     Difficulty Level: {{question.difficulty_level}}
