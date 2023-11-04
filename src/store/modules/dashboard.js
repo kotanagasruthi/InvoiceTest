@@ -102,7 +102,6 @@ const actions = {
   },
 
   addUsers ({ commit }, payload) {
-    console.log(payload)
     return axios.post('http://localhost:3000/users/addUser', payload).then(res => {
       return res
     })

@@ -2,7 +2,11 @@
 <div>
     <header>
             <div class="brand-logo">
-                <span>{{currentLoggedInUser.name}}</span>
+                <img src="../assets/logo.png" alt="Logo"/>
+                <span>Vue Js</span>
+            </div>
+            <div class="username">
+                {{currentLoggedInUser.name}}
             </div>
             <div @click="logoutUser()">
                 <font-awesome-icon class="icon"  icon="sign-out" />
@@ -10,27 +14,41 @@
     </header>
       <div class="container">
             <div class="left-pane">
-                <div class="menu-item" @click="loadComponent('ExamsComponent')">
+                <div class="menu-item" @click="loadComponent('ExamsComponent')"
+                :class="{ selected: selectedComponent === 'ExamsComponent' }">
                     <font-awesome-icon class="icon"  icon="file-lines" /> Exams
                 </div>
-                <div class="menu-item" @click="loadComponent('ExamFormatsComponent')">
+
+                <div class="menu-item" @click="loadComponent('ExamFormatsComponent')"
+                :class="{ selected: selectedComponent === 'ExamFormatsComponent' }">
                     <font-awesome-icon class="icon"  icon="users" /> Exam Formats
                 </div>
-                <div class="menu-item" @click="loadComponent('TopicsComponent')">
+
+                <div class="menu-item" @click="loadComponent('TopicsComponent')"
+                :class="{ selected: selectedComponent === 'TopicsComponent' }">
                     <font-awesome-icon class="icon" icon="clipboard-question" /> Topics
                 </div>
-                <div class="menu-item" @click="loadComponent('InviteesComponent')">
+
+                <div class="menu-item" @click="loadComponent('InviteesComponent')"
+                :class="{ selected: selectedComponent === 'InviteesComponent' }">
                     <font-awesome-icon class="icon"  icon="user-plus" /> Candidates
                 </div>
-                <div class="menu-item" @click="loadComponent('AnalyticsComponent')">
+
+                <div class="menu-item" @click="loadComponent('AnalyticsComponent')"
+                :class="{ selected: selectedComponent === 'AnalyticsComponent' }">
                     <font-awesome-icon class="icon"  icon="chart-simple" /> Analytics
                 </div>
-                <div class="menu-item" @click="loadComponent('UsersComponent')">
+
+                <div class="menu-item" @click="loadComponent('UsersComponent')"
+                :class="{ selected: selectedComponent === 'UsersComponent' }">
                     <font-awesome-icon class="icon"  icon="users" /> Users
                 </div>
-                <div class="menu-item" @click="loadComponent('SettingsComponent')">
+
+                <div class="menu-item" @click="loadComponent('SettingsComponent')"
+                :class="{ selected: selectedComponent === 'SettingsComponent' }">
                     <font-awesome-icon class="icon"  icon="cog" /> Settings
                 </div>
+
             <!-- Add similar menu items for other sections -->
             </div>
 
@@ -68,7 +86,8 @@ export default {
 
   data () {
     return {
-      currentComponent: '' // Initially, set it to the default component to be displayed.
+      currentComponent: '',
+      selectedComponent: 'ExamsComponent'// Initially, set it to the default component to be displayed.
     }
   },
   methods: {
@@ -77,6 +96,7 @@ export default {
     ]),
     loadComponent (componentName) {
       this.currentComponent = componentName
+      this.selectedComponent = componentName
     },
     logoutUser () {
       this.logout().then(res => {
@@ -89,12 +109,20 @@ export default {
         })
       })
     }
+  },
+
+  created () {
+    this.currentComponent = ExamsComponent
+    console.log(this.currentLoggedInUser)
   }
 }
 
 </script>
 
 <style lang = "scss" scoped>
+
+ @import '../styles/landing-page.scss';
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -142,6 +170,10 @@ header img {
 .account-details p {
     margin: 0;
     color: #666;
+}
+
+.username{
+    text-align: left;
 }
 
 .header-nav {
@@ -196,7 +228,7 @@ main h2 {
 }
 
 .brand-logo img {
-    width: 90px; /* Adjust based on actual image size */
+    width: 60px; /* Adjust based on actual image size */
 }
 
 .brand-logo span {

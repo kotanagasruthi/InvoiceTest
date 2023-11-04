@@ -78,3 +78,5 @@ export default {
     margin: auto;
   }
 </style>
+<!-- tCa7DZKmx -->
+<!-- sruthi -->
