@@ -1,23 +1,34 @@
 <template>
-  <div class="popup-container">
-      <div class="popup">
+  <div>
+    <modal close_button_name="Cancel" ok_button_name="Confirm" @ok="confirmSelection()" @close="closeInviteesPopup()">
+        <template #header>
+            <div class="header">Select Invitees</div>
+            <div @click="closeInviteesPopup()" class="close-icon">
+                <font-awesome-icon icon="xmark" />
+            </div>
+        </template>
+        <template #body>
             <loader v-if="isLoading" :loading="isLoading"></loader>
             <div v-else>
-                  <h3>Select Invitees</h3>
-                  <ul>
+                <div v-if="getInviteesData.length">
+                    <ul>
                         <li v-for="(invitee, index) in getInviteesData" :key="index">
-                              <input type="checkbox" :id="invitee.email" v-model="selectedInvitees" :value="invitee.email" @change="InviteeSelected(invitee)">
-                              <label :for="invitee.email">{{ invitee.firstName }} {{ invitee.lastName }} - {{invitee. email}}</label>
+                            <input type="checkbox" :id="invitee.email" v-model="selectedInvitees" :value="invitee.email" @change="InviteeSelected(invitee)">
+                            <label :for="invitee.email">{{ invitee.firstName }} {{ invitee.lastName }} - {{invitee. email}}</label>
                         </li>
-                  </ul>
-                  <button @click="confirmSelection()">Confirm</button>
-                  <button @click="closeInviteesPopup()">Close</button>
+                    </ul>
+                </div>
+                <div v-else>
+                    No Invitees Found!!
+                </div>
             </div>
-      </div>
+        </template>
+    </modal>
   </div>
 </template>
 
 <script>
+import Modal from '../components/reusable/Modal.vue'
 import { mapActions, mapGetters } from 'vuex'
 import Loader from './reusable/Loader.vue'
 export default {
@@ -29,7 +40,8 @@ export default {
     }
   },
   components: {
-    loader: Loader
+    loader: Loader,
+    modal: Modal
   },
   created () {
     this.isLoading = true

@@ -1,16 +1,16 @@
 <template>
   <div class="order-box">
     <header class="header-container">
-        <div class="header-container-text">Manage Exams</div>
-        <button v-if="!isCreateExam" @click="openCreatExam()">Create Exam</button>
-        <button v-else @click="closeCreatExam()">Back</button>
+        <div class="header">Manage Exams</div>
+        <button class="normal-button" v-if="!isCreateExam" @click="openCreatExam()">Create Exam</button>
+        <div class="back" v-else @click="closeCreatExam()">Back</div>
     </header>
     <div v-if="!isCreateExam">
       <loader v-if="isLoading" :loading="isLoading"></loader>
       <div v-else>
           <div class="exam-card" v-for="(exam, index) in getExamData" :key="index">
-              <h4>{{ exam.exam_name }}</h4>
-              <h5>{{ exam.owner }}</h5>
+              <div class="header">{{ exam.exam_name }}</div>
+              <div class="small-header">{{ exam.owner }}</div>
 
               <ul class="collaborators">
                   <li v-for="(collaborator, index) in exam.collaborators" :key="index">
@@ -28,8 +28,8 @@
 
               <div class="exam-card-footer">
                   <div>
-                      <button @click="editExam">Edit</button>
-                      <button @click="publishExam">Publish</button>
+                      <button class="normal-button" @click="editExam">Edit</button>
+                      <button class="normal-button" @click="publishExam(exam.exam_id)">Publish</button>
                   </div>
                   <div>
                       Exam Type: {{exam.exam_type}}
@@ -38,7 +38,7 @@
           </div>
       </div>
     </div>
-    <create-exam v-else @close="closeCreatExam()" />
+    <create-exam v-else @close="closeCreateExam()" />
   </div>
 </template>
 
@@ -74,12 +74,22 @@ export default {
   },
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
-      'fetchExams'
+      'fetchExams',
+      'publishInstituteExam'
     ]),
     openCreatExam () {
       this.isCreateExam = true
     },
-    closeCreatExam () {
+    publishExam (examId) {
+      this.publishInstituteExam(examId).then(res => {
+        this.isLoading = true
+        console.log('current logged in user info', this.currentLoggedInUser)
+        this.fetchExams(this.currentLoggedInUser.institute_id).then(res => {
+          this.isLoading = false
+        })
+      })
+    },
+    closeCreateExam () {
       this.isCreateExam = false
       this.isLoading = true
       console.log('current logged in user info', this.currentLoggedInUser)
@@ -92,9 +102,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.back {
+  cursor: pointer;
+}
 .header-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   &-text {
     font-weight: 600;
   }
@@ -130,14 +144,6 @@ export default {
     }
 }
 
-h2, h4, ul, button {
-  margin-bottom: 5px;
-}
-h5 {
-  margin: 0;
-  font-weight: 500;
-}
-
 ul {
   list-style-type: none;
   padding-left: 0;
@@ -148,12 +154,6 @@ ul {
   top: 10px;
   right: 10px;
   font-size: 24px;
-}
-
-button {
-  padding: 10px 15px;
-  border-radius: 5px;
-  margin-right: 5px;
 }
 
 .custom-checkbox {

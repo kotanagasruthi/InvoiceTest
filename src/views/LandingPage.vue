@@ -6,8 +6,8 @@
                         <img src="../assets/vidhyasoft_logo.jpg" alt="Logo"/>
                   </div>
                   <div class="landing-page-left-header-right">
-                        <button class="landing-page-left-header-right-login" @click="showLoginForm()">Login</button>
-                        <button class="landing-page-left-header-right-signup" @click="signUp()">Sign up</button>
+                        <button class="normal-button" @click="showLoginForm()">Login</button>
+                        <button class="normal-button" @click="signUp()">Sign up</button>
                   </div>
             </div>
             <login-form v-if="$route.params.action === 'login'" />

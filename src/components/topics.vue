@@ -1,30 +1,30 @@
 <template>
-<div>
-    <div v-if="!isOpenTopicQuestions">
-        <header class="header-container">
-            <h3>Manage Topics</h3>
-            <button @click="openCreateTopicForm()">Create Topic</button>
-        </header>
-        <div>
-            <loader v-if="isLoading" :loading="isLoading"></loader>
-            <div v-else-if="!getTopicsData">
-              No topics found
-            </div>
-            <div class="grid-container" v-else>
-                <div class="card" v-for="(topic, index) in getTopicsData" :key="index" @click="OpenTopicQuestions(topic)">
-                    <h2>{{topic.topic_name}}</h2>
-                    <p>{{ topic.description }}</p>
-                    <div class="buttons">
-                    <button class="edit-btn">EDIT</button>
-                    <button class="delete-btn">DELETE</button>
+    <div>
+        <div v-if="!isOpenTopicQuestions">
+            <header class="header-container">
+                <div class="header">Manage Topics</div>
+                <button class="normal-button" @click="openCreateTopicForm()">Create Topic</button>
+            </header>
+            <div>
+                <loader v-if="isLoading" :loading="isLoading"></loader>
+                <div v-else-if="!getTopicsData">
+                No topics found
+                </div>
+                <div class="grid-container" v-else>
+                    <div class="card" v-for="(topic, index) in getTopicsData" :key="index" @click="OpenTopicQuestions(topic)">
+                        <h2>{{topic.topic_name}}</h2>
+                        <p>{{ topic.description }}</p>
+                        <div class="buttons">
+                        <button class="normal-button">EDIT</button>
+                        <button class="normal-button">DELETE</button>
+                        </div>
                     </div>
                 </div>
             </div>
+            <create-topic-form v-if="showTopicForm" @close="closeForm" @fetchTopics="refreshTopics()" />
         </div>
-        <create-topic-form v-if="showTopicForm" @close="closeForm" @fetchTopics="refreshTopics()" />
+        <topic-questions :topic="currentTopic" @back="displayTopics()" v-else />
     </div>
-    <topic-questions :topic="currentTopic" @back="displayTopics()" v-else />
-</div>
 </template>
 
 <script>
@@ -96,25 +96,13 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-top: 15px;
+  gap: 10px;
 }
 .header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  >h3 {
-    margin: 0
-  }
-  button {
-      background-color: #000;
-      color: #fff;
-      padding: 5px 10px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 600;
-      margin: 15px auto;
-      border-radius: 4px;
-      width: 150px;
-  }
 }
 .card {
   border: 1px solid #e0e0e0;

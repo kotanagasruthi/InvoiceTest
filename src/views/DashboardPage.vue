@@ -5,8 +5,10 @@
                 <img src="../assets/logo.png" alt="Logo"/>
                 <span>Vue Js</span>
             </div>
-            <div>
+            <div class="username">
                 {{currentLoggedInUser.name}}
+            </div>
+            <div @click="logoutUser()">
                 <font-awesome-icon class="icon"  icon="sign-out" />
             </div>
     </header>
@@ -53,7 +55,7 @@ import InviteesComponent from '../components/Invitees.vue'
 import SettingsComponent from '../components/Settings.vue'
 import UsersComponent from '../components/Users.vue'
 import ExamFormatsComponent from '../components/ExamFormats.vue'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   components: {
     ExamsComponent,
@@ -76,9 +78,23 @@ export default {
     }
   },
   methods: {
+    ...mapActions('landing', [
+      'logout'
+    ]),
     loadComponent (componentName) {
       this.currentComponent = componentName
       this.selectedComponent = componentName
+    },
+    logoutUser () {
+      this.logout().then(res => {
+        console.log('logout res', res)
+        this.$router.push({
+          name: 'Landing',
+          params: {
+            action: 'login'
+          }
+        })
+      })
     }
   },
 
@@ -108,7 +124,7 @@ body {
     padding: 40px;
     background-color: #fff;
     max-width: 1200px;
-    height: 500px;
+    height: 550px;
     margin: 40px auto;
     box-shadow: 0 3px 15px rgba(0,0,0,0.1);
 }
@@ -141,6 +157,10 @@ header img {
 .account-details p {
     margin: 0;
     color: #666;
+}
+
+.username{
+    text-align: left;
 }
 
 .header-nav {
@@ -247,7 +267,6 @@ main h2 {
 
     .icon {
         margin-right: 10px;
-        margin-top:20px;
     }
 }
 

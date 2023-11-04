@@ -1,26 +1,18 @@
 <template>
   <div>
-    <div v-if="isAddUserPopupVisible" class="user-popup">
-      <div class="input-container">
-        <h2>Add User</h2>
-        <input v-model="newUser.name" placeholder="Name" class="rounded-input" />
-        <input v-model="newUser.user_id" placeholder="User Id" class="rounded-input" />
-        <input v-model="newUser.password" placeholder="Password" class="rounded-input" />
-        <input v-model="newUser.role" placeholder="Role" class="rounded-input" />
-        <div class="popupbuttons">
-        <button @click="addUserLocally">Save</button>
-        <button @click="closeAddUserPopup">Cancel</button>
-        </div>
-      </div>
+    <add-user v-if="isAddUserPopupVisible" @add-user="addUserLocally" @close="closeAddUserPopup"/>
+
+    <div class="header-container">
+        <div class="header">Manage Invitees</div>
+        <button class="normal-button" @click="showAddUserPopup">Add User</button>
     </div>
-    <button @click="showAddUserPopup">Add User</button>
-    <table class="user-table">
+    <table>
       <thead>
         <tr>
-          <th class="highlighted">Name</th>
-          <th class="highlighted">User Id</th>
-          <th class="highlighted">Institute ID</th>
-          <th class="highlighted">Role</th>
+          <th>Name</th>
+          <th>User Id</th>
+          <th>Institute ID</th>
+          <th>Role</th>
         </tr>
       </thead>
       <tbody>
@@ -37,17 +29,11 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import AddUser from '../components/AddUser.vue'
 export default {
   data () {
     return {
-      isAddUserPopupVisible: false,
-      newUser: {
-        name: '',
-        user_id: '',
-        instituteId: '',
-        password: '',
-        role: ''
-      }
+      isAddUserPopupVisible: false
     }
   },
 
@@ -58,6 +44,9 @@ export default {
     ...mapGetters('landing', [
       'currentLoggedInUser'
     ])
+  },
+  components: {
+    'add-user': AddUser
   },
   methods: {
     ...mapActions('dashboard', ['getUsers', 'addUsers']),
@@ -86,25 +75,6 @@ export default {
 </script>
 
 <style scoped>
-.user-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.user-table th {
-  padding: 10px;
-  background-color: #0074d9; /* Highlighted background color for table headers */
-  color: #fff;
-}
-
-.user-table td {
-  padding: 10px;
-}
-
-.highlighted {
-  background-color: #0074d9; /* Highlighted background color for table headers */
-  color: #fff;
-}
 
 .input-container {
   position: absolute;

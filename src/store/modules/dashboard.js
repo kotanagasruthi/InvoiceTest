@@ -115,8 +115,17 @@ const actions = {
     return axios.get('http://localhost:3000/exam-format/getAllExamFormats').then(res => {
       commit('SET_EXAM_FORMATS_DATA', res.data)
     })
+  },
+  publishInstituteExam ({ commit }, examId) {
+    return axios.get('http://localhost:3000/publish-exam/publish', {
+      params: {
+        exam_id: examId
+      }
+    }).then(res => {
+      console.log('exam pusblished successfully')
+      return res
+    })
   }
-
 }
 
 const getters = {

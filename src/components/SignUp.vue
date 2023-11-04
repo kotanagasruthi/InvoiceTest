@@ -1,64 +1,64 @@
 <template>
   <div class="signup-form">
-    <fieldset class="signup-form-fieldset">
-      <legend class="signup-form-fieldset-legend">Name*</legend>
-      <input type="text" class="signup-form-fieldset-input" v-model="instituteName">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Name*</legend>
+      <input type="text" class="fieldset-input" v-model="instituteName">
     </fieldset>
 
-    <fieldset class="signup-form-fieldset">
-      <legend class="signup-form-fieldset-legend">Email*</legend>
-      <input type="email" class="signup-form-fieldset-input" v-model="instituteEmail">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Email*</legend>
+      <input type="email" class="fieldset-input" v-model="instituteEmail">
     </fieldset>
 
-    <fieldset class="signup-form-fieldset">
-      <legend class="signup-form-fieldset-legend">Phone Number*</legend>
-      <input type="text" class="signup-form-fieldset-input" v-model="institutePhoneNumber">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Phone Number*</legend>
+      <input type="text" class="fieldset-input" v-model="institutePhoneNumber">
     </fieldset>
 
-    <fieldset class="signup-form-fieldset">
-      <legend class="signup-form-fieldset-legend">Password*</legend>
-      <input type="password" class="signup-form-fieldset-input" v-model="institutePassword">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Password*</legend>
+      <input type="password" class="fieldset-input" v-model="institutePassword">
     </fieldset>
 
-    <fieldset class="signup-form-fieldset">
-      <legend class="signup-form-fieldset-legend">Website*</legend>
-      <input type="text" class="signup-form-fieldset-input" v-model="instituteWebsite">
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Website*</legend>
+      <input type="text" class="fieldset-input" v-model="instituteWebsite">
     </fieldset>
 
     <div class="address">
-      <fieldset class="signup-form-fieldset">
-          <legend class="signup-form-fieldset-legend">Street*</legend>
-          <input type="text" class="signup-form-fieldset-input" name="street" v-model="instituteStreet">
+      <fieldset class="fieldset small">
+          <legend class="fieldset-legend">Street*</legend>
+          <input type="text" class="fieldset-input" name="street" v-model="instituteStreet">
       </fieldset>
 
-      <fieldset class="signup-form-fieldset">
-          <legend class="signup-form-fieldset-legend">House Number*</legend>
-          <input type="text" class="signup-form-fieldset-input" name="house_number"  v-model="instituteHouseNumber">
+      <fieldset class="fieldset small">
+          <legend class="fieldset-legend">House Number*</legend>
+          <input type="text" class="fieldset-input" name="house_number"  v-model="instituteHouseNumber">
       </fieldset>
 
-      <fieldset class="signup-form-fieldset">
-          <legend class="signup-form-fieldset-legend">Landmark*</legend>
-          <input type="text" class="signup-form-fieldset-input" name="landmark" v-model="instituteLandmark">
+      <fieldset class="fieldset small">
+          <legend class="fieldset-legend">Landmark*</legend>
+          <input type="text" class="fieldset-input" name="landmark" v-model="instituteLandmark">
       </fieldset>
 
-      <fieldset class="signup-form-fieldset">
-          <legend class="signup-form-fieldset-legend">Pincode*</legend>
-          <input type="number" class="signup-form-fieldset-input" name="pincode" v-model="institutePinCode">
+      <fieldset class="fieldset small">
+          <legend class="fieldset-legend">Pincode*</legend>
+          <input type="number" class="fieldset-input" name="pincode" v-model="institutePinCode">
       </fieldset>
 
-      <fieldset class="signup-form-fieldset">
-          <legend class="signup-form-fieldset-legend">State*</legend>
-          <input type="text" class="signup-form-fieldset-input" name="state" v-model="instituteState">
+      <fieldset class="fieldset small">
+          <legend class="fieldset-legend">State*</legend>
+          <input type="text" class="fieldset-input" name="state" v-model="instituteState">
       </fieldset>
 
-      <fieldset class="signup-form-fieldset">
-          <legend class="signup-form-fieldset-legend">City*</legend>
-          <input type="text" class="signup-form-fieldset-input" name="city" v-model="instituteCity">
+      <fieldset class="fieldset small">
+          <legend class="fieldset-legend">City*</legend>
+          <input type="text" class="fieldset-input" name="city" v-model="instituteCity">
       </fieldset>
 
-      <fieldset class="signup-form-fieldset">
-          <legend class="signup-form-fieldset-legend">Country*</legend>
-          <input type="text" class="signup-form-fieldset-input" name="country" v-model="instituteCountry">
+      <fieldset class="fieldset small">
+          <legend class="fieldset-legend">Country*</legend>
+          <input type="text" class="fieldset-input" name="country" v-model="instituteCountry">
       </fieldset>
       <div class="signup-form-button" @click="signUp()">Sign Up</div>
     </div>
