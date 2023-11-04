@@ -50,10 +50,10 @@
             display: flex;
             align-items: center; // Centers the image vertically
             justify-content: center; // Centers the image horizontally
-
+            height: inherit;
             img {
                   max-width: 100%;
-                  height: auto;
+                  height: inherit;
                   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); // Optional shadow for the image
             }
       }

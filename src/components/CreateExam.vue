@@ -10,6 +10,18 @@
             </div>
             <div>
                 <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Total Marks*</legend>
+                    <input type="text" class="fieldset-input input-disabled" v-model="totalMarks">
+                </fieldset>
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Duration(mins)*</legend>
+                    <input type="text" class="fieldset-input input-disabled" v-model="totalMarks">
+                </fieldset>
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Negative Marks*</legend>
+                    <input type="text" class="fieldset-input input-disabled" v-model="negativeMarkValue">
+                </fieldset>
+                <fieldset class="fieldset">
                     <legend class="fieldset-legend">Exam Name*</legend>
                     <input type="text" class="fieldset-input" v-model="examName">
                 </fieldset>
@@ -17,7 +29,9 @@
                 <div class="add-topic" v-if="topics.length">
                         <div v-for="(topic, index) in topics" :key="index" class="topic-container">
                             <div class="topic-container-header">
-                                <h4>{{ topic.topic_name }}</h4>
+                                <div class="header">{{ topic.topic_name }}</div>
+                                <div class="small-header">No.of Questions:{{topic.no_of_questions}}</div>
+                                <div>Marks:{{topic.marks}}</div>
                                 <button class="normal-button" @click="openQuestionPopup(topic)">Add Questions</button>
                             </div>
                             <div class="topic-container-questions" v-if="topic?.questions.length">
@@ -43,7 +57,7 @@
                     <input class="fieldset-date-input" type="date" v-model="endDate">
                 </div>
 
-                <div>
+                <!-- <div>
                     <button class="normal-button large-button button-margin" @click="openInviteesPopup">Add Invitees</button>
                 </div>
                 <div class="topic-container-questions" v-if="invitees.length">
@@ -52,12 +66,13 @@
                             {{ invitee.firstName }} {{ invitee.lastName }} - {{invitee.email}}
                         </div>
                     </div>
-                </div>
+                </div> -->
+
                 <div>
                     <button class="normal-button button-margin" @click="createExam()">Submit</button>
                 </div>
             </div>
-            <QuestionPopup v-if="showQuestionPopup" :topic-id="currentTopic.topic_id" @selectedQuestions="setQuestionsForTopic" @close="showQuestionPopup = false"></QuestionPopup>
+            <QuestionPopup v-if="showQuestionPopup" :topic-id="currentTopic.topic_id" :marks="currentTopicQuestionMarks" @selectedQuestions="setQuestionsForTopic" @close="showQuestionPopup = false"></QuestionPopup>
             <InviteesPopup v-if="showInviteesPopup" @selectedInvitees="setInviteesForExam" @close="showInviteesPopup = false"></InviteesPopup>
         </div>
     </div>
@@ -87,7 +102,11 @@ export default {
       currentTopic: {},
       isLoading: false,
       currentExamFormat: [],
-      invitees: []
+      invitees: [],
+      totalMarks: 0,
+      duration: 0,
+      negativeMarkValue: 0,
+      currentTopicQuestionMarks: 0
     }
   },
   computed: {
@@ -113,6 +132,10 @@ export default {
       console.log('exam formats data', this.getExamFormatsData)
       console.log('selected exam type', this.selectedExamType)
       this.currentExamFormat = this.getExamFormatsData.filter(data => data.examType === this.selectedExamType)
+      console.log('total marks', this.currentExamFormat[0])
+      this.totalMarks = this.currentExamFormat[0].totalMarks
+      this.duration = this.currentExamFormat[0].duration
+      this.negativeMarkValue = this.currentExamFormat[0].negativeMarksValue
       this.topics = this.currentExamFormat[0].topics
       console.log('topics', this.topics)
     },
@@ -120,6 +143,7 @@ export default {
       console.log('topic', topic)
       this.currentTopic = topic
       console.log('current topic', this.currentTopic)
+      this.currentTopicQuestionMarks = this.currentTopic.question_marks
       this.showQuestionPopup = true
     },
     setQuestionsForTopic (id, questions) {
@@ -160,6 +184,7 @@ export default {
         negativeMarking: this.currentExamFormat[0].negativeMarking,
         negativeMarksValue: this.currentExamFormat[0].negativeMarksValue,
         duration: this.currentExamFormat[0].duration,
+        totalMarks: this.currentExamFormat[0].totalMarks,
         activePeriod: {
           startDate: new Date(this.startDate),
           endDate: new Date(this.endDate)
@@ -198,13 +223,9 @@ export default {
   .topic-container {
     margin-bottom: 15px;
     &-header {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: 25% 25% 25% 25%;
         align-items: center;
-        h4 {
-            margin: 0;
-            font-size: 1.2rem;
-        }
     }
     &-questions {
         border-radius: 8px;

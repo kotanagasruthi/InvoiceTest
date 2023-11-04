@@ -1,9 +1,10 @@
 <template>
   <div class="order-box">
     <header class="header-container">
-        <div class="header">Manage Exams</div>
+        <div v-if="!isCreateExam" class="header">Manage Exams</div>
+        <div v-else class="header">Create Exam</div>
         <button class="normal-button" v-if="!isCreateExam" @click="openCreatExam()">Create Exam</button>
-        <div class="back" v-else @click="closeCreatExam()">Back</div>
+        <div class="back" v-else @click="closeCreateExam()">Back</div>
     </header>
     <div v-if="!isCreateExam">
       <loader v-if="isLoading" :loading="isLoading"></loader>

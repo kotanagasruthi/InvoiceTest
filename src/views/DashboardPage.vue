@@ -13,20 +13,23 @@
                 <div class="menu-item" @click="loadComponent('ExamsComponent')">
                     <font-awesome-icon class="icon"  icon="file-lines" /> Exams
                 </div>
+                <div class="menu-item" @click="loadComponent('ExamFormatsComponent')">
+                    <font-awesome-icon class="icon"  icon="users" /> Exam Formats
+                </div>
                 <div class="menu-item" @click="loadComponent('TopicsComponent')">
                     <font-awesome-icon class="icon" icon="clipboard-question" /> Topics
                 </div>
                 <div class="menu-item" @click="loadComponent('InviteesComponent')">
-                    <font-awesome-icon class="icon"  icon="user-plus" /> Invitees
+                    <font-awesome-icon class="icon"  icon="user-plus" /> Candidates
                 </div>
-                <div class="menu-item" @click="loadComponent('SettingsComponent')">
-                    <font-awesome-icon class="icon"  icon="cog" /> Settings
+                <div class="menu-item" @click="loadComponent('AnalyticsComponent')">
+                    <font-awesome-icon class="icon"  icon="chart-simple" /> Analytics
                 </div>
                 <div class="menu-item" @click="loadComponent('UsersComponent')">
                     <font-awesome-icon class="icon"  icon="users" /> Users
                 </div>
-                <div class="menu-item" @click="loadComponent('ExamFormatsComponent')">
-                    <font-awesome-icon class="icon"  icon="users" /> Exam Formats
+                <div class="menu-item" @click="loadComponent('SettingsComponent')">
+                    <font-awesome-icon class="icon"  icon="cog" /> Settings
                 </div>
             <!-- Add similar menu items for other sections -->
             </div>
@@ -43,6 +46,7 @@ import ExamsComponent from '../components/Exams.vue'
 import TopicsComponent from '../components/Topics.vue'
 import InviteesComponent from '../components/Invitees.vue'
 import SettingsComponent from '../components/Settings.vue'
+import AnalyticsComponent from '../components/Analytics.vue'
 import UsersComponent from '../components/Users.vue'
 import ExamFormatsComponent from '../components/ExamFormats.vue'
 import { mapActions, mapGetters } from 'vuex'
@@ -52,6 +56,7 @@ export default {
     TopicsComponent,
     InviteesComponent,
     SettingsComponent,
+    AnalyticsComponent,
     UsersComponent,
     ExamFormatsComponent
   },
