@@ -5,7 +5,8 @@ const state = () => ({
   inviteesData: [],
   questionsData: [],
   usersData: [],
-  examFormatData: []
+  examFormatData: [],
+  examInviteesData: []
 })
 
 const mutations = {
@@ -16,7 +17,6 @@ const mutations = {
     state.topicsData = data
   },
   SET_INVITEES_DATA (state, data) {
-    console.log(data)
     state.inviteesData = data
   },
   SET_QUESTIONS_DATA (state, data) {
@@ -27,6 +27,9 @@ const mutations = {
   },
   SET_EXAM_FORMATS_DATA (state, data) {
     state.examFormatData = data
+  },
+  SET_EXAM_INVITEES_DATA (state, data) {
+    state.examInviteesData = data
   }
 }
 
@@ -125,6 +128,21 @@ const actions = {
       console.log('exam pusblished successfully')
       return res
     })
+  },
+  fetchExamInvitees ({ commit }, examId) {
+    return axios.get('http://localhost:3000/exams/examInvitees', {
+      params: {
+        exam_id: examId
+      }
+    }).then(res => {
+      commit('SET_EXAM_INVITEES_DATA', res.data.invitees)
+      return res
+    })
+  },
+  setExamInvitees ({ commit }, payload) {
+    return axios.post('http://localhost:3000/exams/setInvitees', payload).then(res => {
+      return res
+    })
   }
 }
 
@@ -134,7 +152,8 @@ const getters = {
   getInviteesData: (state) => state.inviteesData,
   getUsersData: (state) => state.usersData,
   getQuestionsData: (state) => state.questionsData,
-  getExamFormatsData: (state) => state.examFormatData
+  getExamFormatsData: (state) => state.examFormatData,
+  getExamInviteesData: (state) => state.examInviteesData
 }
 
 export default {
