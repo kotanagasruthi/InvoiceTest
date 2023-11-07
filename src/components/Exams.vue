@@ -1,11 +1,18 @@
 <template>
   <div class="order-box">
-    <header class="header-container">
+    <div>
+      <div class="header-container" v-if="isCreateExam">
+        <div class="header">Create Exam</div>
+        <div class="back" @click="closeCreateExam()">Back</div>
+      </div>
+      <div v-else-if="!isExamInviteesPage" class="header-container">
         <div class="header">Manage Exams</div>
-        <button class="normal-button" v-if="!isCreateExam" @click="openCreatExam()">Create Exam</button>
-        <div class="back" v-else @click="closeCreatExam()">Back</div>
-    </header>
-    <div v-if="!isCreateExam">
+        <button class="normal-button" @click="openCreatExam()">Create Exam</button>
+      </div>
+    </div>
+    <create-exam v-if="isCreateExam" @close="closeCreateExam()" />
+    <exam-invitees v-else-if="isExamInviteesPage" :exam-id="currentExamId" @close="closeExamInvitees()"/>
+    <div v-else>
       <loader v-if="isLoading" :loading="isLoading"></loader>
       <div v-else>
           <div class="exam-card" v-for="(exam, index) in getExamData" :key="index">
@@ -30,6 +37,7 @@
                   <div>
                       <button class="normal-button" @click="editExam">Edit</button>
                       <button class="normal-button" @click="publishExam(exam.exam_id)">Publish</button>
+                      <button class="normal-button" @click="openExamInviteesPage(exam.exam_id)">Invitees</button>
                   </div>
                   <div>
                       Exam Type: {{exam.exam_type}}
@@ -38,7 +46,6 @@
           </div>
       </div>
     </div>
-    <create-exam v-else @close="closeCreateExam()" />
   </div>
 </template>
 
@@ -46,20 +53,23 @@
 import { mapActions, mapGetters } from 'vuex'
 import Loader from './reusable/Loader.vue'
 import CreateExam from './CreateExam.vue'
+import ExamInvitees from './ExamInvitees.vue'
 export default {
   data () {
     return {
       isLoading: false,
-      isCreateExam: false
+      isCreateExam: false,
+      isExamInviteesPage: false,
+      currentExamId: ''
     }
   },
   components: {
     loader: Loader,
-    'create-exam': CreateExam
+    'create-exam': CreateExam,
+    'exam-invitees': ExamInvitees
   },
   created () {
     this.isLoading = true
-    console.log('current logged in user info', this.currentLoggedInUser)
     this.fetchExams(this.currentLoggedInUser.institute_id).then(res => {
       this.isLoading = false
     })
@@ -83,7 +93,6 @@ export default {
     publishExam (examId) {
       this.publishInstituteExam(examId).then(res => {
         this.isLoading = true
-        console.log('current logged in user info', this.currentLoggedInUser)
         this.fetchExams(this.currentLoggedInUser.institute_id).then(res => {
           this.isLoading = false
         })
@@ -92,10 +101,16 @@ export default {
     closeCreateExam () {
       this.isCreateExam = false
       this.isLoading = true
-      console.log('current logged in user info', this.currentLoggedInUser)
       this.fetchExams(this.currentLoggedInUser.institute_id).then(res => {
         this.isLoading = false
       })
+    },
+    openExamInviteesPage (id) {
+      this.currentExamId = id
+      this.isExamInviteesPage = true
+    },
+    closeExamInvitees () {
+      this.isExamInviteesPage = false
     }
   }
 }

@@ -30,8 +30,13 @@
                 </fieldset>
 
                 <fieldset class="fieldset">
-                    <legend class="fieldset-legend">Marks*</legend>
+                    <legend class="fieldset-legend">Topic Marks*</legend>
                     <input type="number" class="fieldset-input" v-model="topic.marks">
+                </fieldset>
+
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">Each Question Marks*</legend>
+                    <input type="number" class="fieldset-input" v-model="topic.question_marks">
                 </fieldset>
             </div>
             <div class="add-topic-actions">
@@ -42,7 +47,7 @@
 
         <div class="select-container">
             <label for="select-container-legend">Is Negative Marking*</label>
-            <select id="mySelect" v-model="exam.isNegativeMarking">
+            <select id="mySelect" v-model="exam.negativeMarking">
                 <option value=true>True</option>
                 <option value=false>False</option>
             </select>
@@ -50,7 +55,7 @@
 
         <fieldset class="fieldset">
             <legend class="fieldset-legend">Negative Marks*</legend>
-            <input type="text" class="fieldset-input" v-model="exam.negativeMarks">
+            <input type="text" class="fieldset-input" v-model="exam.negativeMarksValue">
         </fieldset>
 
         <fieldset class="fieldset">
@@ -102,6 +107,7 @@ export default {
       this.exam.topics.push({
         topic_name: '',
         marks: 0,
+        question_marks: 0,
         no_of_questions: 0
       })
       console.log('exam topics in add new topic', this.exam.topics)
@@ -111,6 +117,7 @@ export default {
       this.exam.topics[index] = {
         ...this.exam.topics[index].topic_name,
         marks: this.exam.topics[index].marks,
+        question_marks: this.exam.topics[index].question_marks,
         no_of_questions: this.exam.topics[index].no_of_questions,
         questions: []
       }

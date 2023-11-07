@@ -72,50 +72,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.popup {
-  flex-direction: column;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width:500px;
-  height:300px;
-  transform: translate(-50%, -50%);
-  padding: 10px;
-  background: grey;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-  /* z-index: 1000; */
-  text-align: center;
-  border-radius: 5px;
-}
-.submit{
-  width:80px;
-  height:30px;
-  border-radius: 5px;
-  background-color: orange;
-  margin-top: 25px;
-}
-.input-container {
-  display: flex;
-  flex-direction: column;
-  width: 270px;
-}
-
-.rounded-input {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 5px;
-  margin: 5px 0;
-  width: 100%;
-}
-
-.inviteeswitch{
-  width: 100px;
-  height: 30px;
-  border-radius: 5px;
-  background-color: orange;
-  top:50%;
-  left:50%;
-}
 
 .table-container {
   height: 450px;

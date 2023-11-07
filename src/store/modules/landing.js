@@ -5,6 +5,7 @@ const state = () => ({
 
 })
 
+console.log(state.allInstitutes)
 const mutations = {
   SET_LOGGED_IN_USER_DETAILS (state, data) {
     state.loggedInUser = data
@@ -25,6 +26,7 @@ const actions = {
   getInstitutes ({ commit }) {
     return axios.get('http://localhost:3000/institutes/getInstitutes').then(res => {
       commit('SET_ALL_INSTITUTES', res.data)
+      console.log(res.data)
     })
   },
   validateUserLogin ({ commit }, payload) {
