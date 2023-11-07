@@ -60,7 +60,7 @@
           <legend class="fieldset-legend">Country*</legend>
           <input type="text" class="fieldset-input" name="country" v-model="instituteCountry">
       </fieldset>
-      <div class="signup-form-button" @click="signUp()">Sign Up</div>
+      <button class="normal-button" @click="signUp()">Sign Up</button>
     </div>
 
     <toast
@@ -138,7 +138,7 @@ export default {
         },
         active: true,
         phone_number: +this.institutePhoneNumber,
-        primary_user_email: this.instituteEmail
+        email: this.instituteEmail
       }).then(res => {
         console.log('signup successful')
         this.triggerToast('success', 'SignUp successful!')

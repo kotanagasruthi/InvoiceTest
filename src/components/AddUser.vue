@@ -15,8 +15,8 @@
                 </fieldset>
 
                 <fieldset class="fieldset">
-                    <legend class="fieldset-legend">User Id*</legend>
-                   <input type="text" class="fieldset-input" v-model="newUser.user_id" />
+                    <legend class="fieldset-legend">Email*</legend>
+                   <input type="text" class="fieldset-input" v-model="newUser.email" />
                 </fieldset>
 
                 <fieldset class="fieldset">
@@ -42,7 +42,7 @@ export default {
     return {
       newUser: {
         name: '',
-        user_id: '',
+        email: '',
         password: '',
         role: ''
       }
