@@ -1,11 +1,16 @@
 import axios from 'axios'
 const state = () => ({
-  loggedInUser: {}
+  loggedInUser: {},
+  allInstitutes: {}
+
 })
 
 const mutations = {
   SET_LOGGED_IN_USER_DETAILS (state, data) {
     state.loggedInUser = data
+  },
+  SET_ALL_INSTITUTES (state, data) {
+    state.allInstitutes = data
   }
 }
 
@@ -14,6 +19,12 @@ const actions = {
     return axios.post('http://localhost:3000/institutes/setInstitute', payload).then(res => {
       console.log('signup successful')
       return res
+    })
+  },
+
+  getInstitutes ({ commit }) {
+    return axios.get('http://localhost:3000/institutes/getInstitutes').then(res => {
+      commit('SET_ALL_INSTITUTES', res.data)
     })
   },
   validateUserLogin ({ commit }, payload) {
@@ -36,7 +47,8 @@ const actions = {
 }
 
 const getters = {
-  currentLoggedInUser: (state) => state.loggedInUser
+  currentLoggedInUser: (state) => state.loggedInUser,
+  allAvailableInstitutes: (state) => state.allInstitutes
 }
 
 export default {
