@@ -1,7 +1,7 @@
 import axios from 'axios'
 const state = () => ({
   loggedInUser: {},
-  allInstitutes: {}
+  allInstitutes: []
 
 })
 
@@ -23,10 +23,15 @@ const actions = {
     })
   },
 
-  getInstitutes ({ commit }) {
-    return axios.get('http://localhost:3000/institutes/getInstitutes').then(res => {
+  getInstitutes ({ commit }, instituteId) {
+    return axios.get('http://localhost:3000/institutes/getInstitutes', {
+      params: {
+        institute_id: instituteId
+      }
+    }).then(res => {
       commit('SET_ALL_INSTITUTES', res.data)
-      console.log(res.data)
+      console.log('institutes res', res.data)
+      return res
     })
   },
   validateUserLogin ({ commit }, payload) {

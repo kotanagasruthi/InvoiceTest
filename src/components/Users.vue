@@ -66,7 +66,7 @@ export default {
 
   created () {
     this.isLoading = true
-    this.getUsers().then(res => {
+    this.getUsers(this.currentLoggedInUser.institute_id).then(res => {
       this.newUser.instituteId = this.currentLoggedInUser.institute_id
     })
   }
