@@ -4,13 +4,14 @@
      <fieldset class="fieldset">
     <legend class="fieldset-legend">Institute*</legend>
     <select v-model="selectedInstitute" class="fieldset-input">
-      <option v-for="institute in institutes" :key="institute._id" :value="institute._id">{{ institute.name }}</option>
+      <option v-for="institute in institutes" :key="institute.institute_id" :value="institute.institute_id">{{ institute.name }}</option>
+
     </select>
   </fieldset>
 
     <fieldset class="fieldset">
-      <legend class="fieldset-legend">Username*</legend>
-      <input type="text" class="fieldset-input" v-model="username">
+      <legend class="fieldset-legend">Email*</legend>
+      <input type="text" class="fieldset-input" v-model="email">
     </fieldset>
 
     <fieldset class="fieldset">
@@ -39,13 +40,14 @@ export default {
   },
   data () {
     return {
-      instituteID: '',
-      institutePassword: '',
+      selectedInstitute: '',
+      email: '',
+      password: '',
       showToast: false,
       toastStatus: '',
       toastMessage: '',
       loginErrorMessage: '',
-      institutes: ''
+      institutes: []
     }
   },
   methods: {
@@ -58,9 +60,11 @@ export default {
     ]),
     Login () {
       console.log('coming to login..')
+      console.log('institue name', this.selectedInstitute)
       this.validateUserLogin({
-        institute_id: this.instituteID,
-        password: this.institutePassword
+        instituteID: this.selectedInstitute,
+        email: this.email,
+        password: this.password
       }).then(res => {
         if (res?.response && res.response.status === 401) {
           this.loginErrorMessage = res.response.data.message
@@ -83,7 +87,8 @@ export default {
   },
   created () {
     this.getInstitutes().then(res => {
-      this.institutes = this.allAvailableInstitutes
+      console.log('all available institutes', this.allAvailableInstitutes)
+      this.institutes = res.data
       console.log(this.institutes)
     })
   }
