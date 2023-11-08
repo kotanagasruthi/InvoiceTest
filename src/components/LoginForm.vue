@@ -1,14 +1,21 @@
 <template>
   <div class="login-form">
 
+     <fieldset class="fieldset">
+    <legend class="fieldset-legend">Institute*</legend>
+    <select v-model="selectedInstitute" class="fieldset-input">
+      <option v-for="institute in institutes" :key="institute._id" :value="institute._id">{{ institute.name }}</option>
+    </select>
+  </fieldset>
+
     <fieldset class="fieldset">
-      <legend class="fieldset-legend">Institute ID*</legend>
-      <input type="text" class="fieldset-input" v-model="instituteID">
+      <legend class="fieldset-legend">Username*</legend>
+      <input type="text" class="fieldset-input" v-model="username">
     </fieldset>
 
     <fieldset class="fieldset">
       <legend class="fieldset-legend">Password*</legend>
-      <input type="password" class="fieldset-input" v-model="institutePassword">
+      <input type="password" class="fieldset-input" v-model="password">
     </fieldset>
 
     <div v-if="loginErrorMessage">{{loginErrorMessage}}</div>
@@ -24,7 +31,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import Toast from '../components/reusable/Toast.vue'
 export default {
   components: {
@@ -37,12 +44,17 @@ export default {
       showToast: false,
       toastStatus: '',
       toastMessage: '',
-      loginErrorMessage: ''
+      loginErrorMessage: '',
+      institutes: ''
     }
   },
   methods: {
+    ...mapGetters('landing', [
+      'allAvailableInstitutes'
+    ]),
     ...mapActions('landing', [ // specify the 'dashboard' namespace
-      'validateUserLogin'
+      'validateUserLogin',
+      'getInstitutes'
     ]),
     Login () {
       console.log('coming to login..')
@@ -68,6 +80,12 @@ export default {
         this.showToast = false
       }, 3000)
     }
+  },
+  created () {
+    this.getInstitutes().then(res => {
+      this.institutes = this.allAvailableInstitutes
+      console.log(this.institutes)
+    })
   }
 }
 </script>
