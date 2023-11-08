@@ -2,7 +2,7 @@
     <div>
         <header class="header-container">
             <div class="header">
-                Manage Topic Questions
+                Topic Questions
             </div>
             <div class="back" @click="backToTopics()">Back</div>
         </header>

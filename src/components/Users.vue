@@ -3,7 +3,7 @@
     <add-user v-if="isAddUserPopupVisible" @add-user="addUserLocally" @close="closeAddUserPopup"/>
 
     <div class="header-container">
-        <div class="header">Manage Invitees</div>
+        <div class="header"> Users </div>
         <button class="normal-button" @click="showAddUserPopup">Add User</button>
     </div>
     <table>
@@ -19,7 +19,7 @@
         <tr v-for="(user, index) in getUsersData" :key="index">
           <td>{{ user.name }}</td>
           <td>{{ user.user_id }}</td>
-          <td>{{ user.instituteId }}</td>
+          <td>{{ user.institute_id }}</td>
           <td>{{ user.role }}</td>
         </tr>
       </tbody>
@@ -68,6 +68,7 @@ export default {
     this.isLoading = true
     this.getUsers(this.currentLoggedInUser.institute_id).then(res => {
       this.newUser.instituteId = this.currentLoggedInUser.institute_id
+      this.newUser.instituteName = this.currentLoggedInUser.institute_name
     })
   }
 

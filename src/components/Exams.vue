@@ -6,7 +6,7 @@
         <div class="back" @click="closeCreateExam()">Back</div>
       </div>
       <div v-else-if="!isExamInviteesPage" class="header-container">
-        <div class="header">Manage Exams</div>
+        <div class="header">Exams</div>
         <button class="normal-button" @click="openCreatExam()">Create Exam</button>
       </div>
     </div>

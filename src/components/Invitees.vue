@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="header-container">
-        <div class="header">Manage Invitees</div>
-        <button class="normal-button" @click="showAddInviteeDialog">Add Invitee</button>
+        <div class="header">Candidates</div>
+        <button class="normal-button" @click="showAddInviteeDialog">Add Candidate</button>
     </div>
     <div>
       <div class="table-container">

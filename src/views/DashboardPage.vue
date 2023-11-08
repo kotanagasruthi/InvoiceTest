@@ -2,51 +2,53 @@
 <div>
     <header>
             <div class="brand-logo">
-                <img src="../assets/logo.png" alt="Logo"/>
-                <span>Vue Js</span>
+                <img src="../assets/trans_logo_vidhyasoft.png" alt="Logo"/>
+                <span>{{currentLoggedInUser.institute_name}}</span>
             </div>
-            <div class="username">
-                {{currentLoggedInUser.name}}
-            </div>
-            <div @click="logoutUser()">
-                <font-awesome-icon class="icon"  icon="sign-out" />
+            <div class="logged-user">
+                <div class="username">
+                    Hi, {{currentLoggedInUser.name}}!!
+                </div>
+                <div class="logout" @click="logoutUser()">
+                    <font-awesome-icon class="icon"  icon="sign-out" />
+                </div>
             </div>
     </header>
       <div class="container">
             <div class="left-pane">
                 <div class="menu-item" @click="loadComponent('ExamsComponent')"
                 :class="{ selected: selectedComponent === 'ExamsComponent' }">
-                    <font-awesome-icon class="icon"  icon="file-lines" /> Exams
+                    <font-awesome-icon class="icon"  icon="file-lines" /> <div>Exams</div>
                 </div>
 
                 <div class="menu-item" @click="loadComponent('ExamFormatsComponent')"
                 :class="{ selected: selectedComponent === 'ExamFormatsComponent' }">
-                    <font-awesome-icon class="icon"  icon="users" /> Exam Formats
+                    <font-awesome-icon class="icon"  icon="users" /> <div>Exam Formats</div>
                 </div>
 
                 <div class="menu-item" @click="loadComponent('TopicsComponent')"
                 :class="{ selected: selectedComponent === 'TopicsComponent' }">
-                    <font-awesome-icon class="icon" icon="clipboard-question" /> Topics
+                    <font-awesome-icon class="icon" icon="clipboard-question" /> <div>Topics</div>
                 </div>
 
                 <div class="menu-item" @click="loadComponent('InviteesComponent')"
                 :class="{ selected: selectedComponent === 'InviteesComponent' }">
-                    <font-awesome-icon class="icon"  icon="user-plus" /> Candidates
+                    <font-awesome-icon class="icon"  icon="user-plus" /> <div>Candidates</div>
                 </div>
 
                 <div class="menu-item" @click="loadComponent('AnalyticsComponent')"
                 :class="{ selected: selectedComponent === 'AnalyticsComponent' }">
-                    <font-awesome-icon class="icon"  icon="chart-simple" /> Analytics
+                    <font-awesome-icon class="icon"  icon="chart-simple" /> <div>Analytics</div>
                 </div>
 
                 <div class="menu-item" @click="loadComponent('UsersComponent')"
                 :class="{ selected: selectedComponent === 'UsersComponent' }">
-                    <font-awesome-icon class="icon"  icon="users" /> Users
+                    <font-awesome-icon class="icon"  icon="users" /> <div>Users</div>
                 </div>
 
                 <div class="menu-item" @click="loadComponent('SettingsComponent')"
                 :class="{ selected: selectedComponent === 'SettingsComponent' }">
-                    <font-awesome-icon class="icon"  icon="cog" /> Settings
+                    <font-awesome-icon class="icon"  icon="cog" /> <div>Settings</div>
                 </div>
 
             <!-- Add similar menu items for other sections -->
@@ -122,6 +124,13 @@ export default {
 <style lang = "scss" scoped>
 
  @import '../styles/landing-page.scss';
+ .logged-user {
+    display: flex;
+    .logout {
+        cursor: pointer;
+        margin-left: 20px;
+    }
+ }
 
 body {
     font-family: Arial, sans-serif;
@@ -136,9 +145,9 @@ body {
     grid-gap: 30px;
     padding: 40px;
     background-color: #fff;
-    max-width: 1200px;
+    /* max-width: 1300px; */
     height: 550px;
-    margin: 40px auto;
+    /* margin: 40px auto; */
     box-shadow: 0 3px 15px rgba(0,0,0,0.1);
 }
 
@@ -149,6 +158,7 @@ header {
     align-items: center;
     padding-bottom: 20px;
     border-bottom: 2px solid #e6e6e6;
+    padding: 10px 40px;
 }
 
 header img {
@@ -233,7 +243,7 @@ main h2 {
 
 .brand-logo span {
     font-size: 24px;
-    color: #ff6000;
+    color: #000000;
     font-weight: bold;
 }
 
@@ -279,7 +289,8 @@ main h2 {
     transition: background-color 0.2s;
 
     .icon {
-        margin-right: 10px;
+        /* margin-right: 10px; */
+        flex-basis: 20%;
     }
 }
 

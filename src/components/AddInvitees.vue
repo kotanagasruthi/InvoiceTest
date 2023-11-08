@@ -2,7 +2,7 @@
     <div>
         <modal close_button_name="Cancel" ok_button_name="Add" @ok="addInvitee()" @close="closeModal()">
             <template #header>
-                <div class="header">Add Invitee</div>
+                <div class="header">Add Candidate</div>
                 <div @click="closeModal()" class="close-icon">
                     <font-awesome-icon icon="xmark" />
                 </div>
