@@ -146,7 +146,8 @@ body {
     padding: 40px;
     background-color: #fff;
     /* max-width: 1300px; */
-    height: 550px;
+    height: 80vh;
+    overflow-y: scroll;
     /* margin: 40px auto; */
     box-shadow: 0 3px 15px rgba(0,0,0,0.1);
 }
@@ -275,7 +276,7 @@ main h2 {
 .left-pane {
     width: 250px;
     background-color: #F7F7F7;
-    padding: 20px 0;
+    /* padding: 20px 0; */
     box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
 }
 

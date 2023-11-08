@@ -140,12 +140,12 @@ export default {
 
 <style lang="scss" scoped>
 .exam-format {
-    margin: 20px auto;
+    margin-top: 20px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    height: 450px;
+    height: 70vh;
     overflow-y: scroll;
     &-type {
       display: flex;

@@ -95,7 +95,7 @@ export default {
 .grid-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-top: 15px;
   gap: 10px;
 }
@@ -109,7 +109,7 @@ export default {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 400px; /* You can adjust this value */
+  // max-width: 400px; /* You can adjust this value */
 }
 h2 {
   font-size: 1.5rem;

@@ -127,6 +127,12 @@
     align-items: center;
 }
 
+.table-container {
+    margin-top: 20px;
+    height: 70vh;
+    overflow-y: scroll;
+}
+
 table {
     margin-top: 20px;
     border-collapse: collapse;

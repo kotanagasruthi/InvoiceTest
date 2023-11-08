@@ -6,24 +6,26 @@
         <div class="header"> Users </div>
         <button class="normal-button" @click="showAddUserPopup">Add User</button>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>User Id</th>
-          <th>Institute ID</th>
-          <th>Role</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(user, index) in getUsersData" :key="index">
-          <td>{{ user.name }}</td>
-          <td>{{ user.user_id }}</td>
-          <td>{{ user.institute_id }}</td>
-          <td>{{ user.role }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>User Id</th>
+            <th>Institute ID</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(user, index) in getUsersData" :key="index">
+            <td>{{ user.name }}</td>
+            <td>{{ user.user_id }}</td>
+            <td>{{ user.institute_id }}</td>
+            <td>{{ user.role }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -74,25 +76,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-
-.input-container {
-  position: absolute;
-  background-color: green;
-  width: 500px;
-  height: 300px;
-  border-radius: 5px;
-  text-align: center;
-  display: flex; /* Use flexbox */
-  flex-direction: column; /* Stack the input boxes vertically */
-  justify-content: center; /* Center vertically */
-  align-items: center; /* Center horizontally */
-}
-
-.rounded-input{
-  width:200px;
-  height:25px;
-}
-
-</style>

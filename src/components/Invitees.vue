@@ -4,25 +4,23 @@
         <div class="header">Candidates</div>
         <button class="normal-button" @click="showAddInviteeDialog">Add Candidate</button>
     </div>
-    <div>
-      <div class="table-container">
-        <table v-if="getInviteesData.length > 0">
-          <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(invitee, index) in getInviteesData" :key="index">
-              <td>{{ invitee.firstName }}</td>
-              <td>{{ invitee.lastName }}</td>
-              <td>{{ invitee.email }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="table-container">
+      <table v-if="getInviteesData.length > 0">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(invitee, index) in getInviteesData" :key="index">
+            <td>{{ invitee.firstName }}</td>
+            <td>{{ invitee.lastName }}</td>
+            <td>{{ invitee.email }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <add-invitee v-if="showDialog" @add-invitee="addInviteeLocally" @close="closeAddInvitee"/>
   </div>
@@ -70,12 +68,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-
-.table-container {
-  height: 450px;
-  overflow-y: scroll;
-}
-
-</style>

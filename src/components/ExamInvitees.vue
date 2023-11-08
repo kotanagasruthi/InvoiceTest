@@ -92,11 +92,6 @@ export default {
 
 <style lang="scss" scoped>
 
-.table-container {
-  height: 450px;
-  overflow-y: scroll;
-}
-
 .header-right {
     display: flex;
     align-items: center;
