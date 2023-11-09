@@ -63,8 +63,12 @@ const actions = {
     })
   },
 
-  fetchInvitees ({ commit }) {
-    return axios.get('http://localhost:3000/invitees/users').then(res => {
+  fetchInvitees ({ commit }, instituteId) {
+    return axios.get('http://localhost:3000/invitees/users', {
+      params: {
+        institute_id: instituteId
+      }
+    }).then(res => {
       commit('SET_INVITEES_DATA', res.data)
     })
   },

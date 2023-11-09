@@ -31,6 +31,7 @@
 
 <script>
 import Modal from '../components/reusable/Modal.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -38,12 +39,18 @@ export default {
       newInvitee: {
         firstName: '',
         lastName: '',
-        email: ''
+        email: '',
+        institute_id: this.currentLoggedInUser.institute_id
       }
     }
   },
   components: {
     modal: Modal
+  },
+  computed: {
+    ...mapGetters('landing', [
+      'currentLoggedInUser'
+    ])
   },
   methods: {
     addInvitee () {

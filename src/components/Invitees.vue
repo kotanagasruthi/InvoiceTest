@@ -40,6 +40,9 @@ export default {
   computed: {
     ...mapGetters('dashboard', [
       'getInviteesData'
+    ]),
+    ...mapGetters('landing', [
+      'currentLoggedInUser'
     ])
   },
   components: {
@@ -47,7 +50,7 @@ export default {
   },
   created () {
     this.isLoading = true
-    this.fetchInvitees().then(res => {
+    this.fetchInvitees(this.currentLoggedInUser.institute_id).then(res => {
       this.isLoading = false
     })
   },
@@ -58,7 +61,7 @@ export default {
     },
     addInviteeLocally (newInvitee) {
       this.addInvitee(newInvitee).then(res => {
-        this.fetchInvitees()
+        this.fetchInvitees(this.currentLoggedInUser.institute_id)
       })
       this.showDialog = false
     },

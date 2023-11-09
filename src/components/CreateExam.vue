@@ -15,7 +15,7 @@
                 </fieldset>
                 <fieldset class="fieldset">
                     <legend class="fieldset-legend">Duration(mins)*</legend>
-                    <input type="text" class="fieldset-input input-disabled" v-model="totalMarks">
+                    <input type="text" class="fieldset-input input-disabled" v-model="duration">
                 </fieldset>
                 <fieldset class="fieldset">
                     <legend class="fieldset-legend">Negative Marks*</legend>
