@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header-container">
-              <div class="header">Create Exam Format</div>
+      <div class="large-header">Create Exam Format</div>
     </div>
     <div class="exam-format">
           <div class="exam-format-type">

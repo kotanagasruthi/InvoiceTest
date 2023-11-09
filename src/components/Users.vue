@@ -3,7 +3,7 @@
     <add-user v-if="isAddUserPopupVisible" @add-user="addUserLocally" @close="closeAddUserPopup"/>
 
     <div class="header-container">
-        <div class="header"> Users </div>
+        <div class="large-header"> Users </div>
         <button class="normal-button" @click="showAddUserPopup">Add User</button>
     </div>
     <div class="table-container">

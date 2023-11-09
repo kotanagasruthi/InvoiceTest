@@ -2,11 +2,11 @@
   <div class="order-box">
     <div>
       <div class="header-container" v-if="isCreateExam">
-        <div class="header">Create Exam</div>
+        <div class="large-header">Create Exam</div>
         <div class="back" @click="closeCreateExam()">Back</div>
       </div>
       <div v-else-if="!isExamInviteesPage" class="header-container">
-        <div class="header">Exams</div>
+        <div class="large-header">Exams</div>
         <button class="normal-button" @click="openCreatExam()">Create Exam</button>
       </div>
     </div>

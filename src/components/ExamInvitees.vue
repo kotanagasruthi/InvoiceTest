@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="header-container">
-        <div class="header">Exam Invitees</div>
+        <div class="large-header">Exam Candidates</div>
         <div class="header-right">
-            <button class="normal-button" @click="showAddExamInviteeDialog = true">Add Exam Invitees</button>
+            <button class="normal-button" @click="showAddExamInviteeDialog = true">Add Exam Candidates</button>
             <div class="back" @click="closeExamInvitee()">Back</div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <header class="header-container">
-            <div class="header">
+            <div class="large-header">
                 Topic Questions
             </div>
             <div class="back" @click="backToTopics()">Back</div>

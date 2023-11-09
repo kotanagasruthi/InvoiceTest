@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header-container">
-        <div class="header">Candidates</div>
+        <div class="large-header">Candidates</div>
         <button class="normal-button" @click="showAddInviteeDialog">Add Candidate</button>
     </div>
     <div class="table-container">

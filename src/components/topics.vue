@@ -2,7 +2,7 @@
     <div>
         <div v-if="!isOpenTopicQuestions">
             <header class="header-container">
-                <div class="header">Topics</div>
+                <div class="large-header">Topics</div>
                 <button class="normal-button" @click="openCreateTopicForm()">Create Topic</button>
             </header>
             <div>
