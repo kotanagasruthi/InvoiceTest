@@ -86,9 +86,11 @@ export default {
 <style lang="scss" scoped>
   .invitees-wrapper {
     &-invitee {
+      margin-top: 10px;
       display: flex;
       >label {
         margin-left: 10px;
+        text-align: left;
       }
     }
   }

@@ -11,16 +11,14 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>User Id</th>
-            <th>Institute ID</th>
+            <th>Email</th>
             <th>Role</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(user, index) in getUsersData" :key="index">
             <td>{{ user.name }}</td>
-            <td>{{ user.user_id }}</td>
-            <td>{{ user.institute_id }}</td>
+            <td>{{ user.email }}</td>
             <td>{{ user.role }}</td>
           </tr>
         </tbody>
@@ -51,11 +49,11 @@ export default {
     'add-user': AddUser
   },
   methods: {
-    ...mapActions('dashboard', ['getUsers', 'addUsers']),
-    addUserLocally () {
-      this.addUsers(this.newUser).then(res => {
+    ...mapActions('dashboard', ['fetchUsers', 'addUsers']),
+    addUserLocally (newUser) {
+      this.addUsers(newUser).then(res => {
         this.isAddUserPopupVisible = false
-        this.getUsers()
+        this.fetchUsers(this.currentLoggedInUser.institute_id)
       })
     },
     showAddUserPopup () {
@@ -68,9 +66,8 @@ export default {
 
   created () {
     this.isLoading = true
-    this.getUsers(this.currentLoggedInUser.institute_id).then(res => {
-      this.newUser.instituteId = this.currentLoggedInUser.institute_id
-      this.newUser.instituteName = this.currentLoggedInUser.institute_name
+    this.fetchUsers(this.currentLoggedInUser.institute_id).then(res => {
+      this.isLoading = false
     })
   }
 

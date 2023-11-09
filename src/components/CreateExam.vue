@@ -32,15 +32,17 @@
                                 <div class="header">{{ topic.topic_name }}</div>
                                 <div class="small-header">No.of Questions:{{topic.no_of_questions}}</div>
                                 <div>Marks:{{topic.marks}}</div>
-                                <button class="normal-button" @click="openQuestionPopup(topic)">Add Questions</button>
+                                <button class="normal-button large-button" @click="openQuestionPopup(topic)">Add Questions</button>
                             </div>
                             <div class="topic-container-questions" v-if="topic?.questions.length">
-                                <div class="topic-container-questions-question" v-for="question in topic.questions" :key="question.question_id">
-                                    <div>
-                                        {{question.question_text}}
+                                <div class="topic-container-questions-question" v-for="(question, index)  in topic.questions" :key="question.question_id">
+                                    <div class="topic-container-questions-question-text">
+                                        {{index + 1}}. {{question.question_text}}
                                     </div>
-                                    <div v-for="(option, index) in question.options" :key="index">
-                                        {{index+1}}. {{option}}
+                                    <div class="topic-container-questions-question-options">
+                                      <div class="topic-container-questions-question-options-option" v-for="(option, index) in question.options" :key="index">
+                                          {{optionsMap[index+1]}}. {{option}}
+                                      </div>
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +108,13 @@ export default {
       totalMarks: 0,
       duration: 0,
       negativeMarkValue: 0,
-      currentTopicQuestionMarks: 0
+      currentTopicQuestionMarks: 0,
+      optionsMap: {
+        1: 'a',
+        2: 'b',
+        3: 'c',
+        4: 'd'
+      }
     }
   },
   computed: {
@@ -194,8 +202,8 @@ export default {
       console.log('payload', payload)
       this.setExam(payload).then(res => {
         console.log('exam set successfully')
+        this.$emit('close')
       })
-      this.$emit('close')
     }
   }
 }
@@ -226,6 +234,7 @@ export default {
         display: grid;
         grid-template-columns: 25% 25% 25% 25%;
         align-items: center;
+        justify-items: start;
     }
     &-questions {
         border-radius: 8px;
@@ -233,8 +242,21 @@ export default {
         margin-top: 10px;
         &-question {
             padding: 20px;
+            text-align: left;
             &:not(:last-child) {
                 border-bottom: 1px solid #ccc;
+            }
+            &-text {
+              font-weight: bold;
+            }
+            &-options {
+              display: flex;
+              margin-top: 10px;
+                &-option {
+                    &:not(:first-child) {
+                      margin-left: 10px
+                    }
+                }
             }
         }
     }

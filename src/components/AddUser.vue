@@ -24,10 +24,13 @@
                     <input type="password" class="fieldset-input" v-model="newUser.password" />
                 </fieldset>
 
-                <fieldset class="fieldset">
-                    <legend class="fieldset-legend">Role*</legend>
-                    <input type="password" class="fieldset-input" v-model="newUser.role" />
-                </fieldset>
+                <div class="select-container">
+                    <label for="select-container-legend">Role*</label>
+                    <select id="mySelect" v-model="newUser.role">
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
 
             </template>
         </modal>
@@ -36,6 +39,7 @@
 
 <script>
 import Modal from '../components/reusable/Modal.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -51,9 +55,18 @@ export default {
   components: {
     modal: Modal
   },
+  computed: {
+    ...mapGetters('landing', [
+      'currentLoggedInUser'
+    ])
+  },
   methods: {
     addUser () {
-      this.$emit('add-user', this.newUser)
+      this.$emit('add-user', {
+        ...this.newUser,
+        instituteId: this.currentLoggedInUser.institute_id,
+        instituteName: this.currentLoggedInUser.institute_name
+      })
     },
     closeModal () {
       this.$emit('close')

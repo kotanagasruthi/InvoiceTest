@@ -36,8 +36,8 @@
               <div class="exam-card-footer">
                   <div>
                       <button class="normal-button" @click="editExam">Edit</button>
-                      <button class="normal-button" @click="publishExam(exam.exam_id)">Publish</button>
                       <button class="normal-button" @click="openExamInviteesPage(exam.exam_id)">Invitees</button>
+                      <button class="normal-button" v-if="!exam.is_active" @click="publishExam(exam.exam_id)">Publish</button>
                   </div>
                   <div>
                       Exam Type: {{exam.exam_type}}
@@ -101,6 +101,7 @@ export default {
     closeCreateExam () {
       this.isCreateExam = false
       this.isLoading = true
+      console.log('coming to fetch exams again...')
       this.fetchExams(this.currentLoggedInUser.institute_id).then(res => {
         this.isLoading = false
       })

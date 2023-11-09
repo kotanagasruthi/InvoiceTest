@@ -39,8 +39,7 @@ export default {
       newInvitee: {
         firstName: '',
         lastName: '',
-        email: '',
-        institute_id: this.currentLoggedInUser.institute_id
+        email: ''
       }
     }
   },
@@ -54,7 +53,10 @@ export default {
   },
   methods: {
     addInvitee () {
-      this.$emit('add-invitee', this.newInvitee)
+      this.$emit('add-invitee', {
+        ...this.newInvitee,
+        instituteId: this.currentLoggedInUser.institute_id
+      })
     },
     closeModal () {
       this.$emit('close')
