@@ -65,7 +65,6 @@ const actions = {
 
   fetchInvitees ({ commit }, instituteId) {
     return axios.get(`http://localhost:3000/invitees/users/${instituteId}`).then(res => {
-      console.log('invitees res')
       commit('SET_INVITEES_DATA', res.data)
     })
   },

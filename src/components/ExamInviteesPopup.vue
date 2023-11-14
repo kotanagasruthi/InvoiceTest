@@ -2,7 +2,7 @@
   <div>
     <modal close_button_name="Cancel" ok_button_name="Confirm" @ok="confirmSelection()" @close="closeInviteesPopup()">
         <template #header>
-            <div class="header">Select Invitees</div>
+            <div class="header">Select Candidates</div>
             <div @click="closeInviteesPopup()" class="close-icon">
                 <font-awesome-icon icon="xmark" />
             </div>
@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div v-else>
-                    No Invitees Found!!
+                    No Candidates Found!!
                 </div>
             </div>
         </template>

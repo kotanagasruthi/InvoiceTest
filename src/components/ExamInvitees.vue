@@ -36,7 +36,7 @@
           </tbody>
         </table>
         <div class="no-data" v-else>
-            No Invitees Added!!
+            No Candidates Added!!
         </div>
       </div>
     </div>

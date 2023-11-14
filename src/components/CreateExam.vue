@@ -176,7 +176,6 @@ export default {
       this.showInviteesPopup = true
     },
     setInviteesForExam (invitees) {
-      console.log('invitees', invitees)
       this.invitees = JSON.parse(JSON.stringify(invitees))
       this.showInviteesPopup = false
     },

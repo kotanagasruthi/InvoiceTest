@@ -36,7 +36,7 @@
               <div class="exam-card-footer">
                   <div>
                       <button class="normal-button" @click="editExam">Edit</button>
-                      <button class="normal-button" @click="openExamInviteesPage(exam.exam_id)">Invitees</button>
+                      <button class="normal-button" @click="openExamInviteesPage(exam.exam_id)">Candidates</button>
                       <button class="normal-button" v-if="!exam.is_active" @click="publishExam(exam.exam_id)">Publish</button>
                   </div>
                   <div>
