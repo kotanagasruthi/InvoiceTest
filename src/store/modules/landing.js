@@ -1,8 +1,9 @@
 import axios from 'axios'
 const state = () => ({
   loggedInUser: {},
-  allInstitutes: []
-
+  allInstitutes: [],
+  toastDetails: {},
+  isShowToast: false
 })
 
 console.log(state.allInstitutes)
@@ -12,6 +13,12 @@ const mutations = {
   },
   SET_ALL_INSTITUTES (state, data) {
     state.allInstitutes = data
+  },
+  SET_IS_SHOW_TOAST (state, isToast) {
+    state.isShowToast = isToast
+  },
+  SET_TOAST_DETAILS (state, details) {
+    state.toastDetails = details
   }
 }
 
@@ -50,12 +57,20 @@ const actions = {
     }).catch(res => {
       return res
     })
+  },
+  setToastDetails ({ commit }, toastDetails) {
+    commit('SET_TOAST_DETAILS', toastDetails)
+  },
+  setIsShowToast ({ commit }, isShowToast) {
+    commit('SET_IS_SHOW_TOAST', isShowToast)
   }
 }
 
 const getters = {
   currentLoggedInUser: (state) => state.loggedInUser,
-  allAvailableInstitutes: (state) => state.allInstitutes
+  allAvailableInstitutes: (state) => state.allInstitutes,
+  getToastDetails: (state) => state.toastDetails,
+  getIsShowToast: (state) => state.isShowToast
 }
 
 export default {

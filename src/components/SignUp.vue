@@ -63,12 +63,6 @@
       <button class="normal-button" @click="signUp()">Sign Up</button>
     </div>
 
-    <toast
-      v-if="showToast"
-      :status="toastStatus"
-      :message="toastMessage"
-    />
-
     <!-- <div class="signup-form-image">
       <fieldset class="signup-form-image-fieldset">
         <legend class="signup-form-image-fieldset-legend">Logo*</legend>
@@ -91,11 +85,11 @@
 
 <script>
 import { mapActions } from 'vuex'
-import Toast from '../components/reusable/Toast.vue'
+// import Toast from '../components/reusable/Toast.vue'
 export default {
-  components: {
-    toast: Toast
-  },
+  // components: {
+  //   toast: Toast
+  // },
   data () {
     return {
       instituteName: '',
@@ -119,7 +113,9 @@ export default {
   },
   methods: {
     ...mapActions('landing', [ // specify the 'dashboard' namespace
-      'signUpUser'
+      'signUpUser',
+      'setIsShowToast',
+      'setToastDetails'
     ]),
     signUp () {
       this.signUpUser({
@@ -152,14 +148,19 @@ export default {
       })
     },
     triggerToast (status, message) {
-      this.toastStatus = status
-      this.toastMessage = message
-      this.showToast = true
+      // this.toastStatus = status
+      // this.toastMessage = message
+      // this.showToast = true
+      this.setIsShowToast(true)
+      this.setToastDetails({
+        status: status,
+        message: message
+      })
 
       // Optionally, hide after some duration
-      setTimeout(() => {
-        this.showToast = false
-      }, 3000)
+      // setTimeout(() => {
+      //   this.showToast = false
+      // }, 3000)
     },
     triggerFileInput () {
       this.$refs.imageUploader.click()

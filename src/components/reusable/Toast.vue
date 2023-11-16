@@ -1,12 +1,13 @@
 <template>
   <div v-if="visible" :class="`toast toast-${status}`">
-    <i :class="iconClass"></i>
+    <font-awesome-icon class="icon" :icon="iconClass" />
     <p>{{ message }}</p>
     <button @click="closeToast">Close</button>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   props: {
     status: {
@@ -32,19 +33,21 @@ export default {
     iconClass () {
       switch (this.status) {
         case 'success':
-          return 'fa fa-check'
+          return 'fa-check'
         case 'pending':
-          return 'fa fa-exclamation-triangle'
+          return 'fa-exclamation-triangle'
         case 'failed':
-          return 'fa fa-times'
+          return 'fa-times'
         default:
           return ''
       }
     }
   },
   methods: {
+    ...mapActions('landing', ['setIsShowToast']),
     closeToast () {
       this.visible = false
+      this.setIsShowToast(false)
     }
   },
   mounted () {
@@ -57,14 +60,15 @@ export default {
 
 <style lang="scss">
 .toast {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  padding: 20px;
-  border-radius: 5px;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
+    position: fixed;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 25%;
+    left: 35%;
 
   i {
     margin-right: 10px;
