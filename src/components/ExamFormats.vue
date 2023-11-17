@@ -1,177 +1,191 @@
 <template>
-  <div>
-    <div class="header-container">
-      <div class="large-header">Create Exam Format</div>
+  <div class="order-box">
+    <div>
+      <div class="header-container" v-if="isCreateExamFormat">
+        <div class="large-header">Create Exam Format</div>
+        <div class="back" @click="closeCreateExam()">Back</div>
+      </div>
     </div>
-    <div class="exam-format">
-          <div class="exam-format-type">
-              <fieldset class="fieldset">
-                  <legend class="fieldset-legend">Exam Type*</legend>
-                  <input type="text" class="fieldset-input" v-model="exam.examType">
-              </fieldset>
-              <button class="normal-button" @click="addNewTopic()">
-                  <font-awesome-icon class="icon"  icon="plus" />Add New Topic
-              </button>
-          </div>
+    <create-exam-format v-if="isCreateExamFormat" @close="closeCreateExam()" />
+    <div v-else>
+      <loader v-if="isLoading" :loading="isLoading"></loader>
+      <div v-else>
+          <div class="exam-card" v-for="(exam, index) in getExamData" :key="index">
+              <div class="header">{{ exam.exam_name }}</div>
+              <div class="small-header">{{ exam.owner }}</div>
 
-          <div v-for="(topic, index) in exam.topics" :key="index" class="add-topic">
-              <div class="add-topic-section">
-                  <div class="select-container">
-                      <label for="select-container-legend">Select Topic*</label>
-                      <select id="mySelect" v-model="topic.topic_name">
-                          <option v-for="(availableTopic, index) in availableTopics" :key="index" :value="availableTopic">
-                                {{ availableTopic.topic_name }}
-                          </option>
-                      </select>
+              <ul class="collaborators">
+                  <li v-for="(collaborator, index) in exam.collaborators" :key="index">
+                      <div>{{ collaborator }}</div>
+                      <div v-if="index !== (exam.collaborators.length - 1)" class="separator">.</div>
+                  </li>
+              </ul>
+
+              <div v-if="exam.is_active" class="active-check">
+                  <label class="custom-checkbox">
+                      <input type="checkbox" checked />
+                      <span class="checkmark"></span>
+                  </label>
+              </div>
+
+              <div class="exam-card-footer">
+                  <div>
+                      <button class="normal-button" v-if="!exam.is_active" @click="publishExam(exam.exam_id)">Import</button>
                   </div>
-
-                  <fieldset class="fieldset">
-                      <legend class="fieldset-legend">No.of Questions*</legend>
-                      <input type="number" class="fieldset-input" v-model="topic.no_of_questions">
-                  </fieldset>
-
-                  <fieldset class="fieldset">
-                      <legend class="fieldset-legend">Topic Marks*</legend>
-                      <input type="number" class="fieldset-input" v-model="topic.marks">
-                  </fieldset>
-
-                  <fieldset class="fieldset">
-                      <legend class="fieldset-legend">Each Question Marks*</legend>
-                      <input type="number" class="fieldset-input" v-model="topic.question_marks">
-                  </fieldset>
-              </div>
-              <div class="add-topic-actions">
-                  <button class="normal-button" @click="removeTopic(index)">Remove Topic</button>
-                  <button class="normal-button button-margin" @click="addTopic(availableTopic, index)">Add Topic</button>
+                  <div>
+                      <div>Duration: {{exam.exam_type}}mins</div>
+                      <div>Total Marks: {{exam.exam_type}}</div>
+                  </div>
               </div>
           </div>
-
-          <div class="select-container">
-              <label for="select-container-legend">Is Negative Marking*</label>
-              <select id="mySelect" v-model="exam.negativeMarking">
-                  <option value=true>True</option>
-                  <option value=false>False</option>
-              </select>
-          </div>
-
-          <fieldset class="fieldset">
-              <legend class="fieldset-legend">Negative Marks*</legend>
-              <input type="text" class="fieldset-input" v-model="exam.negativeMarksValue">
-          </fieldset>
-
-          <fieldset class="fieldset">
-              <legend class="fieldset-legend">Duration (in mins)*</legend>
-              <input type="text" class="fieldset-input" v-model="exam.duration">
-          </fieldset>
-
-          <button class="normal-button button-margin" @click="addExamFormat()">Add Exam Format</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import Loader from './reusable/Loader.vue'
+import CreateExamFormat from './CreateExamFormat.vue'
 export default {
   data () {
     return {
-      exam: {
-        examType: '',
-        negativeMarking: false,
-        negativeMarksValue: 0,
-        duration: 0,
-        topics: [],
-        activePeriod: {
-          startDate: null,
-          endDate: null
-        },
-        invitees: []
-      },
-      availableTopics: []
+      isLoading: false,
+      isCreateExamFormat: false,
+      isExamInviteesPage: false,
+      currentExamId: ''
     }
   },
+  components: {
+    loader: Loader,
+    'create-exam-format': CreateExamFormat
+  },
+  created () {
+    this.isLoading = true
+    this.fetchCommonExamFormats().then(res => {
+      this.isLoading = false
+    })
+  },
   computed: {
-    ...mapGetters('landing', [ // specify the 'dashboard' namespace
+    ...mapGetters('dashboard', [
+      'getExamData'
+    ]),
+    ...mapGetters('landing', [
       'currentLoggedInUser'
     ])
   },
-  created () {
-    this.fetchTopics(this.currentLoggedInUser.institute_id).then(res => {
-      console.log('res data', res.data)
-      this.availableTopics = JSON.parse(JSON.stringify(res.data))
-    })
-  },
   methods: {
-    ...mapActions('dashboard', [
-      'fetchTopics',
-      'setExamFormat'
+    ...mapActions('dashboard', [ // specify the 'dashboard' namespace
+      'fetchCommonExamFormats'
     ]),
-    addNewTopic () {
-      this.exam.topics.push({
-        topic_name: '',
-        marks: 0,
-        question_marks: 0,
-        no_of_questions: 0
+    openCreatExam () {
+      this.isCreateExamFormatFormat = true
+    },
+    closeCreateExam () {
+      this.isCreateExamFormat = false
+      this.isLoading = true
+      this.fetchCommonExamFormats().then(res => {
+        this.isLoading = false
       })
-      console.log('exam topics in add new topic', this.exam.topics)
-    },
-    addTopic (topic, index) {
-      console.log('topic', topic)
-      this.exam.topics[index] = {
-        ...this.exam.topics[index].topic_name,
-        marks: this.exam.topics[index].marks,
-        question_marks: this.exam.topics[index].question_marks,
-        no_of_questions: this.exam.topics[index].no_of_questions,
-        questions: []
-      }
-      console.log('exam topics in add topic', this.exam)
-    },
-    addExamFormat () {
-      this.setExamFormat(this.exam).then(res => {
-        console.log('exam format res', res)
-        this.exam = {}
-      })
-    },
-    removeTopic (index) {
-      this.exam.topics.splice(index, 1)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.exam-format {
-    margin-top: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    height: 70vh;
-    overflow-y: scroll;
-    &-type {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      >fieldset {
-            flex-basis: 75%;
-      }
-    }
+.back {
+  cursor: pointer;
 }
-
-.add-topic {
-    margin: 20px 0;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 2px 2px 4px 2px  rgba(0, 0, 0, 0.1);
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &-text {
+    font-weight: 600;
+  }
+}
+.exam-card {
+  border: 1px solid #ddd;
+  padding: 10px 20px 10px 20px;
+  text-align: left;
+  border-radius: 10px;
+  position: relative;
+  margin-top: 15px;
+  &-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    &-section {
-      flex-basis: 75%;
-    }
-    &-actions {
-        margin-left: 10px;
+  }
+}
+
+.collaborators {
+    width: 25%;
+    display: flex;
+    font-weight: 300;
+    margin-bottom: 10px;
+    >li {
         display: flex;
-        flex-direction: column;
+        align-items: center;
+        .separator {
+            border-radius: 50%;
+            background-color: grey;
+            width: 5px;
+            height: 5px
+        }
     }
 }
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.active-check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+}
+
+.custom-checkbox {
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  width: 24px;
+  background-color: #eee;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.checkmark::after {
+  content: "\2713";
+  position: absolute;
+  display: none;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  color: white;
+}
+
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: #4CAF50;
+}
+
+.custom-checkbox input:checked ~ .checkmark::after {
+  display: block;
+}
+
 </style>
