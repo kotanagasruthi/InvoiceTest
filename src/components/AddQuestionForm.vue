@@ -55,7 +55,7 @@ import Modal from '../components/reusable/Modal.vue'
 import { mapActions } from 'vuex'
 export default {
   props: {
-    topicId: String
+    topicName: String
   },
   data () {
     return {
@@ -80,7 +80,7 @@ export default {
     },
     addQuestion () {
       this.setQuestion({
-        topic_id: this.topicId,
+        topic_name: this.topicName,
         question_text: this.question,
         question_type: 'multipleChoice',
         options: [this.optionA, this.optionB, this.optionC, this.optionD],

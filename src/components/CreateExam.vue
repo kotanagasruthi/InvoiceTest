@@ -5,7 +5,7 @@
             <div class="select-container">
                 <label for="select-container-legend">Select Option*</label>
                 <select id="mySelect" v-model="selectedExamType" @change="loadExamFormat()">
-                    <option v-for="(examFormat, index) in getExamFormatsData" :key="index" :value="examFormat.examType">{{ examFormat.examType }}</option>
+                    <option v-for="(examFormat, index) in getInstituteExamFormatsData" :key="index" :value="examFormat.examType">{{ examFormat.examType }}</option>
                 </select>
             </div>
             <div>
@@ -74,7 +74,7 @@
                     <button class="normal-button button-margin" @click="createExam()">Submit</button>
                 </div>
             </div>
-            <QuestionPopup v-if="showQuestionPopup" :topic-id="currentTopic.topic_id" :marks="currentTopicQuestionMarks" @selectedQuestions="setQuestionsForTopic" @close="showQuestionPopup = false"></QuestionPopup>
+            <QuestionPopup v-if="showQuestionPopup" :topic-name="currentTopic.topic_name" :marks="currentTopicQuestionMarks" @selectedQuestions="setQuestionsForTopic" @close="showQuestionPopup = false"></QuestionPopup>
             <InviteesPopup v-if="showInviteesPopup" @selectedInvitees="setInviteesForExam" @close="showInviteesPopup = false"></InviteesPopup>
         </div>
     </div>
@@ -119,7 +119,7 @@ export default {
   },
   computed: {
     ...mapGetters('dashboard', [
-      'getExamFormatsData'
+      'getInstituteExamFormatsData'
     ]),
     ...mapGetters('landing', [
       'currentLoggedInUser'
@@ -127,25 +127,21 @@ export default {
   },
   created () {
     this.isLoading = true
-    this.fetchExamFormats().then(res => {
+    this.fetchInstituteExamFormats(this.currentLoggedInUser.institute_id).then(res => {
       this.isLoading = false
     })
   },
   methods: {
     ...mapActions('dashboard', [
-      'fetchExamFormats',
+      'fetchInstituteExamFormats',
       'setExam'
     ]),
     loadExamFormat () {
-      console.log('exam formats data', this.getExamFormatsData)
-      console.log('selected exam type', this.selectedExamType)
-      this.currentExamFormat = this.getExamFormatsData.filter(data => data.examType === this.selectedExamType)
-      console.log('total marks', this.currentExamFormat[0])
+      this.currentExamFormat = this.getInstituteExamFormatsData.filter(data => data.examType === this.selectedExamType)
       this.totalMarks = this.currentExamFormat[0].totalMarks
       this.duration = this.currentExamFormat[0].duration
       this.negativeMarkValue = this.currentExamFormat[0].negativeMarksValue
       this.topics = this.currentExamFormat[0].topics
-      console.log('topics', this.topics)
     },
     openQuestionPopup (topic) {
       console.log('topic', topic)
@@ -154,12 +150,12 @@ export default {
       this.currentTopicQuestionMarks = this.currentTopic.question_marks
       this.showQuestionPopup = true
     },
-    setQuestionsForTopic (id, questions) {
+    setQuestionsForTopic (name, questions) {
       console.log('topics before', this.topics)
       console.log('topics id', this.id)
       console.log('questions..', questions)
       this.topics = this.topics.map(topic => {
-        if (topic.topic_id === id) {
+        if (topic.topic_name === name) {
           console.log('id matching..')
           return {
             ...topic,

@@ -25,6 +25,9 @@ const mutations = {
   SET_USERS_DATA (state, data) {
     state.usersData = data
   },
+  SET_INSTITIUTE_EXAM_FORMATS_DATA (state, data) {
+    state.instituteExamFormatsData = data
+  },
   SET_EXAM_FORMATS_DATA (state, data) {
     state.examFormatData = data
   },
@@ -69,10 +72,10 @@ const actions = {
     })
   },
 
-  fetchQuestions ({ commit }, topicId) {
+  fetchQuestions ({ commit }, topicName) {
     return axios.get('http://localhost:3000/questions/getQuestions', {
       params: {
-        topic_id: topicId
+        topic_name: topicName
       }
     }).then(res => {
       commit('SET_QUESTIONS_DATA', res.data)
@@ -114,8 +117,21 @@ const actions = {
       return res
     })
   },
-  fetchExamFormats ({ commit }) {
-    return axios.get('http://localhost:3000/exam-format/getAllExamFormats').then(res => {
+  fetchInstituteExamFormats ({ commit }, instituteId) {
+    return axios.get('http://localhost:3000/exam-format/getAllExamFormats', {
+      params: {
+        instituteId: instituteId
+      }
+    }).then(res => {
+      commit('SET_INSTITIUTE_EXAM_FORMATS_DATA', res.data)
+    })
+  },
+  fetchAllExamFormats ({ commit }, instituteId) {
+    return axios.get('http://localhost:3000/exam-format/getAllExamFormats', {
+      params: {
+        instituteId: instituteId
+      }
+    }).then(res => {
       commit('SET_EXAM_FORMATS_DATA', res.data)
     })
   },
@@ -152,6 +168,7 @@ const getters = {
   getInviteesData: (state) => state.inviteesData,
   getUsersData: (state) => state.usersData,
   getQuestionsData: (state) => state.questionsData,
+  getInstituteExamFormatsData: (state) => state.instituteExamFormatsData,
   getExamFormatsData: (state) => state.examFormatData,
   getExamInviteesData: (state) => state.examInviteesData
 }

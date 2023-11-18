@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <add-question-form v-if="showQuestionForm" :topic-id="topic.topic_id" @close="closeForm" @fetch-questions="refreshQuestions()" />
+        <add-question-form v-if="showQuestionForm" :topic-name="topic.topic_name" @close="closeForm" @fetch-questions="refreshQuestions()" />
 </div>
 </template>
 
@@ -68,7 +68,7 @@ export default {
   },
   created () {
     this.isLoading = true
-    this.fetchQuestions(this.topic.topic_id).then(res => {
+    this.fetchQuestions(this.topic.topic_name).then(res => {
       this.isLoading = false
     })
   },
@@ -85,7 +85,7 @@ export default {
     refreshQuestions () {
       this.showQuestionForm = false
       this.isLoading = true
-      this.fetchQuestions(this.topic.topic_id).then(res => {
+      this.fetchQuestions(this.topic.topic_name).then(res => {
         this.isLoading = false
         console.log('questions res', res)
       })

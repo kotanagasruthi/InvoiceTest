@@ -39,7 +39,7 @@ import { mapActions, mapGetters } from 'vuex'
 import Loader from './reusable/Loader.vue'
 export default {
   props: {
-    topicId: String,
+    topicName: String,
     marks: Number
   },
   data () {
@@ -55,7 +55,7 @@ export default {
   },
   created () {
     this.isLoading = true
-    this.fetchQuestions(this.topicId).then(res => {
+    this.fetchQuestions(this.topicName).then(res => {
       this.isLoading = false
       console.log('questions res', res)
     })
@@ -83,8 +83,7 @@ export default {
       console.log('selectedQuestionsForExams', this.selectedQuestionsForExams)
     },
     confirmSelection () {
-      console.log('topicId', this.topicId)
-      this.$emit('selectedQuestions', this.topicId, this.selectedQuestionsForExams)
+      this.$emit('selectedQuestions', this.topicName, this.selectedQuestionsForExams)
     },
     closeQuestionsPopup () {
       this.$emit('close')

@@ -10,31 +10,24 @@
     <div v-else>
       <loader v-if="isLoading" :loading="isLoading"></loader>
       <div v-else>
-          <div class="exam-card" v-for="(exam, index) in getExamData" :key="index">
-              <div class="header">{{ exam.exam_name }}</div>
-              <div class="small-header">{{ exam.owner }}</div>
+          <div class="exam-card" v-for="(format, index) in getExamFormatsData" :key="index">
+              <div class="header">{{ format.examType }}</div>
 
-              <ul class="collaborators">
-                  <li v-for="(collaborator, index) in exam.collaborators" :key="index">
-                      <div>{{ collaborator }}</div>
-                      <div v-if="index !== (exam.collaborators.length - 1)" class="separator">.</div>
+              <ul class="topics">
+                  <li v-for="(topic, index) in format.topics" :key="index">
+                      <div class="bold-font">{{topic.topic_name}}</div>
+                      <div>{{topic.marks}} Marks</div>
+                      <div>{{topic.no_of_questions}} Questions</div>
                   </li>
               </ul>
 
-              <div v-if="exam.is_active" class="active-check">
-                  <label class="custom-checkbox">
-                      <input type="checkbox" checked />
-                      <span class="checkmark"></span>
-                  </label>
-              </div>
-
               <div class="exam-card-footer">
                   <div>
-                      <button class="normal-button" v-if="!exam.is_active" @click="publishExam(exam.exam_id)">Import</button>
+                      <button class="normal-button" v-if="format.commonFormat" @click="importExamFormat(format.examFormatId)">Import</button>
                   </div>
                   <div>
-                      <div>Duration: {{exam.exam_type}}mins</div>
-                      <div>Total Marks: {{exam.exam_type}}</div>
+                      <div>Duration: {{format.duration}}mins</div>
+                      <div>Total Marks: {{format.totalMarks}}</div>
                   </div>
               </div>
           </div>
@@ -62,13 +55,13 @@ export default {
   },
   created () {
     this.isLoading = true
-    this.fetchCommonExamFormats().then(res => {
+    this.fetchAllExamFormats(this.currentLoggedInUser.institute_id).then(res => {
       this.isLoading = false
     })
   },
   computed: {
     ...mapGetters('dashboard', [
-      'getExamData'
+      'getExamFormatsData'
     ]),
     ...mapGetters('landing', [
       'currentLoggedInUser'
@@ -76,7 +69,7 @@ export default {
   },
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
-      'fetchCommonExamFormats'
+      'fetchAllExamFormats'
     ]),
     openCreatExam () {
       this.isCreateExamFormatFormat = true
@@ -84,7 +77,7 @@ export default {
     closeCreateExam () {
       this.isCreateExamFormat = false
       this.isLoading = true
-      this.fetchCommonExamFormats().then(res => {
+      this.fetchAllExamFormats(this.currentLoggedInUser.institute_i).then(res => {
         this.isLoading = false
       })
     }
@@ -118,19 +111,15 @@ export default {
   }
 }
 
-.collaborators {
-    width: 25%;
-    display: flex;
+.topics {
+    width: 50%;
     font-weight: 300;
     margin-bottom: 10px;
     >li {
         display: flex;
         align-items: center;
-        .separator {
-            border-radius: 50%;
-            background-color: grey;
-            width: 5px;
-            height: 5px
+        >div {
+          flex-basis: 30%;
         }
     }
 }
