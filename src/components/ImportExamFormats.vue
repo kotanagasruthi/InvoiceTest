@@ -2,7 +2,7 @@
     <div>
         <modal close_button_name="Cancel" ok_button_name="Add" @ok="addTopic()" @close="closeModal()">
             <template #header>
-                <div class="header">Create Topic</div>
+                <div class="header">Select Formats</div>
                 <div @click="closeModal()" class="close-icon">
                     <font-awesome-icon icon="xmark" />
                 </div>
@@ -40,23 +40,22 @@ export default {
       'currentLoggedInUser'
     ])
   },
+  created () {
+    this.fetchCommonExamFormats()
+  },
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
-      'setTopic'
+      'fetchAllExamFormats'
     ]),
-    closeModal () {
-      this.$emit('close')
-    },
-    addTopic () {
-      this.setTopic({
-        topic_name: this.topicName,
-        description: this.topicDescription,
-        institute_id: this.currentLoggedInUser.institute_id
-      }).then(res => {
-        this.$emit('fetch-topics')
+    fetchCommonExamFormats () {
+      this.isLoading = true
+      this.fetchAllExamFormats(this.currentLoggedInUser.institute_id).then(res => {
+        this.isLoading = false
       })
-      console.log('Topic added:', this.topicName, this.topicDescription)
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+</style>

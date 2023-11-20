@@ -3,10 +3,16 @@
     <div>
       <div class="header-container" v-if="isCreateExamFormat">
         <div class="large-header">Create Exam Format</div>
-        <div class="back" @click="closeCreateExam()">Back</div>
+        <div class="back" @click="closeCreateExamFormat()">Back</div>
+      </div>
+      <div v-else- class="header-container">
+        <div class="large-header">Exam Formats</div>
+        <button class="normal-button" @click="openImportFormatPopup()">Import Exam Formats</button>
+        <button class="normal-button" @click="openCreatExamFormat()">Create Exam Format</button>
       </div>
     </div>
-    <create-exam-format v-if="isCreateExamFormat" @close="closeCreateExam()" />
+    <create-exam-format v-if="isCreateExamFormat" @close="closeCreateExamFormat()" />
+    <import-exam-formats v-if="isImportFormatPopup" @close="closeImportExamFormatForm" @fetchExamFormats="fetchFormats()" />
     <div v-else>
       <loader v-if="isLoading" :loading="isLoading"></loader>
       <div v-else>
@@ -40,24 +46,22 @@
 import { mapActions, mapGetters } from 'vuex'
 import Loader from './reusable/Loader.vue'
 import CreateExamFormat from './CreateExamFormat.vue'
+import ImportExamFormats from './ImportExamFormats.vue'
 export default {
   data () {
     return {
       isLoading: false,
       isCreateExamFormat: false,
-      isExamInviteesPage: false,
-      currentExamId: ''
+      isImportFormatPopup: false
     }
   },
   components: {
     loader: Loader,
-    'create-exam-format': CreateExamFormat
+    'create-exam-format': CreateExamFormat,
+    'import-exam-formats': ImportExamFormats
   },
   created () {
-    this.isLoading = true
-    this.fetchAllExamFormats(this.currentLoggedInUser.institute_id).then(res => {
-      this.isLoading = false
-    })
+    this.fetchFormats()
   },
   computed: {
     ...mapGetters('dashboard', [
@@ -71,15 +75,24 @@ export default {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
       'fetchAllExamFormats'
     ]),
-    openCreatExam () {
+    openCreatExamFormat () {
       this.isCreateExamFormatFormat = true
     },
-    closeCreateExam () {
-      this.isCreateExamFormat = false
+    openImportFormatPopup () {
+      this.isImportFormatPopup = true
+    },
+    closeImportExamFormatForm () {
+      this.isImportFormatPopup = false
+    },
+    fetchFormats () {
       this.isLoading = true
-      this.fetchAllExamFormats(this.currentLoggedInUser.institute_i).then(res => {
+      this.fetchInstituteExamFormats(this.currentLoggedInUser.institute_id).then(res => {
         this.isLoading = false
       })
+    },
+    closeCreateExamFormat () {
+      this.isCreateExamFormat = false
+      this.fetchFormats()
     }
   }
 }

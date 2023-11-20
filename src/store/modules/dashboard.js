@@ -118,7 +118,7 @@ const actions = {
     })
   },
   fetchInstituteExamFormats ({ commit }, instituteId) {
-    return axios.get('http://localhost:3000/exam-format/getAllExamFormats', {
+    return axios.get('http://localhost:3000/exam-format/getAllInstituteExamFormats', {
       params: {
         instituteId: instituteId
       }
