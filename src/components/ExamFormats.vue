@@ -16,7 +16,7 @@
     <div v-else>
       <loader v-if="isLoading" :loading="isLoading"></loader>
       <div v-else>
-          <div class="exam-card" v-for="(format, index) in getExamFormatsData" :key="index">
+          <div class="exam-card" v-for="(format, index) in getInstituteExamFormatsData" :key="index">
               <div class="header">{{ format.examType }}</div>
 
               <ul class="topics">
@@ -28,13 +28,8 @@
               </ul>
 
               <div class="exam-card-footer">
-                  <div>
-                      <button class="normal-button" v-if="format.commonFormat" @click="importExamFormat(format.examFormatId)">Import</button>
-                  </div>
-                  <div>
-                      <div>Duration: {{format.duration}}mins</div>
-                      <div>Total Marks: {{format.totalMarks}}</div>
-                  </div>
+                <div>Duration: {{format.duration}} mins</div>
+                <div>Total Marks: {{format.totalMarks}}</div>
               </div>
           </div>
       </div>
@@ -65,7 +60,7 @@ export default {
   },
   computed: {
     ...mapGetters('dashboard', [
-      'getExamFormatsData'
+      'getInstituteExamFormatsData'
     ]),
     ...mapGetters('landing', [
       'currentLoggedInUser'
@@ -73,7 +68,7 @@ export default {
   },
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
-      'fetchAllExamFormats'
+      'fetchInstituteExamFormats'
     ]),
     openCreatExamFormat () {
       this.isCreateExamFormatFormat = true

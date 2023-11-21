@@ -1,6 +1,6 @@
 <template>
     <div>
-        <modal close_button_name="Cancel" ok_button_name="Add" @ok="addTopic()" @close="closeModal()">
+        <modal close_button_name="Cancel" ok_button_name="Import" @ok="addTopic()" @close="closeModal()">
             <template #header>
                 <div class="header">Select Formats</div>
                 <div @click="closeModal()" class="close-icon">
@@ -8,15 +8,25 @@
                 </div>
             </template>
             <template #body>
-                <fieldset class="fieldset">
-                    <legend class="fieldset-legend">Topic Name*</legend>
-                    <input type="text" class="fieldset-input" v-model="topicName">
-                </fieldset>
+                <div>
+                  <div class="exam-card" v-for="(format, index) in getExamFormatsData" :key="index">
+                    <input type="checkbox" :id="format.examFormatId" v-model="selectedQuestions" :value="question.question_id" @change="questionSelected(question)">
+                    <div class="header">{{ format.examType }}</div>
 
-                <fieldset class="fieldset">
-                    <legend class="fieldset-legend">Topic Description*</legend>
-                    <textarea class="fieldset-input" v-model="topicDescription"></textarea>
-                </fieldset>
+                    <ul class="topics">
+                        <li v-for="(topic, index) in format.topics" :key="index">
+                            <div class="bold-font">{{topic.topic_name}}</div>
+                            <div>{{topic.marks}} Marks</div>
+                            <div>{{topic.no_of_questions}} Questions</div>
+                        </li>
+                    </ul>
+
+                    <div class="exam-card-footer">
+                        <div>Duration: {{format.duration}}mins</div>
+                        <div>Total Marks: {{format.totalMarks}}</div>
+                    </div>
+                  </div>
+                </div>
             </template>
         </modal>
     </div>
@@ -38,6 +48,9 @@ export default {
   computed: {
     ...mapGetters('landing', [ // specify the 'dashboard' namespace
       'currentLoggedInUser'
+    ]),
+    ...mapGetters('dashboard', [
+      'getExamFormatsData'
     ])
   },
   created () {
@@ -58,4 +71,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .exam-card {
+  border: 1px solid #ddd;
+  padding: 10px 20px 10px 20px;
+  text-align: left;
+  border-radius: 10px;
+  position: relative;
+  margin-top: 15px;
+  &-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.topics {
+    width: 100%;
+    font-weight: 300;
+    margin-bottom: 10px;
+    >li {
+        display: flex;
+        align-items: center;
+        >div {
+          flex-basis: 30%;
+        }
+    }
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
 </style>

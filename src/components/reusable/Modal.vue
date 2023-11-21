@@ -57,7 +57,7 @@ export default {
     background-color: #ffffff;
     padding: 16px;
     border-radius: 5px;
-    width: 400px;
+    width: 600px;
     position: relative;
 }
 .modal-header {
@@ -76,6 +76,8 @@ export default {
 }
 .modal-body {
     margin-top: 30px;
+    height: 400px;
+    overflow-y: scroll;
 }
 .modal-footer {
     margin-top: 10px;
