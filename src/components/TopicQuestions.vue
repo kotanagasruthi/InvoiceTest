@@ -17,25 +17,25 @@
             <div class="order-box">
                 <loader v-if="isLoading" :loading="isLoading"></loader>
                 <div v-else>
-                        <div class="exam-card" v-for="(question, index) in getQuestionsData" :key="index">
-                            <h4>{{ question.question_text }}</h4>
+                  <div class="exam-card" v-for="(question, index) in getQuestionsData" :key="index">
+                      <div class="header">{{ question.question_text }}</div>
 
-                            <ul class="collaborators">
-                                    <li v-for="(option, index) in question.options" :key="index">
-                                        {{index}}.<div>{{ option }}</div>
-                                    </li>
-                            </ul>
-                            <h4>Difficulty Level: {{question.correct_answer}}</h4>
+                      <ul class="collaborators">
+                        <li v-for="(option, index) in question.options" :key="index">
+                            {{optionsMap[index + 1]}}.<div>{{ option }}</div>
+                        </li>
+                      </ul>
+                      <div class="small-header">Correct Answer: {{question.correct_answer}}</div>
 
-                            <div class="exam-card-footer">
-                            <div>
-                                    <button class="normal-button" @click="editExam">Edit</button>
-                            </div>
-                            <div>
-                                    Difficulty Level: {{question.difficulty_level}}
-                            </div>
-                            </div>
-                        </div>
+                      <div class="exam-card-footer">
+                      <div>
+                        <button class="normal-button" @click="editExam">Edit</button>
+                      </div>
+                      <div>
+                        Difficulty Level: {{question.difficulty_level}}
+                      </div>
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -54,7 +54,13 @@ export default {
   data () {
     return {
       isLoading: false,
-      showQuestionForm: false
+      showQuestionForm: false,
+      optionsMap: {
+        1: 'A',
+        2: 'B',
+        3: 'C',
+        4: 'D'
+      }
     }
   },
   computed: {
@@ -118,7 +124,7 @@ export default {
 }
 .exam-card {
   border: 1px solid #ddd;
-  padding: 0 20px 10px 20px;
+  padding: 10px 20px;
   text-align: left;
   border-radius: 10px;
   position: relative;
@@ -127,14 +133,16 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 15px;
   }
 }
 
 .collaborators {
-    width: 25%;
+    width: 50%;
     display: flex;
     font-weight: 300;
     margin-bottom: 10px;
+    justify-content: space-between;
     >li {
         display: flex;
         align-items: center;
@@ -147,62 +155,9 @@ export default {
     }
 }
 
-h5 {
-  margin: 0;
-  font-weight: 500;
-}
-
 ul {
   list-style-type: none;
   padding-left: 0;
-}
-
-.active-check {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 24px;
-}
-
-.custom-checkbox {
-  position: relative;
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-}
-
-.custom-checkbox input[type="checkbox"] {
-  display: none;
-}
-
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 24px;
-  width: 24px;
-  background-color: #eee;
-  border-radius: 50%;
-  transition: background-color 0.2s;
-}
-
-.checkmark::after {
-  content: "\2713";
-  position: absolute;
-  display: none;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 18px;
-  color: white;
-}
-
-.custom-checkbox input:checked ~ .checkmark {
-  background-color: #4CAF50;
-}
-
-.custom-checkbox input:checked ~ .checkmark::after {
-  display: block;
 }
 
 </style>

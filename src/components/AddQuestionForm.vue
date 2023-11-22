@@ -46,6 +46,25 @@
                     <option value="hard">Hard</option>
                 </select>
             </div>
+          <fieldset class="fieldset">
+            <legend class="fieldset-legend">Question Tags*</legend>
+            <div class="tags-input-container">
+              <div class="tags-container">
+                <span class="tag" v-for="(tag, index) in tags" :key="index">
+                  {{ tag }}
+                  <button class="delete-tag-btn" @click="removeTag(index)">x</button>
+                </span>
+                <input
+                  type="text"
+                  class="tag-input"
+                  @keyup.enter="addTag"
+                  v-model="newTag"
+                  placeholder="Add a tag"
+                  ref="tagInput"
+                />
+              </div>
+            </div>
+          </fieldset>
       </template>
     </modal>
   </div>
@@ -65,7 +84,9 @@ export default {
       optionC: '',
       optionD: '',
       correctAnswer: '',
-      difficulty: 'easy'
+      difficulty: 'easy',
+      tags: [],
+      newTag: ''
     }
   },
   components: {
@@ -78,6 +99,15 @@ export default {
     closeModal () {
       this.$emit('close')
     },
+    addTag () {
+      if (this.newTag.trim() !== '') {
+        this.tags.push(this.newTag.trim())
+        this.newTag = ''
+      }
+    },
+    removeTag (index) {
+      this.tags.splice(index, 1)
+    },
     addQuestion () {
       this.setQuestion({
         topic_name: this.topicName,
@@ -85,7 +115,8 @@ export default {
         question_type: 'multipleChoice',
         options: [this.optionA, this.optionB, this.optionC, this.optionD],
         correct_answer: this.correctAnswer,
-        difficulty_level: this.difficulty
+        difficulty_level: this.difficulty,
+        tags: this.tags
       }).then(res => {
         this.$emit('fetch-questions')
       })
@@ -93,3 +124,56 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .tags-input-container {
+    padding: 5px;
+    border-radius: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .tag {
+    display: flex;
+    align-items: center;
+    background-color: #e0e0e0;
+    border-radius: 16px;
+    padding: 5px 10px;
+    font-size: 0.875rem;
+  }
+
+  .delete-tag-btn {
+    background-color: transparent;
+    border: none;
+    margin-left: 8px;
+    cursor: pointer;
+  }
+
+  .tag-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 0.875rem;
+    padding: 5px 0;
+  }
+
+  .tag-input::placeholder {
+    color: #999;
+  }
+
+  .modal {
+    ::v-deep {
+      .modal-body {
+        height: auto !important;
+      }
+    }
+  }
+</style>

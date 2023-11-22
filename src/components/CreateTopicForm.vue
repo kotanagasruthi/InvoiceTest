@@ -60,3 +60,12 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .modal {
+    ::v-deep {
+      .modal-body {
+        height: auto !important;
+      }
+    }
+  }
+</style>
