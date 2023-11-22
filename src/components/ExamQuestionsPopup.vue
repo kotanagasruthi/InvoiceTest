@@ -70,7 +70,6 @@ export default {
       'fetchQuestions'
     ]),
     questionSelected (currentQuestion) {
-      console.log('selectedQuestions', this.selectedQuestions)
       if (this.selectedQuestions.includes(currentQuestion.question_id)) {
         this.selectedQuestionsForExams.push({
           ...currentQuestion,
@@ -79,8 +78,6 @@ export default {
       } else {
         this.selectedQuestionsForExams = this.selectedQuestionsForExams.filter(question => question.question_id !== currentQuestion.question_id)
       }
-      console.log('question', currentQuestion)
-      console.log('selectedQuestionsForExams', this.selectedQuestionsForExams)
     },
     confirmSelection () {
       this.$emit('selectedQuestions', this.topicName, this.selectedQuestionsForExams)

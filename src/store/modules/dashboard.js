@@ -159,6 +159,12 @@ const actions = {
     return axios.post('http://localhost:3000/exams/setInvitees', payload).then(res => {
       return res
     })
+  },
+  importCommonExamFormatToInstituteExamFormat ({ commit }, payload) {
+    console.log('import exam format payload', payload)
+    return axios.post('http://localhost:3000/exam-format/importExamFormats', payload).then(res => {
+      return res
+    })
   }
 }
 

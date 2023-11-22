@@ -1,6 +1,6 @@
 <template>
     <div>
-        <modal close_button_name="Cancel" ok_button_name="Import" @ok="addTopic()" @close="closeModal()">
+        <modal close_button_name="Cancel" ok_button_name="Import" @ok="importExamFormats()" @close="closeModal()">
             <template #header>
                 <div class="header">Select Formats</div>
                 <div @click="closeModal()" class="close-icon">
@@ -8,9 +8,9 @@
                 </div>
             </template>
             <template #body>
-                <div>
+                <div>importExamFormats
                   <div class="exam-card" v-for="(format, index) in getExamFormatsData" :key="index">
-                    <input type="checkbox" :id="format.examFormatId" v-model="selectedQuestions" :value="question.question_id" @change="questionSelected(question)">
+                    <input type="checkbox" :id="format.examFormatId" v-model="selectedFormats" :value="format.examFormatId">
                     <div class="header">{{ format.examType }}</div>
 
                     <ul class="topics">
@@ -39,7 +39,8 @@ export default {
   data () {
     return {
       topicName: '',
-      topicDescription: ''
+      topicDescription: '',
+      selectedFormats: []
     }
   },
   components: {
@@ -65,6 +66,12 @@ export default {
       this.fetchAllExamFormats(this.currentLoggedInUser.institute_id).then(res => {
         this.isLoading = false
       })
+    },
+    importExamFormats () {
+      this.$emit('importFormats', this.selectedFormats)
+    },
+    closeModal () {
+      this.$emit('close')
     }
   }
 }

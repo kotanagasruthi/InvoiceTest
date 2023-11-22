@@ -12,7 +12,7 @@
       </div>
     </div>
     <create-exam-format v-if="isCreateExamFormat" @close="closeCreateExamFormat()" />
-    <import-exam-formats v-if="isImportFormatPopup" @close="closeImportExamFormatForm" @fetchExamFormats="fetchFormats()" />
+    <import-exam-formats v-if="isImportFormatPopup" @close="closeImportExamFormatForm()" @importFormats="importCommonExamFormats" />
     <div v-else>
       <loader v-if="isLoading" :loading="isLoading"></loader>
       <div v-else>
@@ -68,7 +68,8 @@ export default {
   },
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
-      'fetchInstituteExamFormats'
+      'fetchInstituteExamFormats',
+      'importCommonExamFormatToInstituteExamFormat'
     ]),
     openCreatExamFormat () {
       this.isCreateExamFormatFormat = true
@@ -78,6 +79,7 @@ export default {
     },
     closeImportExamFormatForm () {
       this.isImportFormatPopup = false
+      this.fetchFormats()
     },
     fetchFormats () {
       this.isLoading = true
@@ -88,6 +90,14 @@ export default {
     closeCreateExamFormat () {
       this.isCreateExamFormat = false
       this.fetchFormats()
+    },
+    importCommonExamFormats (selectedFormats) {
+      this.importCommonExamFormatToInstituteExamFormat({
+        examFormatIds: selectedFormats,
+        instituteId: this.currentLoggedInUser.institute_id
+      }).then(res => {
+        this.closeImportExamFormatForm()
+      })
     }
   }
 }
