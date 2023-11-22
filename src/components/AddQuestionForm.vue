@@ -8,6 +8,17 @@
             </div>
       </template>
       <template #body>
+            <div class="select-container">
+                <label for="select-container-legend">Question Type*</label>
+                <select id="mySelect" v-model="questionType">
+                    <option value="multipleChoice">Multiple Choice</option>
+                    <option value="trueFalse">True / False</option>
+                    <option value="shortAnswer">Short Answer</option>
+                    <option value="essay">Essay</option>
+                    <option value="matching">Matching</option>
+                    <option value="fillInTheBlanks">Fill in the Blanks</option>
+                </select>
+            </div>
             <fieldset class="fieldset">
                 <legend class="fieldset-legend">Question*</legend>
                 <input type="text" class="fieldset-input" v-model="question">
@@ -85,6 +96,7 @@ export default {
       optionD: '',
       correctAnswer: '',
       difficulty: 'easy',
+      questionType: 'multipleChoice',
       tags: [],
       newTag: ''
     }
@@ -112,7 +124,7 @@ export default {
       this.setQuestion({
         topic_name: this.topicName,
         question_text: this.question,
-        question_type: 'multipleChoice',
+        question_type: this.questionType,
         options: [this.optionA, this.optionB, this.optionC, this.optionD],
         correct_answer: this.correctAnswer,
         difficulty_level: this.difficulty,
