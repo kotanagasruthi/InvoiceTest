@@ -97,8 +97,9 @@ export default {
       'logout'
     ]),
     loadComponent (componentName) {
-      this.currentComponent = componentName
+    //   this.currentComponent = componentName
       this.selectedComponent = componentName
+      this.$router.push({ name: componentName })
     },
     logoutUser () {
       this.logout().then(res => {

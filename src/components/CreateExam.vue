@@ -126,6 +126,7 @@ export default {
     ])
   },
   created () {
+    console.log('coming to create exam')
     this.isLoading = true
     this.fetchInstituteExamFormats(this.currentLoggedInUser.institute_id).then(res => {
       this.isLoading = false

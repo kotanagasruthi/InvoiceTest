@@ -1,17 +1,17 @@
 <template>
   <div class="order-box">
     <div>
-      <div class="header-container" v-if="isCreateExam">
+      <!-- <div class="header-container" v-if="isCreateExam">
         <div class="large-header">Create Exam</div>
         <div class="back" @click="closeCreateExam()">Back</div>
-      </div>
-      <div v-else-if="!isExamInviteesPage" class="header-container">
-        <div class="large-header">Exams</div>
+      </div> -->
+      <div class="header-container">
+        <breadcrumbs></breadcrumbs>
         <button class="normal-button" @click="openCreatExam()">Create Exam</button>
       </div>
     </div>
-    <create-exam v-if="isCreateExam" @close="closeCreateExam()" />
-    <exam-invitees v-else-if="isExamInviteesPage" :exam-id="currentExamId" @close="closeExamInvitees()"/>
+    <!-- <create-exam v-if="isCreateExam" @close="closeCreateExam()" /> -->
+    <exam-invitees v-if="isExamInviteesPage" :exam-id="currentExamId" @close="closeExamInvitees()"/>
     <div v-else>
       <loader v-if="isLoading" :loading="isLoading"></loader>
       <div v-else>
@@ -52,8 +52,9 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Loader from './reusable/Loader.vue'
-import CreateExam from './CreateExam.vue'
+// import CreateExam from './CreateExam.vue'
 import ExamInvitees from './ExamInvitees.vue'
+import breadcrumbs from '../components/reusable/BreadCrumbs.vue'
 export default {
   data () {
     return {
@@ -65,8 +66,9 @@ export default {
   },
   components: {
     loader: Loader,
-    'create-exam': CreateExam,
-    'exam-invitees': ExamInvitees
+    // 'create-exam': CreateExam,
+    'exam-invitees': ExamInvitees,
+    breadcrumbs
   },
   created () {
     this.isLoading = true
@@ -88,7 +90,9 @@ export default {
       'publishInstituteExam'
     ]),
     openCreatExam () {
-      this.isCreateExam = true
+      // this.isCreateExam = true
+      console.log('coming to push to the router')
+      this.$router.push({ name: 'CreateExamComponent' })
     },
     publishExam (examId) {
       this.publishInstituteExam(examId).then(res => {
