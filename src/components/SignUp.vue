@@ -136,7 +136,6 @@ export default {
         phone_number: +this.institutePhoneNumber,
         email: this.instituteEmail
       }).then(res => {
-        console.log('signup successful')
         this.triggerToast('success', 'SignUp successful!')
         // redirect to login
         this.$router.push({

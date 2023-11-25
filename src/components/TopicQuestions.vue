@@ -95,7 +95,6 @@ export default {
         subTopicName: this.subTopicName
       }).then(res => {
         this.isLoading = false
-        console.log('questions res', res)
       })
     },
     backToTopics () {

@@ -131,7 +131,6 @@ export default {
     ])
   },
   created () {
-    console.log('coming to create exam')
     this.isLoading = true
     this.fetchInstituteExamFormats(this.currentLoggedInUser.institute_id).then(res => {
       this.isLoading = false
@@ -150,19 +149,13 @@ export default {
       this.topics = this.currentExamFormat[0].topics
     },
     openQuestionPopup (topic) {
-      console.log('topic', topic)
       this.currentTopic = topic
-      console.log('current topic', this.currentTopic)
       this.currentTopicQuestionMarks = this.currentTopic.question_marks
       this.showQuestionPopup = true
     },
     setQuestionsForTopic (name, questions) {
-      console.log('topics before', this.topics)
-      console.log('topics id', this.id)
-      console.log('questions..', questions)
       this.topics = this.topics.map(topic => {
         if (topic.topic_name === name) {
-          console.log('id matching..')
           return {
             ...topic,
             questions: questions
@@ -172,7 +165,6 @@ export default {
         }
       })
       this.showQuestionPopup = false
-      console.log('topics after', this.topics)
     },
     openInviteesPopup () {
       this.showInviteesPopup = true
@@ -200,9 +192,7 @@ export default {
         },
         invitees: this.invitees
       }
-      console.log('payload', payload)
       this.setExam(payload).then(res => {
-        console.log('exam set successfully')
         this.$emit('close')
       })
     }

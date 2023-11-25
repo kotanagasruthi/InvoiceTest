@@ -59,8 +59,6 @@ export default {
       'getInstitutes'
     ]),
     Login () {
-      console.log('coming to login..')
-      console.log('institue name', this.selectedInstitute)
       this.validateUserLogin({
         instituteID: this.selectedInstitute,
         email: this.email,
@@ -87,9 +85,7 @@ export default {
   },
   created () {
     this.getInstitutes().then(res => {
-      console.log('all available institutes', this.allAvailableInstitutes)
       this.institutes = res.data
-      console.log(this.institutes)
     })
   }
 }

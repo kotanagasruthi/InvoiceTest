@@ -76,7 +76,6 @@ export default {
   },
   created () {
     this.isLoading = true
-    console.log('exam id', this.examId)
     this.fetchExamInvitees(this.examId).then(res => {
       this.isLoading = false
     })

@@ -78,7 +78,7 @@ const actions = {
     return axios.post('http://localhost:3000/invitees/add', payload).then(res => {
       return res
     }).catch(res => {
-      console.log('could not add invitee..', res)
+      return res
     })
   },
 
@@ -163,7 +163,6 @@ const actions = {
         exam_id: examId
       }
     }).then(res => {
-      console.log('exam pusblished successfully')
       return res
     })
   },
@@ -183,7 +182,6 @@ const actions = {
     })
   },
   importCommonExamFormatToInstituteExamFormat ({ commit }, payload) {
-    console.log('import exam format payload', payload)
     return axios.post('http://localhost:3000/exam-format/importExamFormats', payload).then(res => {
       return res
     })

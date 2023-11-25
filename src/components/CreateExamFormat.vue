@@ -100,7 +100,6 @@ export default {
   },
   created () {
     this.fetchTopics(this.currentLoggedInUser.institute_id).then(res => {
-      console.log('res data', res.data)
       this.availableTopics = JSON.parse(JSON.stringify(res.data))
     })
   },
@@ -116,7 +115,6 @@ export default {
         question_marks: 0,
         no_of_questions: 0
       })
-      console.log('exam topics in add new topic', this.exam.topics)
     },
     addTopic (topic, index) {
       this.exam.topics[index] = {
@@ -126,14 +124,12 @@ export default {
         no_of_questions: this.exam.topics[index].no_of_questions,
         questions: []
       }
-      console.log('exam topics in add topic', this.exam)
     },
     addExamFormat () {
       this.setExamFormat({
         ...this.exam,
         instituteId: this.currentLoggedInUser.institute_id
       }).then(res => {
-        console.log('exam format res', res)
         this.exam = {}
       })
     },

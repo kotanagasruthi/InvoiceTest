@@ -93,15 +93,12 @@ export default {
       })
     },
     closeCreateExam () {
-      // this.isCreateExam = false
       this.isLoading = true
-      console.log('coming to fetch exams again...')
       this.fetchExams(this.currentLoggedInUser.institute_id).then(res => {
         this.isLoading = false
       })
     },
     openExamInviteesPage (examId) {
-      // this.currentExamId = id
       this.$router.push({ name: 'ExamInviteesComponent', params: { examId } })
     },
     closeExamInvitees () {

@@ -87,7 +87,6 @@ export default {
     },
     logoutUser () {
       this.logout().then(res => {
-        console.log('logout res', res)
         this.$router.push({
           name: 'Landing',
           params: {
@@ -96,11 +95,6 @@ export default {
         })
       })
     }
-  },
-
-  created () {
-    // this.currentComponent = ExamsComponent
-    console.log(this.currentLoggedInUser)
   }
 }
 

@@ -79,7 +79,6 @@ export default {
       }).then(res => {
         this.$emit('fetch-topics')
       })
-      console.log('Topic added:', this.topicName, this.topicDescription)
     },
     addSubTopic () {
       this.setSubTopic({
@@ -90,7 +89,6 @@ export default {
       }).then(res => {
         this.$emit('fetch-sub-topics')
       })
-      console.log('SubTopic added:', this.topicName, this.topicDescription)
     }
   }
 

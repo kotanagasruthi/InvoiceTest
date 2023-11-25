@@ -57,7 +57,6 @@ export default {
     this.isLoading = true
     this.fetchQuestions(this.topicName).then(res => {
       this.isLoading = false
-      console.log('questions res', res)
     })
   },
   computed: {
