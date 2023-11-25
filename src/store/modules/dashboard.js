@@ -2,6 +2,7 @@ import axios from 'axios'
 const state = () => ({
   examData: [],
   topicsData: [],
+  subTopicsData: [],
   inviteesData: [],
   questionsData: [],
   usersData: [],
@@ -15,6 +16,9 @@ const mutations = {
   },
   SET_TOPICS_DATA (state, data) {
     state.topicsData = data
+  },
+  SET_SUB_TOPICS_DATA (state, data) {
+    state.subTopicsData = data
   },
   SET_INVITEES_DATA (state, data) {
     state.inviteesData = data
@@ -58,6 +62,18 @@ const actions = {
     })
   },
 
+  fetchSubTopics ({ commit }, payload) {
+    return axios.get('http://localhost:3000/topics/getSubTopics', {
+      params: {
+        institute_id: payload.instituteId,
+        topic_name: payload.topciName
+      }
+    }).then(res => {
+      commit('SET_SUB_TOPICS_DATA', res.data)
+      return res
+    })
+  },
+
   addInvitee ({ commit }, payload) {
     return axios.post('http://localhost:3000/invitees/add', payload).then(res => {
       return res
@@ -85,6 +101,12 @@ const actions = {
 
   setTopic ({ commit }, payload) {
     return axios.post('http://localhost:3000/topics/setTopic', payload).then(res => {
+      return res
+    })
+  },
+
+  setSubTopic ({ commit }, payload) {
+    return axios.post('http://localhost:3000/subTopics/setSubTopic', payload).then(res => {
       return res
     })
   },
@@ -171,6 +193,7 @@ const actions = {
 const getters = {
   getExamData: (state) => state.examData,
   getTopicsData: (state) => state.topicsData,
+  getSubTopicsData: (state) => state.subTopicsData,
   getInviteesData: (state) => state.inviteesData,
   getUsersData: (state) => state.usersData,
   getQuestionsData: (state) => state.questionsData,

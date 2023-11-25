@@ -11,7 +11,7 @@
               No topics found
             </div>
             <div class="grid-container" v-else>
-                <div class="card" v-for="(topic, index) in getTopicsData" :key="index" @click="OpenTopicQuestions(topic)">
+                <div class="card" v-for="(topic, index) in getTopicsData" :key="index" @click="OpenSubTopics(topic)">
                     <h2>{{topic.topic_name}}</h2>
                     <p>{{ topic.description }}</p>
                     <div class="buttons">
@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <create-topic-form v-if="showTopicForm" @close="closeForm" @fetchTopics="refreshTopics()" />
+        <create-topic-form v-if="showTopicForm" from="topic" @close="closeForm" @fetchTopics="refreshTopics()" />
       </div>
       <router-view/>
     </div>
@@ -36,8 +36,7 @@ export default {
   data () {
     return {
       isLoading: false,
-      showTopicForm: false,
-      isOpenTopicQuestions: false
+      showTopicForm: false
     }
   },
   computed: {
@@ -58,13 +57,12 @@ export default {
   },
   created () {
     this.isLoading = true
-    console.log('loggged in user', this.currentLoggedInUser)
     this.fetchTopics(this.currentLoggedInUser.institute_id).then(res => {
       this.isLoading = false
     })
   },
   methods: {
-    ...mapActions('dashboard', [ // specify the 'dashboard' namespace
+    ...mapActions('dashboard', [
       'fetchTopics'
     ]),
     openCreateTopicForm () {
@@ -73,22 +71,15 @@ export default {
     closeForm () {
       this.showTopicForm = false
     },
-    OpenTopicQuestions (topic) {
-      // this.currentTopic = JSON.parse(JSON.stringify(topic))
-      // this.isOpenTopicQuestions = true
-      this.$router.push({ name: 'TopicQuestionsComponent', params: { topic: topic.topic_name } })
+    OpenSubTopics (topic) {
+      this.$router.push({ name: 'SubTopicsComponent', params: { topic: topic.topic_name } })
     },
     refreshTopics () {
       this.showTopicForm = false
       this.isLoading = true
-      console.log('loggged in user', this.currentLoggedInUser)
       this.fetchTopics(this.currentLoggedInUser.institute_id).then(res => {
         this.isLoading = false
-        console.log('topics res', res)
       })
-    },
-    displayTopics () {
-      this.isOpenTopicQuestions = false
     }
   }
 }

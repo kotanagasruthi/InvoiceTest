@@ -11,6 +11,7 @@ import ExamFormatsComponent from '../components/ExamFormats.vue'
 import CreateExamComponent from '../components/CreateExam.vue'
 import ExamInviteesComponent from '../components/ExamInvitees.vue'
 import CreateExamFormatComponent from '../components/CreateExamFormat.vue'
+import SubTopicsComponent from '../components/SubTopics.vue'
 import TopicQuestionsComponent from '../components/TopicQuestions.vue'
 
 const routes = [
@@ -69,10 +70,18 @@ const routes = [
         meta: { breadcrumb: 'Topics' },
         children: [
           {
-            path: 'questions/:topic?',
-            name: 'TopicQuestionsComponent',
-            component: TopicQuestionsComponent,
-            meta: { breadcrumb: '{topic}' }
+            path: ':topic?/sub-topics',
+            name: 'SubTopicsComponent',
+            component: SubTopicsComponent,
+            meta: { breadcrumb: '{topic}' },
+            children: [
+              {
+                path: ':subTopic?/questions',
+                name: 'TopicQuestionsComponent',
+                component: TopicQuestionsComponent,
+                meta: { breadcrumb: '{subTopic}' }
+              }
+            ]
           }
         ]
       },

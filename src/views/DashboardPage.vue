@@ -61,24 +61,9 @@
 </template>
 
 <script>
-// import ExamsComponent from '../components/Exams.vue'
-// import TopicsComponent from '../components/Topics.vue'
-// import InviteesComponent from '../components/Invitees.vue'
-// import SettingsComponent from '../components/Settings.vue'
-// import AnalyticsComponent from '../components/Analytics.vue'
-// import UsersComponent from '../components/Users.vue'
 // import ExamFormatsComponent from '../components/ExamFormats.vue'
 import { mapActions, mapGetters } from 'vuex'
 export default {
-//   components: {
-//     ExamsComponent,
-//     TopicsComponent,
-//     InviteesComponent,
-//     SettingsComponent,
-//     AnalyticsComponent,
-//     UsersComponent,
-//     ExamFormatsComponent
-//   },
   computed: {
     ...mapGetters('landing', [
       'currentLoggedInUser'

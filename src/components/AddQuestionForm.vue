@@ -85,7 +85,8 @@ import Modal from '../components/reusable/Modal.vue'
 import { mapActions } from 'vuex'
 export default {
   props: {
-    topicName: String
+    topicName: String,
+    subTopicName: String
   },
   data () {
     return {

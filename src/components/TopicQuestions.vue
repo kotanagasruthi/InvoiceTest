@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <add-question-form v-if="showQuestionForm" :topic-name="topicName" @close="closeForm" @fetch-questions="refreshQuestions()" />
+        <add-question-form v-if="showQuestionForm" :topic-name="topicName" :sub-topic-name="subTopicName" @close="closeForm" @fetch-questions="refreshQuestions()" />
 </div>
 </template>
 
@@ -58,6 +58,9 @@ export default {
     ]),
     topicName () {
       return this.$route.params.topic
+    },
+    subTopicName () {
+      return this.$route.params.subTopic
     }
   },
   components: {
@@ -67,7 +70,10 @@ export default {
   },
   created () {
     this.isLoading = true
-    this.fetchQuestions(this.topicName).then(res => {
+    this.fetchQuestions({
+      topicName: this.topicName,
+      subTopicName: this.subTopicName
+    }).then(res => {
       this.isLoading = false
     })
   },
@@ -84,7 +90,10 @@ export default {
     refreshQuestions () {
       this.showQuestionForm = false
       this.isLoading = true
-      this.fetchQuestions(this.topicName).then(res => {
+      this.fetchQuestions({
+        topicName: this.topicName,
+        subTopicName: this.subTopicName
+      }).then(res => {
         this.isLoading = false
         console.log('questions res', res)
       })
