@@ -9,6 +9,9 @@ import AnalyticsComponent from '../components/Analytics.vue'
 import UsersComponent from '../components/Users.vue'
 import ExamFormatsComponent from '../components/ExamFormats.vue'
 import CreateExamComponent from '../components/CreateExam.vue'
+import ExamInviteesComponent from '../components/ExamInvitees.vue'
+import CreateExamFormatComponent from '../components/CreateExamFormat.vue'
+import TopicQuestionsComponent from '../components/TopicQuestions.vue'
 
 const routes = [
   {
@@ -36,6 +39,12 @@ const routes = [
             name: 'CreateExamComponent',
             component: CreateExamComponent,
             meta: { breadcrumb: 'Create Exam' }
+          },
+          {
+            path: 'invite/:examId?',
+            name: 'ExamInviteesComponent',
+            component: ExamInviteesComponent,
+            meta: { breadcrumb: 'Exam Invitees' }
           }
         ]
       },
@@ -43,13 +52,29 @@ const routes = [
         path: 'exam-formats',
         name: 'ExamFormatsComponent',
         component: ExamFormatsComponent,
-        meta: { breadcrumb: 'Exam Formats' }
+        meta: { breadcrumb: 'Exam Formats' },
+        children: [
+          {
+            path: 'create-format',
+            name: 'CreateExamFormatComponent',
+            component: CreateExamFormatComponent,
+            meta: { breadcrumb: 'Create Exam Format' }
+          }
+        ]
       },
       {
         path: 'topics',
         name: 'TopicsComponent',
         component: TopicsComponent,
-        meta: { breadcrumb: 'Topics' }
+        meta: { breadcrumb: 'Topics' },
+        children: [
+          {
+            path: 'questions/:topic?',
+            name: 'TopicQuestionsComponent',
+            component: TopicQuestionsComponent,
+            meta: { breadcrumb: '{topic}' }
+          }
+        ]
       },
       {
         path: 'invitees',

@@ -1,44 +1,43 @@
 <template>
     <div>
-        <div v-if="!isOpenTopicQuestions">
-            <header class="header-container">
-                <div class="large-header">Topics</div>
-                <button class="normal-button" @click="openCreateTopicForm()">Create Topic</button>
-            </header>
-            <div>
-                <loader v-if="isLoading" :loading="isLoading"></loader>
-                <div v-else-if="!getTopicsData">
-                No topics found
-                </div>
-                <div class="grid-container" v-else>
-                    <div class="card" v-for="(topic, index) in getTopicsData" :key="index" @click="OpenTopicQuestions(topic)">
-                        <h2>{{topic.topic_name}}</h2>
-                        <p>{{ topic.description }}</p>
-                        <div class="buttons">
-                        <button class="normal-button">EDIT</button>
-                        <button class="normal-button">DELETE</button>
-                        </div>
+      <div v-if="!hasActiveChildRoute" class="header-container">
+        <breadcrumbs></breadcrumbs>
+        <button class="normal-button" @click="openCreateTopicForm()">Create Topic</button>
+      </div>
+      <div v-if="!hasActiveChildRoute">
+        <div>
+            <loader v-if="isLoading" :loading="isLoading"></loader>
+            <div v-else-if="!getTopicsData">
+              No topics found
+            </div>
+            <div class="grid-container" v-else>
+                <div class="card" v-for="(topic, index) in getTopicsData" :key="index" @click="OpenTopicQuestions(topic)">
+                    <h2>{{topic.topic_name}}</h2>
+                    <p>{{ topic.description }}</p>
+                    <div class="buttons">
+                    <button class="normal-button">EDIT</button>
+                    <button class="normal-button">DELETE</button>
                     </div>
                 </div>
             </div>
-            <create-topic-form v-if="showTopicForm" @close="closeForm" @fetchTopics="refreshTopics()" />
         </div>
-        <topic-questions :topic="currentTopic" @back="displayTopics()" v-else />
+        <create-topic-form v-if="showTopicForm" @close="closeForm" @fetchTopics="refreshTopics()" />
+      </div>
+      <router-view/>
     </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import CreateTopicForm from './CreateTopicForm.vue'
-import TopicQuestions from './TopicQuestions.vue'
 import Loader from './reusable/Loader.vue'
+import breadcrumbs from '../components/reusable/BreadCrumbs.vue'
 export default {
   data () {
     return {
       isLoading: false,
       showTopicForm: false,
-      isOpenTopicQuestions: false,
-      currentTopic: {}
+      isOpenTopicQuestions: false
     }
   },
   computed: {
@@ -47,12 +46,15 @@ export default {
     ]),
     ...mapGetters('dashboard', [
       'getTopicsData'
-    ])
+    ]),
+    hasActiveChildRoute () {
+      return this.$route.matched.length > 2
+    }
   },
   components: {
     loader: Loader,
     'create-topic-form': CreateTopicForm,
-    'topic-questions': TopicQuestions
+    breadcrumbs
   },
   created () {
     this.isLoading = true
@@ -72,8 +74,9 @@ export default {
       this.showTopicForm = false
     },
     OpenTopicQuestions (topic) {
-      this.currentTopic = JSON.parse(JSON.stringify(topic))
-      this.isOpenTopicQuestions = true
+      // this.currentTopic = JSON.parse(JSON.stringify(topic))
+      // this.isOpenTopicQuestions = true
+      this.$router.push({ name: 'TopicQuestionsComponent', params: { topic: topic.topic_name } })
     },
     refreshTopics () {
       this.showTopicForm = false

@@ -1,19 +1,16 @@
 <template>
   <div class="order-box">
-    <div>
-      <div class="header-container" v-if="isCreateExamFormat">
-        <div class="large-header">Create Exam Format</div>
-        <div class="back" @click="closeCreateExamFormat()">Back</div>
-      </div>
-      <div v-else- class="header-container">
-        <div class="large-header">Exam Formats</div>
-        <button class="normal-button" @click="openImportFormatPopup()">Import Exam Formats</button>
-        <button class="normal-button" @click="openCreatExamFormat()">Create Exam Format</button>
+    <div v-if="!hasActiveChildRoute" class="header-container">
+      <breadcrumbs></breadcrumbs>
+      <div>
+        <button class="normal-button" @click="openImportFormatPopup()">Import Exam Format</button>
+        <button class="normal-button" @click="openCreatExamFormat()">Create Exam</button>
       </div>
     </div>
-    <create-exam-format v-if="isCreateExamFormat" @close="closeCreateExamFormat()" />
+
     <import-exam-formats v-if="isImportFormatPopup" @close="closeImportExamFormatForm()" @importFormats="importCommonExamFormats" />
-    <div v-else>
+
+    <div v-if="!hasActiveChildRoute">
       <loader v-if="isLoading" :loading="isLoading"></loader>
       <div v-else>
           <div class="exam-card" v-for="(format, index) in getInstituteExamFormatsData" :key="index">
@@ -34,13 +31,14 @@
           </div>
       </div>
     </div>
+    <router-view/>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Loader from './reusable/Loader.vue'
-import CreateExamFormat from './CreateExamFormat.vue'
+import breadcrumbs from '../components/reusable/BreadCrumbs.vue'
 import ImportExamFormats from './ImportExamFormats.vue'
 export default {
   data () {
@@ -52,8 +50,8 @@ export default {
   },
   components: {
     loader: Loader,
-    'create-exam-format': CreateExamFormat,
-    'import-exam-formats': ImportExamFormats
+    'import-exam-formats': ImportExamFormats,
+    breadcrumbs
   },
   created () {
     this.fetchFormats()
@@ -64,7 +62,10 @@ export default {
     ]),
     ...mapGetters('landing', [
       'currentLoggedInUser'
-    ])
+    ]),
+    hasActiveChildRoute () {
+      return this.$route.matched.length > 2
+    }
   },
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
@@ -72,7 +73,7 @@ export default {
       'importCommonExamFormatToInstituteExamFormat'
     ]),
     openCreatExamFormat () {
-      this.isCreateExamFormatFormat = true
+      this.$router.push({ name: 'CreateExamFormatComponent' })
     },
     openImportFormatPopup () {
       this.isImportFormatPopup = true
@@ -86,10 +87,6 @@ export default {
       this.fetchInstituteExamFormats(this.currentLoggedInUser.institute_id).then(res => {
         this.isLoading = false
       })
-    },
-    closeCreateExamFormat () {
-      this.isCreateExamFormat = false
-      this.fetchFormats()
     },
     importCommonExamFormats (selectedFormats) {
       this.importCommonExamFormatToInstituteExamFormat({
@@ -153,46 +150,4 @@ ul {
   right: 10px;
   font-size: 24px;
 }
-
-.custom-checkbox {
-  position: relative;
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-}
-
-.custom-checkbox input[type="checkbox"] {
-  display: none;
-}
-
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 24px;
-  width: 24px;
-  background-color: #eee;
-  border-radius: 50%;
-  transition: background-color 0.2s;
-}
-
-.checkmark::after {
-  content: "\2713";
-  position: absolute;
-  display: none;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 18px;
-  color: white;
-}
-
-.custom-checkbox input:checked ~ .checkmark {
-  background-color: #4CAF50;
-}
-
-.custom-checkbox input:checked ~ .checkmark::after {
-  display: block;
-}
-
 </style>

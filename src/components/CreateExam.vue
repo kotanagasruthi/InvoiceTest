@@ -1,5 +1,8 @@
 <template>
     <div>
+      <div class="header-container">
+        <breadcrumbs></breadcrumbs>
+      </div>
         <loader v-if="isLoading" :loading="isLoading"></loader>
         <div v-else class="exam-form">
             <div class="select-container">
@@ -83,6 +86,7 @@
 <script>
 import QuestionPopup from './ExamQuestionsPopup.vue'
 import InviteesPopup from './ExamInviteesPopup.vue'
+import breadcrumbs from '../components/reusable/BreadCrumbs.vue'
 import Loader from './reusable/Loader.vue'
 import { mapActions, mapGetters } from 'vuex'
 
@@ -90,7 +94,8 @@ export default {
   components: {
     QuestionPopup,
     InviteesPopup,
-    loader: Loader
+    loader: Loader,
+    breadcrumbs
   },
   data () {
     return {

@@ -1,18 +1,10 @@
 <template>
   <div class="order-box">
-    <div>
-      <!-- <div class="header-container" v-if="isCreateExam">
-        <div class="large-header">Create Exam</div>
-        <div class="back" @click="closeCreateExam()">Back</div>
-      </div> -->
-      <div class="header-container">
-        <breadcrumbs></breadcrumbs>
-        <button class="normal-button" @click="openCreatExam()">Create Exam</button>
-      </div>
+    <div v-if="!hasActiveChildRoute" class="header-container">
+      <breadcrumbs></breadcrumbs>
+      <button class="normal-button" @click="openCreatExam()">Create Exam</button>
     </div>
-    <!-- <create-exam v-if="isCreateExam" @close="closeCreateExam()" /> -->
-    <exam-invitees v-if="isExamInviteesPage" :exam-id="currentExamId" @close="closeExamInvitees()"/>
-    <div v-else>
+    <div v-if="!hasActiveChildRoute">
       <loader v-if="isLoading" :loading="isLoading"></loader>
       <div v-else>
           <div class="exam-card" v-for="(exam, index) in getExamData" :key="index">
@@ -46,14 +38,13 @@
           </div>
       </div>
     </div>
+    <router-view/>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Loader from './reusable/Loader.vue'
-// import CreateExam from './CreateExam.vue'
-import ExamInvitees from './ExamInvitees.vue'
 import breadcrumbs from '../components/reusable/BreadCrumbs.vue'
 export default {
   data () {
@@ -66,8 +57,6 @@ export default {
   },
   components: {
     loader: Loader,
-    // 'create-exam': CreateExam,
-    'exam-invitees': ExamInvitees,
     breadcrumbs
   },
   created () {
@@ -82,7 +71,10 @@ export default {
     ]),
     ...mapGetters('landing', [
       'currentLoggedInUser'
-    ])
+    ]),
+    hasActiveChildRoute () {
+      return this.$route.matched.length > 2
+    }
   },
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
@@ -90,8 +82,6 @@ export default {
       'publishInstituteExam'
     ]),
     openCreatExam () {
-      // this.isCreateExam = true
-      console.log('coming to push to the router')
       this.$router.push({ name: 'CreateExamComponent' })
     },
     publishExam (examId) {
@@ -103,16 +93,16 @@ export default {
       })
     },
     closeCreateExam () {
-      this.isCreateExam = false
+      // this.isCreateExam = false
       this.isLoading = true
       console.log('coming to fetch exams again...')
       this.fetchExams(this.currentLoggedInUser.institute_id).then(res => {
         this.isLoading = false
       })
     },
-    openExamInviteesPage (id) {
-      this.currentExamId = id
-      this.isExamInviteesPage = true
+    openExamInviteesPage (examId) {
+      // this.currentExamId = id
+      this.$router.push({ name: 'ExamInviteesComponent', params: { examId } })
     },
     closeExamInvitees () {
       this.isExamInviteesPage = false

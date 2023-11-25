@@ -1,19 +1,10 @@
 <template>
     <div>
-        <header class="header-container">
-            <div class="large-header">
-                Topic Questions
-            </div>
-            <div class="back" @click="backToTopics()">Back</div>
-        </header>
+        <div class="header-container">
+          <breadcrumbs></breadcrumbs>
+          <button class="normal-button" @click="openAddQuestionForm()">Add Questions</button>
+        </div>
         <div class="topic-questions">
-            <header class="header-container">
-                <div class="header-container-left">
-                    <div class="header">{{topic.topic_name}}</div>
-                    <div>{{topic.description}}</div>
-                </div>
-                <button class="normal-button" @click="openAddQuestionForm()">Add Questions</button>
-            </header>
             <div class="order-box">
                 <loader v-if="isLoading" :loading="isLoading"></loader>
                 <div v-else>
@@ -39,18 +30,16 @@
                 </div>
             </div>
         </div>
-        <add-question-form v-if="showQuestionForm" :topic-name="topic.topic_name" @close="closeForm" @fetch-questions="refreshQuestions()" />
+        <add-question-form v-if="showQuestionForm" :topic-name="topicName" @close="closeForm" @fetch-questions="refreshQuestions()" />
 </div>
 </template>
 
 <script>
 import AddQuestionForm from './AddQuestionForm.vue'
+import breadcrumbs from '../components/reusable/BreadCrumbs.vue'
 import { mapActions, mapGetters } from 'vuex'
 import Loader from './reusable/Loader.vue'
 export default {
-  props: {
-    topic: Object
-  },
   data () {
     return {
       isLoading: false,
@@ -66,15 +55,19 @@ export default {
   computed: {
     ...mapGetters('dashboard', [
       'getQuestionsData'
-    ])
+    ]),
+    topicName () {
+      return this.$route.params.topic
+    }
   },
   components: {
     loader: Loader,
-    'add-question-form': AddQuestionForm
+    'add-question-form': AddQuestionForm,
+    breadcrumbs
   },
   created () {
     this.isLoading = true
-    this.fetchQuestions(this.topic.topic_name).then(res => {
+    this.fetchQuestions(this.topicName).then(res => {
       this.isLoading = false
     })
   },
@@ -91,7 +84,7 @@ export default {
     refreshQuestions () {
       this.showQuestionForm = false
       this.isLoading = true
-      this.fetchQuestions(this.topic.topic_name).then(res => {
+      this.fetchQuestions(this.topicName).then(res => {
         this.isLoading = false
         console.log('questions res', res)
       })

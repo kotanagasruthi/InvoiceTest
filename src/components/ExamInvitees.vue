@@ -1,12 +1,16 @@
 <template>
   <div>
     <div class="header-container">
+      <breadcrumbs></breadcrumbs>
+      <button class="normal-button" @click="showAddExamInviteeDialog = true">Add Exam Candidates</button>
+    </div>
+    <!-- <div class="header-container">
         <div class="large-header">Exam Candidates</div>
         <div class="header-right">
-            <button class="normal-button" @click="showAddExamInviteeDialog = true">Add Exam Candidates</button>
+
             <div class="back" @click="closeExamInvitee()">Back</div>
         </div>
-    </div>
+    </div> -->
     <div>
       <div class="table-container">
         <table v-if="getExamInviteesData.length > 0">
@@ -47,6 +51,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import ExamInviteePopup from '../components/ExamInviteesPopup.vue'
+import breadcrumbs from '../components/reusable/BreadCrumbs.vue'
 
 export default {
   data () {
@@ -54,19 +59,24 @@ export default {
       showAddExamInviteeDialog: false
     }
   },
-  props: {
-    examId: String
+  // props: {
+  //   examId: String
+  // },
+  components: {
+    'add-exam-invitees': ExamInviteePopup,
+    breadcrumbs
   },
   computed: {
     ...mapGetters('dashboard', [
       'getExamInviteesData'
-    ])
-  },
-  components: {
-    'add-exam-invitees': ExamInviteePopup
+    ]),
+    examId () {
+      return this.$route.params.examId
+    }
   },
   created () {
     this.isLoading = true
+    console.log('exam id', this.examId)
     this.fetchExamInvitees(this.examId).then(res => {
       this.isLoading = false
     })

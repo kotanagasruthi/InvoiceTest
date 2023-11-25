@@ -1,85 +1,84 @@
 <template>
 <div>
     <header>
-            <div class="brand-logo">
-                <img src="../assets/trans_logo_vidhyasoft.png" alt="Logo"/>
-                <span>{{currentLoggedInUser.institute_name}}</span>
-            </div>
-            <div class="logged-user">
-                <div class="username">
-                    Hi, {{currentLoggedInUser.name}}!!
-                </div>
-                <div class="logout" @click="logoutUser()">
-                    <font-awesome-icon class="icon"  icon="sign-out" />
-                </div>
-            </div>
-    </header>
-      <div class="container">
-            <div class="left-pane">
-                <div class="menu-item" @click="loadComponent('ExamsComponent')"
-                :class="{ selected: selectedComponent === 'ExamsComponent' }">
-                    <font-awesome-icon class="icon"  icon="file-lines" /> <div>Exams</div>
-                </div>
-
-                <div class="menu-item" @click="loadComponent('ExamFormatsComponent')"
-                :class="{ selected: selectedComponent === 'ExamFormatsComponent' }">
-                    <font-awesome-icon class="icon"  icon="users" /> <div>Exam Formats</div>
-                </div>
-
-                <div class="menu-item" @click="loadComponent('TopicsComponent')"
-                :class="{ selected: selectedComponent === 'TopicsComponent' }">
-                    <font-awesome-icon class="icon" icon="clipboard-question" /> <div>Topics</div>
-                </div>
-
-                <div class="menu-item" @click="loadComponent('InviteesComponent')"
-                :class="{ selected: selectedComponent === 'InviteesComponent' }">
-                    <font-awesome-icon class="icon"  icon="user-plus" /> <div>Candidates</div>
-                </div>
-
-                <div class="menu-item" @click="loadComponent('AnalyticsComponent')"
-                :class="{ selected: selectedComponent === 'AnalyticsComponent' }">
-                    <font-awesome-icon class="icon"  icon="chart-simple" /> <div>Analytics</div>
-                </div>
-
-                <div class="menu-item" @click="loadComponent('UsersComponent')"
-                :class="{ selected: selectedComponent === 'UsersComponent' }">
-                    <font-awesome-icon class="icon"  icon="users" /> <div>Users</div>
-                </div>
-
-                <div class="menu-item" @click="loadComponent('SettingsComponent')"
-                :class="{ selected: selectedComponent === 'SettingsComponent' }">
-                    <font-awesome-icon class="icon"  icon="cog" /> <div>Settings</div>
-                </div>
-
-            <!-- Add similar menu items for other sections -->
-            </div>
-
-            <main>
-                <component :is="currentComponent"></component>
-            </main>
+        <div class="brand-logo">
+            <img src="../assets/trans_logo_vidhyasoft.png" alt="Logo"/>
+            <span>{{currentLoggedInUser.institute_name}}</span>
         </div>
+        <div class="logged-user">
+            <div class="username">
+                Hi, {{currentLoggedInUser.name}}!!
+            </div>
+            <div class="logout" @click="logoutUser()">
+                <font-awesome-icon class="icon"  icon="sign-out" />
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="left-pane">
+            <div class="menu-item" @click="loadComponent('ExamsComponent')"
+            :class="{ selected: selectedComponent === 'ExamsComponent' }">
+                <font-awesome-icon class="icon"  icon="file-lines" /> <div>Exams</div>
+            </div>
+
+            <div class="menu-item" @click="loadComponent('ExamFormatsComponent')"
+            :class="{ selected: selectedComponent === 'ExamFormatsComponent' }">
+                <font-awesome-icon class="icon"  icon="users" /> <div>Exam Formats</div>
+            </div>
+
+            <div class="menu-item" @click="loadComponent('TopicsComponent')"
+            :class="{ selected: selectedComponent === 'TopicsComponent' }">
+                <font-awesome-icon class="icon" icon="clipboard-question" /> <div>Topics</div>
+            </div>
+
+            <div class="menu-item" @click="loadComponent('InviteesComponent')"
+            :class="{ selected: selectedComponent === 'InviteesComponent' }">
+                <font-awesome-icon class="icon"  icon="user-plus" /> <div>Candidates</div>
+            </div>
+
+            <div class="menu-item" @click="loadComponent('AnalyticsComponent')"
+            :class="{ selected: selectedComponent === 'AnalyticsComponent' }">
+                <font-awesome-icon class="icon"  icon="chart-simple" /> <div>Analytics</div>
+            </div>
+
+            <div class="menu-item" @click="loadComponent('UsersComponent')"
+            :class="{ selected: selectedComponent === 'UsersComponent' }">
+                <font-awesome-icon class="icon"  icon="users" /> <div>Users</div>
+            </div>
+
+            <div class="menu-item" @click="loadComponent('SettingsComponent')"
+            :class="{ selected: selectedComponent === 'SettingsComponent' }">
+                <font-awesome-icon class="icon"  icon="cog" /> <div>Settings</div>
+            </div>
+        </div>
+
+        <!-- <main>
+            <component :is="currentComponent"></component>
+        </main> -->
+        <router-view />
+    </div>
 </div>
 </template>
 
 <script>
-import ExamsComponent from '../components/Exams.vue'
-import TopicsComponent from '../components/Topics.vue'
-import InviteesComponent from '../components/Invitees.vue'
-import SettingsComponent from '../components/Settings.vue'
-import AnalyticsComponent from '../components/Analytics.vue'
-import UsersComponent from '../components/Users.vue'
-import ExamFormatsComponent from '../components/ExamFormats.vue'
+// import ExamsComponent from '../components/Exams.vue'
+// import TopicsComponent from '../components/Topics.vue'
+// import InviteesComponent from '../components/Invitees.vue'
+// import SettingsComponent from '../components/Settings.vue'
+// import AnalyticsComponent from '../components/Analytics.vue'
+// import UsersComponent from '../components/Users.vue'
+// import ExamFormatsComponent from '../components/ExamFormats.vue'
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  components: {
-    ExamsComponent,
-    TopicsComponent,
-    InviteesComponent,
-    SettingsComponent,
-    AnalyticsComponent,
-    UsersComponent,
-    ExamFormatsComponent
-  },
+//   components: {
+//     ExamsComponent,
+//     TopicsComponent,
+//     InviteesComponent,
+//     SettingsComponent,
+//     AnalyticsComponent,
+//     UsersComponent,
+//     ExamFormatsComponent
+//   },
   computed: {
     ...mapGetters('landing', [
       'currentLoggedInUser'
@@ -115,7 +114,7 @@ export default {
   },
 
   created () {
-    this.currentComponent = ExamsComponent
+    // this.currentComponent = ExamsComponent
     console.log(this.currentLoggedInUser)
   }
 }

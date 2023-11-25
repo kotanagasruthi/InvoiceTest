@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header-container">
-      <div class="large-header">Create Exam Format</div>
+      <breadcrumbs></breadcrumbs>
     </div>
     <div class="exam-format">
           <div class="exam-format-type">
@@ -71,6 +71,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import breadcrumbs from '../components/reusable/BreadCrumbs.vue'
 export default {
   data () {
     return {
@@ -88,6 +89,9 @@ export default {
       },
       availableTopics: []
     }
+  },
+  components: {
+    breadcrumbs
   },
   computed: {
     ...mapGetters('landing', [ // specify the 'dashboard' namespace
