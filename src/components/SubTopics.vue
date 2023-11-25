@@ -1,19 +1,19 @@
 <template>
     <div>
-        <div v-if="!isOpenSubTopics">
+        <div v-if="!isOpenSubTopicQuestions">
             <header class="header-container">
-                <div class="large-header">Topics</div>
-                <button class="normal-button" @click="openCreateTopicForm()">Create Topic</button>
+                <div class="large-header">SubTopics</div>
+                <button class="normal-button" @click="openCreateSubTopicForm()">Create SubTopic</button>
             </header>
             <div>
                 <loader v-if="isLoading" :loading="isLoading"></loader>
-                <div v-else-if="!getTopicsData">
-                No topics found
+                <div v-else-if="!getSubTopicsData">
+                No sub topics found
                 </div>
                 <div class="grid-container" v-else>
-                    <div class="card" v-for="(topic, index) in getTopicsData" :key="index" @click="OpenSubTopics(topic)">
-                        <h2>{{topic.topic_name}}</h2>
-                        <p>{{ topic.description }}</p>
+                    <div class="card" v-for="(topic, index) in getSubTopicsData" :key="index" @click="OpenSubTopicQuestions(topic)">
+                        <h2>{{subtopic.topic_name}}</h2>
+                        <p>{{ subtopic.description }}</p>
                         <div class="buttons">
                         <button class="normal-button">EDIT</button>
                         <button class="normal-button">DELETE</button>
@@ -21,62 +21,65 @@
                     </div>
                 </div>
             </div>
-            <create-topic-form v-if="showTopicForm" from="topic" @close="closeForm" @fetchTopics="refreshTopics()" />
+            <create-topic-form v-if="showSubTopicForm" from="subtopic" @close="closeForm" @fetchTopics="refreshSubTopics()" />
         </div>
-        <sub-topics :topic="currentTopic" @back="displayTopics()" v-else />
+        <topic-questions :topic="currentSubTopic" @back="displaySubTopics()" v-else />
     </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import CreateTopicForm from './CreateTopicForm.vue'
-import SubTopics from './SubTopics.vue'
+import TopicQuestions from './TopicQuestions.vue'
 import Loader from './reusable/Loader.vue'
 export default {
   data () {
     return {
       isLoading: false,
-      showTopicForm: false,
-      isOpenSubTopics: false,
-      currentTopic: {}
+      showSubTopicForm: false,
+      isOpenSubTopicQuestions: false,
+      currentSubTopic: {}
     }
+  },
+  props: {
+    topic: Object
   },
   computed: {
     ...mapGetters('landing', [
       'currentLoggedInUser'
     ]),
     ...mapGetters('dashboard', [
-      'getTopicsData'
+      'getSubTopicsData'
     ])
   },
   components: {
     loader: Loader,
     'create-topic-form': CreateTopicForm,
-    'sub-topics': SubTopics
+    'topic-questions': TopicQuestions
   },
   created () {
     this.isLoading = true
     console.log('loggged in user', this.currentLoggedInUser)
-    this.fetchTopics(this.currentLoggedInUser.institute_id).then(res => {
+    this.fetchSubTopics(this.currentLoggedInUser.institute_id).then(res => {
       this.isLoading = false
     })
   },
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
-      'fetchTopics'
+      'fetchSubTopics'
     ]),
-    openCreateTopicForm () {
-      this.showTopicForm = true
+    openCreateSubTopicForm () {
+      this.showSubTopicForm = true
     },
     closeForm () {
-      this.showTopicForm = false
+      this.showSubTopicForm = false
     },
-    OpenSubTopics (topic) {
-      this.currentTopic = JSON.parse(JSON.stringify(topic))
-      this.isOpenSubTopics = true
+    OpenSubTopicQuestions (subtopic) {
+      this.currentSubTopic = JSON.parse(JSON.stringify(subtopic))
+      this.isOpenSubTopicQuestions = true
     },
-    refreshTopics () {
-      this.showTopicForm = false
+    refreshSubTopics () {
+      this.showSubTopicForm = false
       this.isLoading = true
       console.log('loggged in user', this.currentLoggedInUser)
       this.fetchTopics(this.currentLoggedInUser.institute_id).then(res => {
@@ -84,8 +87,8 @@ export default {
         console.log('topics res', res)
       })
     },
-    displayTopics () {
-      this.isOpenSubTopics = false
+    displaySubTopics () {
+      this.isOpenSubTopicQuestions = false
     }
   }
 }

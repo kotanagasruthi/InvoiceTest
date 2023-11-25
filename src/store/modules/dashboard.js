@@ -89,6 +89,12 @@ const actions = {
     })
   },
 
+  setSubTopic ({ commit }, payload) {
+    return axios.post('http://localhost:3000/subTopics/setSubTopic', payload).then(res => {
+      return res
+    })
+  },
+
   setExam ({ commit }, payload) {
     return axios.post('http://localhost:3000/exams/setExam', payload).then(res => {
       return res
