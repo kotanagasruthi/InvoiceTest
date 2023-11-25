@@ -25,6 +25,9 @@ export default {
           if (this.$route.params?.topic) {
             breadcrumbText = breadcrumbText.replace('{topic}', this.$route.params.topic)
           }
+          if (this.$route.params?.subTopic) {
+            breadcrumbText = breadcrumbText.replace('{subTopic}', this.$route.params.subTopic)
+          }
 
           const isActive = index === this.$route.matched.length - 1
           breadcrumbs.push({

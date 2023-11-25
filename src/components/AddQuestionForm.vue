@@ -124,6 +124,7 @@ export default {
     addQuestion () {
       this.setQuestion({
         topic_name: this.topicName,
+        subtopic_name: this.subTopicName,
         question_text: this.question,
         question_type: this.questionType,
         options: [this.optionA, this.optionB, this.optionC, this.optionD],
