@@ -7,7 +7,7 @@
       <div v-if="!hasActiveChildRoute">
           <div>
               <loader v-if="isLoading" :loading="isLoading"></loader>
-              <div v-else-if="!getSubTopicsData">
+              <div v-else-if="!getSubTopicsData.length">
                 No sub topics found
               </div>
               <div class="grid-container" v-else>
@@ -30,6 +30,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import CreateTopicForm from './CreateTopicForm.vue'
+import breadcrumbs from '../components/reusable/BreadCrumbs.vue'
 import Loader from './reusable/Loader.vue'
 export default {
   data () {
@@ -46,7 +47,7 @@ export default {
       'getSubTopicsData'
     ]),
     hasActiveChildRoute () {
-      return this.$route.matched.length > 2
+      return this.$route.matched.length > 3
     },
     topicName () {
       return this.$route.params.topic
@@ -54,7 +55,8 @@ export default {
   },
   components: {
     loader: Loader,
-    'create-topic-form': CreateTopicForm
+    'create-topic-form': CreateTopicForm,
+    breadcrumbs
   },
   created () {
     this.isLoading = true

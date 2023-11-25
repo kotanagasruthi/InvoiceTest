@@ -3,7 +3,7 @@
         <modal
             close_button_name="Cancel"
             ok_button_name="Add"
-            @ok="addTopic()"
+            @ok="addForm()"
             @close="closeModal()"
         >
             <template #header>
@@ -49,7 +49,10 @@ export default {
   computed: {
     ...mapGetters('landing', [ // specify the 'dashboard' namespace
       'currentLoggedInUser'
-    ])
+    ]),
+    currentTopicName () {
+      return this.$route.params.topic
+    }
   },
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
@@ -61,7 +64,7 @@ export default {
     },
 
     addForm () {
-      if (this.formType === 'subtopic') {
+      if (this.from === 'subtopic') {
         this.addSubtopic()
       } else {
         this.addTopic()
@@ -80,6 +83,7 @@ export default {
     },
     addSubTopic () {
       this.setSubTopic({
+        topic_name: this.currentTopicName,
         sub_topic_name: this.subTopicName,
         description: this.subTopicDescription,
         institute_id: this.currentLoggedInUser.institute_id

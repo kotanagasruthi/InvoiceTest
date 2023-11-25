@@ -66,7 +66,7 @@ const actions = {
     return axios.get('http://localhost:3000/topics/getSubTopics', {
       params: {
         institute_id: payload.instituteId,
-        topic_name: payload.topciName
+        topic_name: payload.topicName
       }
     }).then(res => {
       commit('SET_SUB_TOPICS_DATA', res.data)
