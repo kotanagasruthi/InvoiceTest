@@ -51,29 +51,29 @@
                 <font-awesome-icon class="icon"  icon="cog" /> <div>Settings</div>
             </div>
         </div>
-
-        <!-- <main>
-            <component :is="currentComponent"></component>
-        </main> -->
         <router-view />
     </div>
 </div>
 </template>
 
 <script>
-// import ExamFormatsComponent from '../components/ExamFormats.vue'
 import { mapActions, mapGetters } from 'vuex'
 export default {
+  data () {
+    return {
+      dashboardComponents: ['ExamsComponent', 'ExamFormatsComponent', 'TopicsComponent', 'InviteesComponent', 'AnalyticsComponent', 'UsersComponent', 'SettingsComponent'],
+      currentComponent: 'ExamsComponent'
+    }
+  },
   computed: {
     ...mapGetters('landing', [
       'currentLoggedInUser'
-    ])
-  },
-
-  data () {
-    return {
-      currentComponent: '',
-      selectedComponent: 'ExamsComponent'// Initially, set it to the default component to be displayed.
+    ]),
+    selectedComponent () {
+      if (this.dashboardComponents.includes(this.$route.name)) {
+        return this.$route.name
+      }
+      return this.currentComponent
     }
   },
   methods: {
@@ -81,8 +81,7 @@ export default {
       'logout'
     ]),
     loadComponent (componentName) {
-    //   this.currentComponent = componentName
-      this.selectedComponent = componentName
+      this.currentComponent = componentName
       this.$router.push({ name: componentName })
     },
     logoutUser () {
