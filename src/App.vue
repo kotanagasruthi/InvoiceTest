@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import Toast from '../src/components/reusable/Toast.vue'
 export default {
   components: {
@@ -16,6 +16,21 @@ export default {
   },
   computed: {
     ...mapGetters('landing', ['getIsShowToast', 'getToastDetails'])
+  },
+  created () {
+    this.fetchCurrentLoggedInUser().then(res => {
+      if (res.response?.status === 401) {
+        this.$router.push({
+          name: 'Landing',
+          params: {
+            action: 'login'
+          }
+        })
+      }
+    })
+  },
+  methods: {
+    ...mapActions('landing', ['fetchCurrentLoggedInUser'])
   }
 }
 </script>

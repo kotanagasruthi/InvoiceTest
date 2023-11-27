@@ -8,7 +8,7 @@
                 </div>
             </template>
             <template #body>
-                <div>importExamFormats
+                <div>
                   <div class="exam-card" v-for="(format, index) in getExamFormatsData" :key="index">
                     <input type="checkbox" :id="format.examFormatId" v-model="selectedFormats" :value="format.examFormatId">
                     <div class="header">{{ format.examType }}</div>
@@ -109,4 +109,11 @@ ul {
   list-style-type: none;
   padding-left: 0;
 }
+.modal {
+    ::v-deep {
+      .modal-body {
+        margin-top: 0px !important
+      }
+    }
+  }
 </style>

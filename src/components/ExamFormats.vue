@@ -4,7 +4,7 @@
       <breadcrumbs></breadcrumbs>
       <div>
         <button class="normal-button" @click="openImportFormatPopup()">Import Exam Format</button>
-        <button class="normal-button" @click="openCreatExamFormat()">Create Exam</button>
+        <button class="normal-button" @click="openCreatExamFormat()">Create Exam Format</button>
       </div>
     </div>
 

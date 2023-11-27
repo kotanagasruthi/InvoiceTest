@@ -16,12 +16,8 @@ export default {
     breadcrumbs () {
       const breadcrumbs = []
       this.$route.matched.forEach((routeRecord, index) => {
-      // Skip the 'Dashboard' breadcrumb
         if (routeRecord.meta && routeRecord.meta.breadcrumb && routeRecord.name !== 'Dashboard') {
           let breadcrumbText = routeRecord.meta.breadcrumb
-
-          // Check if the route has a param named 'topic' and replace the placeholder
-          console.log('route record', routeRecord)
           if (this.$route.params?.topic) {
             breadcrumbText = breadcrumbText.replace('{topic}', this.$route.params.topic)
           }
@@ -47,7 +43,7 @@ export default {
       }
       return {
         name: routeRecord.name,
-        params: routeRecord.params,
+        params: this.$route.params,
         query: routeRecord.query
       }
     }

@@ -11,9 +11,9 @@
                 No sub topics found
               </div>
               <div class="grid-container" v-else>
-                  <div class="card" v-for="(subTopic, index) in getSubTopicsData" :key="index" @click="OpenSubTopicQuestions(topic)">
+                  <div class="card" v-for="(subTopic, index) in getSubTopicsData" :key="index" @click="OpenSubTopicQuestions(subTopic)">
                       <h2>{{subTopic.subtopic_name}}</h2>
-                      <p>{{ subTopic.subtopic_discription }}</p>
+                      <p>{{ subTopic.subtopic_description }}</p>
                       <div class="buttons">
                       <button class="normal-button">EDIT</button>
                       <button class="normal-button">DELETE</button>
@@ -21,7 +21,7 @@
                   </div>
               </div>
           </div>
-          <create-topic-form v-if="showSubTopicForm" from="subtopic" @close="closeForm" @fetchTopics="refreshSubTopics()" />
+          <create-topic-form v-if="showSubTopicForm" from="subtopic" @close="closeForm" @fetchSubTopics="refreshSubTopics()" />
       </div>
         <router-view/>
     </div>
@@ -78,7 +78,7 @@ export default {
       this.showSubTopicForm = false
     },
     OpenSubTopicQuestions (subTopic) {
-      this.$router.push({ name: 'TopicQuestionsComponent', params: { subTopic: subTopic.subtopic_name } })
+      this.$router.push({ name: 'TopicQuestionsComponent', params: { topic: this.topicName, subTopic: subTopic.subtopic_name } })
     },
     refreshSubTopics () {
       this.showSubTopicForm = false
@@ -112,6 +112,7 @@ export default {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
   // max-width: 400px; /* You can adjust this value */
 }
 h2 {

@@ -1,4 +1,5 @@
 import axios from 'axios'
+axios.defaults.withCredentials = true
 const state = () => ({
   examData: [],
   topicsData: [],
@@ -88,10 +89,11 @@ const actions = {
     })
   },
 
-  fetchQuestions ({ commit }, topicName) {
+  fetchQuestions ({ commit }, payload) {
     return axios.get('http://localhost:3000/questions/getQuestions', {
       params: {
-        topic_name: topicName
+        topic_name: payload.topicName,
+        subtopic_name: payload.subTopicName
       }
     }).then(res => {
       commit('SET_QUESTIONS_DATA', res.data)
@@ -106,7 +108,7 @@ const actions = {
   },
 
   setSubTopic ({ commit }, payload) {
-    return axios.post('http://localhost:3000/subTopics/setSubTopic', payload).then(res => {
+    return axios.post('http://localhost:3000/topics/setSubTopic', payload).then(res => {
       return res
     })
   },

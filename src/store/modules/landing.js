@@ -1,4 +1,5 @@
 import axios from 'axios'
+axios.defaults.withCredentials = true
 const state = () => ({
   loggedInUser: {},
   allInstitutes: [],
@@ -39,9 +40,8 @@ const actions = {
     })
   },
   validateUserLogin ({ commit }, payload) {
-    return axios.post('http://localhost:3000/users/login', payload).then(res => {
-      commit('SET_LOGGED_IN_USER_DETAILS', res.data?.user)
-      return res
+    return axios.post('http://localhost:3000/users/login', payload).then(loginRes => {
+      commit('SET_LOGGED_IN_USER_DETAILS', loginRes.data?.user)
     }).catch(res => {
       return res
     })
@@ -58,6 +58,20 @@ const actions = {
   },
   setIsShowToast ({ commit }, isShowToast) {
     commit('SET_IS_SHOW_TOAST', isShowToast)
+  },
+  fetchCurrentLoggedInUser ({ commit }) {
+    return axios.get('http://localhost:3000/users/current-user')
+      .then(response => {
+        if (response.data?.user) {
+          commit('SET_LOGGED_IN_USER_DETAILS', response.data.user)
+          return response
+        } else {
+          console.log('res', response)
+        }
+      })
+      .catch(error => {
+        return error
+      })
   }
 }
 

@@ -35,9 +35,7 @@ export default {
   data () {
     return {
       topicName: '',
-      topicDescription: '',
-      subTopicName: '',
-      subTopicDescription: ''
+      topicDescription: ''
     }
   },
   props: {
@@ -65,7 +63,7 @@ export default {
 
     addForm () {
       if (this.from === 'subtopic') {
-        this.addSubtopic()
+        this.addSubTopic()
       } else {
         this.addTopic()
       }
@@ -83,8 +81,8 @@ export default {
     addSubTopic () {
       this.setSubTopic({
         topic_name: this.currentTopicName,
-        sub_topic_name: this.subTopicName,
-        description: this.subTopicDescription,
+        subtopic_name: this.topicName,
+        subtopic_description: this.topicDescription,
         institute_id: this.currentLoggedInUser.institute_id
       }).then(res => {
         this.$emit('fetch-sub-topics')
