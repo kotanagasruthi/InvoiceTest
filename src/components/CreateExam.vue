@@ -62,30 +62,17 @@
                     <input class="fieldset-date-input" type="date" v-model="endDate">
                 </div>
 
-                <!-- <div>
-                    <button class="normal-button large-button button-margin" @click="openInviteesPopup">Add Invitees</button>
-                </div>
-                <div class="topic-container-questions" v-if="invitees.length">
-                    <div class="topic-container-questions-question" v-for="invitee in invitees" :key="invitee.email">
-                        <div>
-                            {{ invitee.firstName }} {{ invitee.lastName }} - {{invitee.email}}
-                        </div>
-                    </div>
-                </div> -->
-
                 <div>
                     <button class="normal-button button-margin" @click="createExam()">Submit</button>
                 </div>
             </div>
-            <QuestionPopup v-if="showQuestionPopup" :topic-name="currentTopic.topic_name" :marks="currentTopicQuestionMarks" @selectedQuestions="setQuestionsForTopic" @close="showQuestionPopup = false"></QuestionPopup>
-            <InviteesPopup v-if="showInviteesPopup" @selectedInvitees="setInviteesForExam" @close="showInviteesPopup = false"></InviteesPopup>
+          <QuestionPopup v-if="showQuestionPopup" :topic-name="currentTopic.topic_name" :marks="currentTopicQuestionMarks" @selectedQuestions="setQuestionsForTopic" @close="showQuestionPopup = false"></QuestionPopup>
         </div>
     </div>
 </template>
 
 <script>
 import QuestionPopup from './ExamQuestionsPopup.vue'
-import InviteesPopup from './ExamInviteesPopup.vue'
 import breadcrumbs from '../components/reusable/BreadCrumbs.vue'
 import Loader from './reusable/Loader.vue'
 import { mapActions, mapGetters } from 'vuex'
@@ -93,7 +80,6 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   components: {
     QuestionPopup,
-    InviteesPopup,
     loader: Loader,
     breadcrumbs
   },
@@ -105,7 +91,6 @@ export default {
       startDate: '',
       endDate: '',
       showQuestionPopup: false,
-      showInviteesPopup: false,
       currentTopic: {},
       isLoading: false,
       currentExamFormat: [],
@@ -165,13 +150,6 @@ export default {
         }
       })
       this.showQuestionPopup = false
-    },
-    openInviteesPopup () {
-      this.showInviteesPopup = true
-    },
-    setInviteesForExam (invitees) {
-      this.invitees = JSON.parse(JSON.stringify(invitees))
-      this.showInviteesPopup = false
     },
     createExam () {
       const payload = {

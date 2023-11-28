@@ -42,7 +42,7 @@
               </div>
               <div class="add-topic-actions">
                   <button class="normal-button" @click="removeTopic(index)">Remove Topic</button>
-                  <button class="normal-button button-margin" @click="addTopic(availableTopic, index)">Add Topic</button>
+                  <button class="normal-button button-margin" @click="addTopic(index)">Add Topic</button>
               </div>
           </div>
 
@@ -113,16 +113,23 @@ export default {
         topic_name: '',
         marks: 0,
         question_marks: 0,
-        no_of_questions: 0
+        no_of_questions: 0,
+        sub_topics: []
       })
     },
-    addTopic (topic, index) {
+    addTopic (index) {
+      const subTopics = this.availableTopics.filter(availableTopic => availableTopic.topic_name === this.exam.topics[index].topic_name.topic_name)[0].sub_topics
+      const subTopicsMapped = subTopics.map(subTopic => ({
+        subtopic_name: subTopic.subtopic_name,
+        subtopic_description: subTopic.subtopic_description,
+        questions: []
+      }))
       this.exam.topics[index] = {
         ...this.exam.topics[index].topic_name,
         marks: this.exam.topics[index].marks,
         question_marks: this.exam.topics[index].question_marks,
         no_of_questions: this.exam.topics[index].no_of_questions,
-        questions: []
+        sub_topics: subTopicsMapped
       }
     },
     addExamFormat () {
