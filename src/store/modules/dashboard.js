@@ -8,7 +8,8 @@ const state = () => ({
   questionsData: [],
   usersData: [],
   examFormatData: [],
-  examInviteesData: []
+  examInviteesData: [],
+  subTopicsQuestionsData: []
 })
 
 const mutations = {
@@ -26,6 +27,9 @@ const mutations = {
   },
   SET_QUESTIONS_DATA (state, data) {
     state.questionsData = data
+  },
+  SET_SUB_TOPICS_QUESTIONS_DATA (state, data) {
+    state.subTopicsQuestionsData = data
   },
   SET_USERS_DATA (state, data) {
     state.usersData = data
@@ -97,6 +101,17 @@ const actions = {
       }
     }).then(res => {
       commit('SET_QUESTIONS_DATA', res.data)
+      return res
+    })
+  },
+
+  fetchSubTopicsQuestions ({ commit }, topicName) {
+    return axios.get('http://localhost:3000/questions/getSubTopicsQuestions', {
+      params: {
+        topic_name: topicName
+      }
+    }).then(res => {
+      commit('SET_SUB_TOPICS_QUESTIONS_DATA', res.data)
       return res
     })
   },
@@ -197,6 +212,7 @@ const getters = {
   getInviteesData: (state) => state.inviteesData,
   getUsersData: (state) => state.usersData,
   getQuestionsData: (state) => state.questionsData,
+  getSubTopicsQuestionsData: (state) => state.subTopicsQuestionsData,
   getInstituteExamFormatsData: (state) => state.instituteExamFormatsData,
   getExamFormatsData: (state) => state.examFormatData,
   getExamInviteesData: (state) => state.examInviteesData

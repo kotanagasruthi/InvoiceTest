@@ -10,11 +10,15 @@
         <template #body>
             <loader v-if="isLoading" :loading="isLoading"></loader>
             <div v-else>
-                <div class="questions-wrapper" v-if="getQuestionsData.length">
-                      <div class="questions-wrapper-question" v-for="question in getQuestionsData" :key="question.id">
+                <div class="questions-wrapper" v-if="getSubTopicsQuestionsData.length">
+                  <div v-for="(subTopic, index) in getSubTopicsQuestionsData" :key="index">
+                      <div class="header">
+                        {{subTopic.subtopic_name}}
+                      </div>
+                      <div class="questions-wrapper-question" v-for="question in subTopic.questions" :key="question.question_id">
                         <div class="questions-wrapper-question-text">
                           <input type="checkbox" :id="question.question_id" v-model="selectedQuestions" :value="question.question_id" @change="questionSelected(question)">
-                          <label class="header" :for="question.question_id">{{ question.question_text }} - </label>
+                          <label :for="question.question_id">{{ question.question_text }} - </label>
                           <div class="questions-wrapper-question-text-marks">{{marks}} Marks</div>
                         </div>
                         <div class="questions-wrapper-question-options">
@@ -23,6 +27,7 @@
                           </div>
                         </div>
                       </div>
+                  </div>
                 </div>
                 <div v-else>
                     No Questions Found!!
@@ -55,18 +60,19 @@ export default {
   },
   created () {
     this.isLoading = true
-    this.fetchQuestions(this.topicName).then(res => {
+    this.fetchSubTopicsQuestions(this.topicName).then(res => {
+      console.log('res', res)
       this.isLoading = false
     })
   },
   computed: {
     ...mapGetters('dashboard', [
-      'getQuestionsData'
+      'getSubTopicsQuestionsData'
     ])
   },
   methods: {
     ...mapActions('dashboard', [
-      'fetchQuestions'
+      'fetchSubTopicsQuestions'
     ]),
     questionSelected (currentQuestion) {
       if (this.selectedQuestions.includes(currentQuestion.question_id)) {

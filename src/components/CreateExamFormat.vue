@@ -131,8 +131,10 @@ export default {
         no_of_questions: this.exam.topics[index].no_of_questions,
         sub_topics: subTopicsMapped
       }
+      console.log('exam at this point', this.exam)
     },
     addExamFormat () {
+      console.log('final exam format', this.exam)
       this.setExamFormat({
         ...this.exam,
         instituteId: this.currentLoggedInUser.institute_id

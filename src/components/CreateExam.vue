@@ -37,7 +37,7 @@
                                 <div>Marks:{{topic.marks}}</div>
                                 <button class="normal-button large-button" @click="openQuestionPopup(topic)">Add Questions</button>
                             </div>
-                            <div class="topic-container-questions" v-if="topic?.questions.length">
+                            <!-- <div class="topic-container-questions" v-if="topic?.questions.length">
                                 <div class="topic-container-questions-question" v-for="(question, index)  in topic.questions" :key="question.question_id">
                                     <div class="topic-container-questions-question-text">
                                         {{index + 1}}. {{question.question_text}}
@@ -48,7 +48,7 @@
                                       </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                 </div>
 
@@ -128,6 +128,7 @@ export default {
     ]),
     loadExamFormat () {
       this.currentExamFormat = this.getInstituteExamFormatsData.filter(data => data.examType === this.selectedExamType)
+      console.log('current exam format', this.currentExamFormat)
       this.totalMarks = this.currentExamFormat[0].totalMarks
       this.duration = this.currentExamFormat[0].duration
       this.negativeMarkValue = this.currentExamFormat[0].negativeMarksValue
