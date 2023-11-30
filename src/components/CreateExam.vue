@@ -66,7 +66,7 @@
                     <button class="normal-button button-margin" @click="createExam()">Submit</button>
                 </div>
             </div>
-          <QuestionPopup v-if="showQuestionPopup" :topic-name="currentTopic.topic_name" :marks="currentTopicQuestionMarks" @selectedQuestions="setQuestionsForTopic" @close="showQuestionPopup = false"></QuestionPopup>
+          <QuestionPopup v-if="showQuestionPopup" :topic="currentTopic" :marks="currentTopicQuestionMarks" @selectedQuestions="setQuestionsForTopic" @close="showQuestionPopup = false"></QuestionPopup>
         </div>
     </div>
 </template>
@@ -128,7 +128,6 @@ export default {
     ]),
     loadExamFormat () {
       this.currentExamFormat = this.getInstituteExamFormatsData.filter(data => data.examType === this.selectedExamType)
-      console.log('current exam format', this.currentExamFormat)
       this.totalMarks = this.currentExamFormat[0].totalMarks
       this.duration = this.currentExamFormat[0].duration
       this.negativeMarkValue = this.currentExamFormat[0].negativeMarksValue
@@ -139,12 +138,12 @@ export default {
       this.currentTopicQuestionMarks = this.currentTopic.question_marks
       this.showQuestionPopup = true
     },
-    setQuestionsForTopic (name, questions) {
+    setQuestionsForTopic (name, subTopicsAndQuestions) {
       this.topics = this.topics.map(topic => {
         if (topic.topic_name === name) {
           return {
             ...topic,
-            questions: questions
+            sub_topics: subTopicsAndQuestions
           }
         } else {
           return topic
