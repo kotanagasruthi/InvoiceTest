@@ -118,18 +118,12 @@ export default {
       })
     },
     addTopic (index) {
-      const subTopics = this.availableTopics.filter(availableTopic => availableTopic.topic_name === this.exam.topics[index].topic_name.topic_name)[0].sub_topics
-      const subTopicsMapped = subTopics.map(subTopic => ({
-        subtopic_name: subTopic.subtopic_name,
-        subtopic_description: subTopic.subtopic_description,
-        questions: []
-      }))
       this.exam.topics[index] = {
         ...this.exam.topics[index].topic_name,
         marks: this.exam.topics[index].marks,
         question_marks: this.exam.topics[index].question_marks,
         no_of_questions: this.exam.topics[index].no_of_questions,
-        sub_topics: subTopicsMapped
+        sub_topics: []
       }
     },
     addExamFormat () {

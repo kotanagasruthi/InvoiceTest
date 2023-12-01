@@ -37,7 +37,7 @@
                                 <div>Marks:{{topic.marks}}</div>
                                 <button class="normal-button large-button" @click="openQuestionPopup(topic)">Add Questions</button>
                             </div>
-                            <div class="topic-container-questions" v-if="topic?.questions.length">
+                            <!-- <div class="topic-container-questions" v-if="topic?.questions.length">
                                 <div class="topic-container-questions-question" v-for="(question, index)  in topic.questions" :key="question.question_id">
                                     <div class="topic-container-questions-question-text">
                                         {{index + 1}}. {{question.question_text}}
@@ -48,7 +48,7 @@
                                       </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                 </div>
 
@@ -66,7 +66,7 @@
                     <button class="normal-button button-margin" @click="createExam()">Submit</button>
                 </div>
             </div>
-          <QuestionPopup v-if="showQuestionPopup" :topic-name="currentTopic.topic_name" :marks="currentTopicQuestionMarks" @selectedQuestions="setQuestionsForTopic" @close="showQuestionPopup = false"></QuestionPopup>
+          <QuestionPopup v-if="showQuestionPopup" :topic="currentTopic" :marks="currentTopicQuestionMarks" @selectedQuestions="setQuestionsForTopic" @close="showQuestionPopup = false"></QuestionPopup>
         </div>
     </div>
 </template>
@@ -138,12 +138,12 @@ export default {
       this.currentTopicQuestionMarks = this.currentTopic.question_marks
       this.showQuestionPopup = true
     },
-    setQuestionsForTopic (name, questions) {
+    setQuestionsForTopic (name, subTopicsAndQuestions) {
       this.topics = this.topics.map(topic => {
         if (topic.topic_name === name) {
           return {
             ...topic,
-            questions: questions
+            sub_topics: subTopicsAndQuestions
           }
         } else {
           return topic

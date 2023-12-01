@@ -10,19 +10,28 @@
         <template #body>
             <loader v-if="isLoading" :loading="isLoading"></loader>
             <div v-else>
-                <div class="questions-wrapper" v-if="getQuestionsData.length">
-                      <div class="questions-wrapper-question" v-for="question in getQuestionsData" :key="question.id">
+                <div class="questions-wrapper" v-if="getSubTopicsQuestionsData.length">
+                  <div v-for="(subTopic, subTopicIndex) in getSubTopicsQuestionsData" :key="subTopicIndex">
+                      <div class="header">
+                        {{subTopic.subtopic_name}}
+                      </div>
+                      <div class="questions-wrapper-question" v-for="question in subTopic.questions" :key="question.question_id">
                         <div class="questions-wrapper-question-text">
-                          <input type="checkbox" :id="question.question_id" v-model="selectedQuestions" :value="question.question_id" @change="questionSelected(question)">
-                          <label class="header" :for="question.question_id">{{ question.question_text }} - </label>
+                          <input type="checkbox"
+                                :id="`question-${question.question_id}`"
+                                :value="question"
+                                :checked="isQuestionSelected(subTopic.subtopic_name,  question)"
+                                @change="toggleQuestionSelection(question, subTopic.subtopic_name)">
+                          <label :for="question.question_id">{{ question.question_text }} - </label>
                           <div class="questions-wrapper-question-text-marks">{{marks}} Marks</div>
                         </div>
                         <div class="questions-wrapper-question-options">
-                          <div v-for="(option, index) in question.options" :key="index">
-                                  {{index + 1}}. {{option}}
+                          <div v-for="(option, optionIndex) in question.options" :key="optionIndex">
+                                  {{optionIndex + 1}}. {{option}}
                           </div>
                         </div>
                       </div>
+                  </div>
                 </div>
                 <div v-else>
                     No Questions Found!!
@@ -39,14 +48,15 @@ import { mapActions, mapGetters } from 'vuex'
 import Loader from './reusable/Loader.vue'
 export default {
   props: {
-    topicName: String,
+    topic: String,
     marks: Number
   },
   data () {
     return {
       isLoading: false,
       selectedQuestions: [],
-      selectedQuestionsForExams: []
+      selectedQuestionsForExams: [],
+      subTopics: []
     }
   },
   components: {
@@ -55,31 +65,61 @@ export default {
   },
   created () {
     this.isLoading = true
-    this.fetchQuestions(this.topicName).then(res => {
+    this.fetchSubTopicsQuestions(this.topic.topic_name).then(res => {
       this.isLoading = false
     })
   },
   computed: {
     ...mapGetters('dashboard', [
-      'getQuestionsData'
+      'getSubTopicsQuestionsData'
     ])
   },
   methods: {
     ...mapActions('dashboard', [
-      'fetchQuestions'
+      'fetchSubTopicsQuestions'
     ]),
-    questionSelected (currentQuestion) {
-      if (this.selectedQuestions.includes(currentQuestion.question_id)) {
-        this.selectedQuestionsForExams.push({
-          ...currentQuestion,
-          marks: this.marks
+    isQuestionSelected (subtopicName, question) {
+      // Check if the subtopic exists in the subTopics array
+      const subtopic = this.subTopics.find(st => st?.subtopic_name === subtopicName)
+
+      // If the subtopic exists, check if the question is in the subtopic's questions array
+      if (subtopic) {
+        return subtopic.questions.some(q => q.question_id === question.question_id)
+      }
+
+      // If the subtopic doesn't exist, the question is not selected
+      return false
+    },
+    toggleQuestionSelection (question, subtopicName) {
+      // Find the index of the subtopic
+      const subtopicIndex = this.subTopics.findIndex(st => st.subtopic_name === subtopicName)
+
+      if (subtopicIndex === -1) {
+        // Subtopic doesn't exist, add a new subtopic with the question
+        this.subTopics.push({
+          subtopic_name: subtopicName,
+          questions: [question]
         })
       } else {
-        this.selectedQuestionsForExams = this.selectedQuestionsForExams.filter(question => question.question_id !== currentQuestion.question_id)
+        // Subtopic exists, check if the question is already included
+        const questionIndex = this.subTopics[subtopicIndex].questions.findIndex(q => q.question_id === question.question_id)
+
+        if (questionIndex === -1) {
+          // Question isn't included, add it to the subtopic's questions
+          this.subTopics[subtopicIndex].questions.push(question)
+        } else {
+          // Question is included, remove it
+          this.subTopics[subtopicIndex].questions.splice(questionIndex, 1)
+
+          // If the subtopic has no more questions, remove the subtopic
+          if (this.subTopics[subtopicIndex].questions.length === 0) {
+            this.subTopics.splice(subtopicIndex, 1)
+          }
+        }
       }
     },
     confirmSelection () {
-      this.$emit('selectedQuestions', this.topicName, this.selectedQuestionsForExams)
+      this.$emit('selectedQuestions', this.topic.topic_name, this.subTopics)
     },
     closeQuestionsPopup () {
       this.$emit('close')
