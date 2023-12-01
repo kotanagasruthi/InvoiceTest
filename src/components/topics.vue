@@ -36,7 +36,8 @@ export default {
   data () {
     return {
       isLoading: false,
-      showTopicForm: false
+      showTopicForm: false,
+      isImportTopicForm: false
     }
   },
   computed: {
@@ -74,6 +75,11 @@ export default {
     OpenSubTopics (topic) {
       this.$router.push({ name: 'SubTopicsComponent', params: { topic: topic.topic_name } })
     },
+
+    closeTopicForm () {
+      this.isImportTopicForm = false
+    },
+
     refreshTopics () {
       this.showTopicForm = false
       this.isLoading = true

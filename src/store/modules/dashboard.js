@@ -8,7 +8,8 @@ const state = () => ({
   questionsData: [],
   usersData: [],
   examFormatData: [],
-  examInviteesData: []
+  examInviteesData: [],
+  subTopicsDataAndQuestions: []
 })
 
 const mutations = {
@@ -38,7 +39,11 @@ const mutations = {
   },
   SET_EXAM_INVITEES_DATA (state, data) {
     state.examInviteesData = data
+  },
+  SET_SUBTOPICS_DATA (state, data) {
+    state.subTopicsDataAndQuestions = data
   }
+
 }
 
 const actions = {
@@ -86,6 +91,13 @@ const actions = {
   fetchInvitees ({ commit }, instituteId) {
     return axios.get(`http://localhost:3000/invitees/users/${instituteId}`).then(res => {
       commit('SET_INVITEES_DATA', res.data)
+    })
+  },
+
+  fetchSubTopicsAndQuestions ({ commit }, topicName) {
+    return axios.get(`http://localhost:3000/import-vidhyasoft-subtopics/importopics/${topicName}`).then(res => {
+      console.log(res.data)
+      commit('SET_SUBTOPICS_DATA', res.data)
     })
   },
 
@@ -199,7 +211,8 @@ const getters = {
   getQuestionsData: (state) => state.questionsData,
   getInstituteExamFormatsData: (state) => state.instituteExamFormatsData,
   getExamFormatsData: (state) => state.examFormatData,
-  getExamInviteesData: (state) => state.examInviteesData
+  getExamInviteesData: (state) => state.examInviteesData,
+  getCommmonSubTopicsData: (state) => state.subTopicsDataAndQuestions
 }
 
 export default {

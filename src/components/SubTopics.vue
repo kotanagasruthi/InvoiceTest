@@ -3,7 +3,11 @@
       <div v-if="!hasActiveChildRoute" class="header-container">
         <breadcrumbs></breadcrumbs>
         <button class="normal-button" @click="openCreateSubTopicForm()">Create SubTopic</button>
+        <button class="normal-button" @click="openImportQuestionsPopUp()">Import Questions</button>
       </div>
+
+      <import-questions v-if="isImportQuestionsPopUp" :topic_name= "topicName" @close="closeImportQuestionsPopUp()"/>
+
       <div v-if="!hasActiveChildRoute">
           <div>
               <loader v-if="isLoading" :loading="isLoading"></loader>
@@ -30,13 +34,15 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import CreateTopicForm from './CreateTopicForm.vue'
+import ImportQuestions from './ImportQuestions.vue'
 import breadcrumbs from '../components/reusable/BreadCrumbs.vue'
 import Loader from './reusable/Loader.vue'
 export default {
   data () {
     return {
       isLoading: false,
-      showSubTopicForm: false
+      showSubTopicForm: false,
+      isImportQuestionsPopUp: false
     }
   },
   computed: {
@@ -56,6 +62,7 @@ export default {
   components: {
     loader: Loader,
     'create-topic-form': CreateTopicForm,
+    'import-questions': ImportQuestions,
     breadcrumbs
   },
   created () {
@@ -80,6 +87,15 @@ export default {
     OpenSubTopicQuestions (subTopic) {
       this.$router.push({ name: 'TopicQuestionsComponent', params: { topic: this.topicName, subTopic: subTopic.subtopic_name } })
     },
+
+    openImportQuestionsPopUp () {
+      this.isImportQuestionsPopUp = true
+    },
+
+    closeImportQuestionsPopUp () {
+      this.isImportQuestionsPopUp = false
+    },
+
     refreshSubTopics () {
       this.showSubTopicForm = false
       this.isLoading = true
