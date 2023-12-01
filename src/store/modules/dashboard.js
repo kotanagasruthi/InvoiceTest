@@ -214,6 +214,11 @@ const actions = {
     return axios.post('http://localhost:3000/exam-format/importExamFormats', payload).then(res => {
       return res
     })
+  },
+  importSubTopicsAndQuestions ({ commit }, payload) {
+    return axios.post('http://localhost:3000/topics/importSubTopics', payload).then(res => {
+      return res
+    })
   }
 }
 

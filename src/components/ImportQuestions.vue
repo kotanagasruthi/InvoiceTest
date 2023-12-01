@@ -1,6 +1,6 @@
 <template>
     <div>
-        <modal close_button_name="Cancel" ok_button_name="Import" @ok="importExamFormats()" @close="closeModal()">
+        <modal close_button_name="Cancel" ok_button_name="Import" @ok="importSubTopics()" @close="closeModal()">
             <template #header>
                 <div class="header">Select SubTopics</div>
                 <div @click="closeModal()" class="close-icon">
@@ -51,8 +51,23 @@ export default {
   },
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
-      'fetchSubTopicsAndQuestions'
-    ])
+      'fetchSubTopicsAndQuestions',
+      'importSubTopicsAndQuestions'
+    ]),
+    closeModal () {
+      this.$emit('close')
+    },
+    importSubTopics () {
+      console.log('selected sub topics', this.selectedSubTopics)
+      const payload = {
+        topic_name: this.topic_name,
+        sub_topics: this.selectedSubTopics,
+        institute_id: this.currentLoggedInUser.institute_id
+      }
+      this.importSubTopicsAndQuestions(payload).then(res => {
+        this.closeModal()
+      })
+    }
   }
 }
 </script>

@@ -85,11 +85,8 @@
 
 <script>
 import { mapActions } from 'vuex'
-// import Toast from '../components/reusable/Toast.vue'
+import toastMixin from '../mixins/toast'
 export default {
-  // components: {
-  //   toast: Toast
-  // },
   data () {
     return {
       instituteName: '',
@@ -111,6 +108,7 @@ export default {
       toastMessage: ''
     }
   },
+  mixins: [toastMixin],
   methods: {
     ...mapActions('landing', [ // specify the 'dashboard' namespace
       'signUpUser',
@@ -145,21 +143,6 @@ export default {
           }
         })
       })
-    },
-    triggerToast (status, message) {
-      // this.toastStatus = status
-      // this.toastMessage = message
-      // this.showToast = true
-      this.setIsShowToast(true)
-      this.setToastDetails({
-        status: status,
-        message: message
-      })
-
-      // Optionally, hide after some duration
-      // setTimeout(() => {
-      //   this.showToast = false
-      // }, 3000)
     },
     triggerFileInput () {
       this.$refs.imageUploader.click()
