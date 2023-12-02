@@ -72,6 +72,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import breadcrumbs from '../components/reusable/BreadCrumbs.vue'
+import toastMixin from '../mixins/toast'
 export default {
   data () {
     return {
@@ -93,6 +94,7 @@ export default {
   components: {
     breadcrumbs
   },
+  mixins: [toastMixin],
   computed: {
     ...mapGetters('landing', [ // specify the 'dashboard' namespace
       'currentLoggedInUser'
@@ -132,6 +134,8 @@ export default {
         instituteId: this.currentLoggedInUser.institute_id
       }).then(res => {
         this.exam = {}
+        this.triggerToast('success', 'Exam Format Added successfully!')
+        this.$router.push({ name: 'ExamFormatsComponent' })
       })
     },
     removeTopic (index) {

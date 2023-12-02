@@ -94,6 +94,7 @@ export default {
 
     closeImportQuestionsPopUp () {
       this.isImportQuestionsPopUp = false
+      this.refreshSubTopics()
     },
 
     refreshSubTopics () {

@@ -45,6 +45,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Loader from './reusable/Loader.vue'
+import toastMixin from '../mixins/toast'
 import breadcrumbs from '../components/reusable/BreadCrumbs.vue'
 export default {
   data () {
@@ -59,6 +60,7 @@ export default {
     loader: Loader,
     breadcrumbs
   },
+  mixins: [toastMixin],
   watch: {
     $route (to, from) {
       this.isLoading = true
@@ -97,6 +99,7 @@ export default {
         this.isLoading = true
         this.fetchExams(this.currentLoggedInUser.institute_id).then(res => {
           this.isLoading = false
+          this.triggerToast('success', 'Exam Published successfully!')
         })
       })
     },
