@@ -59,6 +59,14 @@ export default {
     loader: Loader,
     breadcrumbs
   },
+  watch: {
+    $route (to, from) {
+      this.isLoading = true
+      this.fetchExams(this.currentLoggedInUser.institute_id).then(res => {
+        this.isLoading = false
+      })
+    }
+  },
   created () {
     this.isLoading = true
     this.fetchExams(this.currentLoggedInUser.institute_id).then(res => {

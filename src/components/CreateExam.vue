@@ -154,28 +154,28 @@ export default {
       this.showQuestionPopup = false
     },
     createExam () {
-      // const payload = {
-      //   institute_id: this.currentLoggedInUser.institute_id,
-      //   exam_name: this.examName,
-      //   owner: this.currentLoggedInUser.name,
-      //   collaborators: [],
-      //   exam_type: this.selectedExamType,
-      //   is_active: false,
-      //   topics: this.topics,
-      //   negativeMarking: this.currentExamFormat[0].negativeMarking,
-      //   negativeMarksValue: this.currentExamFormat[0].negativeMarksValue,
-      //   duration: this.currentExamFormat[0].duration,
-      //   totalMarks: this.currentExamFormat[0].totalMarks,
-      //   activePeriod: {
-      //     startDate: new Date(this.startDate),
-      //     endDate: new Date(this.endDate)
-      //   },
-      //   invitees: this.invitees
-      // }
-      // this.setExam(payload).then(res => {
-      this.triggerToast('success', 'Exam Added successfully!')
-      this.$router.push({ name: 'ExamsComponent' })
-      // })
+      const payload = {
+        institute_id: this.currentLoggedInUser.institute_id,
+        exam_name: this.examName,
+        owner: this.currentLoggedInUser.name,
+        collaborators: [],
+        exam_type: this.selectedExamType,
+        is_active: false,
+        topics: this.topics,
+        negativeMarking: this.currentExamFormat[0].negativeMarking,
+        negativeMarksValue: this.currentExamFormat[0].negativeMarksValue,
+        duration: this.currentExamFormat[0].duration,
+        totalMarks: this.currentExamFormat[0].totalMarks,
+        activePeriod: {
+          startDate: new Date(this.startDate),
+          endDate: new Date(this.endDate)
+        },
+        invitees: this.invitees
+      }
+      this.setExam(payload).then(res => {
+        this.triggerToast('success', 'Exam Added successfully!')
+        this.$router.push({ name: 'ExamsComponent' })
+      })
     }
   }
 }
