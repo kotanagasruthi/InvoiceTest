@@ -109,7 +109,8 @@ const actions = {
     return axios.get('http://localhost:3000/questions/getQuestions', {
       params: {
         topic_name: payload.topicName,
-        subtopic_name: payload.subTopicName
+        subtopic_name: payload.subTopicName,
+        institute_id: payload.instituteId
       }
     }).then(res => {
       commit('SET_QUESTIONS_DATA', res.data)

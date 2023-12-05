@@ -53,6 +53,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('landing', [
+      'currentLoggedInUser'
+    ]),
     ...mapGetters('dashboard', [
       'getQuestionsData'
     ]),
@@ -69,13 +72,7 @@ export default {
     breadcrumbs
   },
   created () {
-    this.isLoading = true
-    this.fetchQuestions({
-      topicName: this.topicName,
-      subTopicName: this.subTopicName
-    }).then(res => {
-      this.isLoading = false
-    })
+    this.retrieveQuestions()
   },
   methods: {
     ...mapActions('dashboard', [ // specify the 'dashboard' namespace
@@ -87,15 +84,19 @@ export default {
     closeForm () {
       this.showQuestionForm = false
     },
-    refreshQuestions () {
-      this.showQuestionForm = false
+    retrieveQuestions () {
       this.isLoading = true
       this.fetchQuestions({
         topicName: this.topicName,
-        subTopicName: this.subTopicName
+        subTopicName: this.subTopicName,
+        instituteId: this.currentLoggedInUser.institute_id
       }).then(res => {
         this.isLoading = false
       })
+    },
+    refreshQuestions () {
+      this.showQuestionForm = false
+      this.retrieveQuestions()
     },
     backToTopics () {
       this.$emit('back')
