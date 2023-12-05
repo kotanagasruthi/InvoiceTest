@@ -8,6 +8,7 @@
       <loader v-if="isLoading" :loading="isLoading"></loader>
       <div v-else>
           <div class="exam-card" v-for="(exam, index) in getExamData" :key="index">
+            <div @click="openExamView(exam.exam_id, exam.exam_name)">
               <div class="header">{{ exam.exam_name }}</div>
               <div class="small-header">{{ exam.owner }}</div>
 
@@ -24,11 +25,12 @@
                       <span class="checkmark"></span>
                   </label>
               </div>
+            </div>
 
               <div class="exam-card-footer">
                   <div>
                       <button class="normal-button" @click="editExam">Edit</button>
-                      <button class="normal-button" @click="openExamInviteesPage(exam.exam_id)">Candidates</button>
+                      <button class="normal-button" @click="openExamInviteesPage(exam.exam_id, exam.exam_name)">Candidates</button>
                       <button class="normal-button" v-if="!exam.is_active" @click="publishExam(exam.exam_id)">Publish</button>
                   </div>
                   <div>
@@ -109,11 +111,14 @@ export default {
         this.isLoading = false
       })
     },
-    openExamInviteesPage (examId) {
-      this.$router.push({ name: 'ExamInviteesComponent', params: { examId } })
+    openExamInviteesPage (examId, examName) {
+      this.$router.push({ name: 'ExamInviteesComponent', params: { examId, examName } })
     },
     closeExamInvitees () {
       this.isExamInviteesPage = false
+    },
+    openExamView (examId, examName) {
+      this.$router.push({ name: 'ViewExamComponent', params: { examId, examName } })
     }
   }
 }
@@ -138,6 +143,7 @@ export default {
   border-radius: 10px;
   position: relative;
   margin-top: 15px;
+  cursor: pointer;
   &-footer {
     display: flex;
     justify-content: space-between;

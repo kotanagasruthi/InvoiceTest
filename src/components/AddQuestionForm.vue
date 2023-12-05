@@ -82,7 +82,7 @@
 </template>
 <script>
 import Modal from '../components/reusable/Modal.vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   props: {
     topicName: String,
@@ -105,8 +105,13 @@ export default {
   components: {
     modal: Modal
   },
+  computed: {
+    ...mapGetters('landing', [
+      'currentLoggedInUser'
+    ])
+  },
   methods: {
-    ...mapActions('dashboard', [ // specify the 'dashboard' namespace
+    ...mapActions('dashboard', [
       'setQuestion'
     ]),
     closeModal () {
@@ -123,6 +128,7 @@ export default {
     },
     addQuestion () {
       this.setQuestion({
+        institute_id: this.currentLoggedInUser.institute_id,
         topic_name: this.topicName,
         subtopic_name: this.subTopicName,
         question_text: this.question,

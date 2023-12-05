@@ -63,16 +63,22 @@ export default {
     loader: Loader,
     modal: Modal
   },
-  created () {
-    this.isLoading = true
-    this.fetchSubTopicsQuestions(this.topic.topic_name).then(res => {
-      this.isLoading = false
-    })
-  },
   computed: {
     ...mapGetters('dashboard', [
       'getSubTopicsQuestionsData'
+    ]),
+    ...mapGetters('landing', [
+      'currentLoggedInUser'
     ])
+  },
+  created () {
+    this.isLoading = true
+    this.fetchSubTopicsQuestions({
+      topic_name: this.topic.topic_name,
+      institute_id: this.currentLoggedInUser.institute_id
+    }).then(res => {
+      this.isLoading = false
+    })
   },
   methods: {
     ...mapActions('dashboard', [

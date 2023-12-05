@@ -61,6 +61,15 @@ const actions = {
       return res
     })
   },
+  fetchExamDetails ({ commit }, examId) {
+    return axios.get('http://localhost:3000/exams/getExamDetails', {
+      params: {
+        exam_id: examId
+      }
+    }).then(res => {
+      return res
+    })
+  },
   fetchTopics ({ commit }, instituteId) {
     return axios.get('http://localhost:3000/topics/getTopics', {
       params: {
@@ -118,10 +127,11 @@ const actions = {
     })
   },
 
-  fetchSubTopicsQuestions ({ commit }, topicName) {
+  fetchSubTopicsQuestions ({ commit }, payload) {
     return axios.get('http://localhost:3000/questions/getSubTopicsQuestions', {
       params: {
-        topic_name: topicName
+        topic_name: payload.topic_name,
+        institute_id: payload.institute_id
       }
     }).then(res => {
       commit('SET_SUB_TOPICS_QUESTIONS_DATA', res.data)

@@ -9,6 +9,7 @@ import AnalyticsComponent from '../components/Analytics.vue'
 import UsersComponent from '../components/Users.vue'
 import ExamFormatsComponent from '../components/ExamFormats.vue'
 import CreateExamComponent from '../components/CreateExam.vue'
+import ViewExamComponent from '../components/ViewExam.vue'
 import ExamInviteesComponent from '../components/ExamInvitees.vue'
 import CreateExamFormatComponent from '../components/CreateExamFormat.vue'
 import SubTopicsComponent from '../components/SubTopics.vue'
@@ -43,10 +44,16 @@ const routes = [
             meta: { breadcrumb: 'Create Exam', requiresAuth: true }
           },
           {
-            path: 'invite/:examId?',
+            path: 'invitee/:examId/:examName',
             name: 'ExamInviteesComponent',
             component: ExamInviteesComponent,
-            meta: { breadcrumb: 'Exam Invitees', requiresAuth: true }
+            meta: { breadcrumb: '{examName}', requiresAuth: true }
+          },
+          {
+            path: 'details/:examId/:examName',
+            name: 'ViewExamComponent',
+            component: ViewExamComponent,
+            meta: { breadcrumb: '{examName}', requiresAuth: true }
           }
         ]
       },

@@ -37,18 +37,20 @@
                                 <div>Marks:{{topic.marks}}</div>
                                 <button class="normal-button large-button" @click="openQuestionPopup(topic)">Add Questions</button>
                             </div>
-                            <!-- <div class="topic-container-questions" v-if="topic?.questions.length">
-                                <div class="topic-container-questions-question" v-for="(question, index)  in topic.questions" :key="question.question_id">
-                                    <div class="topic-container-questions-question-text">
-                                        {{index + 1}}. {{question.question_text}}
-                                    </div>
-                                    <div class="topic-container-questions-question-options">
-                                      <div class="topic-container-questions-question-options-option" v-for="(option, index) in question.options" :key="index">
-                                          {{optionsMap[index+1]}}. {{option}}
+                            <div class="topic-container-questions" v-if="topic?.sub_topics.length">
+                              <div v-for="(subTopic, subTopicIndex)  in topic.sub_topics" :key="subTopicIndex">
+                                  <div class="topic-container-questions-question" v-for="(question, index)  in subTopic.questions" :key="question.question_id">
+                                      <div class="topic-container-questions-question-text">
+                                          {{index + 1}}. {{question.question_text}}
                                       </div>
-                                    </div>
+                                      <div class="topic-container-questions-question-options">
+                                        <div class="topic-container-questions-question-options-option" v-for="(option, index) in question.options" :key="index">
+                                            {{optionsMap[index+1]}}. {{option}}
+                                        </div>
+                                      </div>
+                                  </div>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                 </div>
 
