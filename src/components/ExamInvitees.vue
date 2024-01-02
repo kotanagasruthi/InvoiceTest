@@ -35,7 +35,7 @@
               <td>{{ invitee.invitation }}</td>
               <td>{{ invitee.status }}</td>
               <td>{{ invitee.marksScored }}</td>
-              <td>{{ invitee.timeSpent }}</td>
+              <td>{{ invitee.timeSpent }} mins</td>
             </tr>
           </tbody>
         </table>
