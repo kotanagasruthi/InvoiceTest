@@ -32,12 +32,14 @@
                       <button class="normal-button" @click="editExam">Edit</button>
                       <button class="normal-button" @click="openExamInviteesPage(exam.exam_id, exam.exam_name)">Candidates</button>
                       <button class="normal-button" v-if="!exam.is_active" @click="publishExam(exam.exam_id)">Publish</button>
+                      <button class="normal-button" @click="showQuestionPaper(exam.exam_id)">Question Paper</button>
                   </div>
                   <div>
                       Exam Type: {{exam.exam_type}}
                   </div>
               </div>
           </div>
+          <question-paper v-if="isOpenQuestionPaper" :examId="questionPaperExamId" />
       </div>
     </div>
     <router-view/>
@@ -49,18 +51,22 @@ import { mapActions, mapGetters } from 'vuex'
 import Loader from './reusable/Loader.vue'
 import toastMixin from '../mixins/toast'
 import breadcrumbs from '../components/reusable/BreadCrumbs.vue'
+import QuestionPaper from './QuestionPaper.vue'
 export default {
   data () {
     return {
       isLoading: false,
       isCreateExam: false,
       isExamInviteesPage: false,
-      currentExamId: ''
+      currentExamId: '',
+      isOpenQuestionPaper: false,
+      questionPaperExamId: ''
     }
   },
   components: {
     loader: Loader,
-    breadcrumbs
+    breadcrumbs,
+    'question-paper': QuestionPaper
   },
   mixins: [toastMixin],
   watch: {
@@ -119,6 +125,13 @@ export default {
     },
     openExamView (examId, examName) {
       this.$router.push({ name: 'ViewExamComponent', params: { examId, examName } })
+    },
+    showQuestionPaper (examId) {
+      this.questionPaperExamId = examId
+      this.isOpenQuestionPaper = true
+    },
+    closeQuestionPaper () {
+      this.isOpenQuestionPaper = false
     }
   }
 }

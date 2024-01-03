@@ -1,7 +1,7 @@
 <template>
     <div class="modal">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" v-if="header">
                 <slot name="header">
                     default header
                 </slot>
@@ -36,6 +36,10 @@ export default {
     ok_button_name: {
       type: String,
       default: 'Ok'
+    },
+    header: {
+      type: Boolean,
+      default: true
     }
   }
 }
